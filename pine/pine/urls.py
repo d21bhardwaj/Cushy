@@ -18,8 +18,14 @@ from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
 from main import views
+#Login
+
+from django.contrib.auth.views import logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('main.urls')),
+    path('', include('social_django.urls', namespace='social')),
+    path('logout/', logout, '', include('social_django.urls', namespace='social',
+    name='logout'),
 ]

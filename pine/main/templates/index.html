@@ -16,7 +16,13 @@ body, html {
   font-family: "Courier New", Courier, monospace;
   font-size: 25px;
 }
+.topright{
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  
 
+}
 .topleft {
   position: absolute;
   top: 0;
@@ -43,15 +49,29 @@ hr {
 }
 </style>
 <body>
+  <div class="bgimg">
+  <div class="topright">
+    
+      {% if user.is_authenticated %}
+        
+        <p>Logged as {{ user.username }}</p>
+        <a class="btn btn-primary" href="{% url 'logout' %}" style="color: white">Logout</a>
+      {% else %}
+        <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}" style="color:white">
+          Login
+        </a>
+      {% endif %}
+        
+    
+  </div>
 
-<div class="bgimg">
   <div class="topleft">
     <p>Logo</p>
   </div>
   <div class="middle">
     <h1>COMING SOON</h1>
     <hr>
-    <p>35 days left</p>
+    <p>To Release on 15th</p>
   </div>
   <div class="bottomleft">
     <p>Some text</p>
