@@ -25,7 +25,8 @@ from django.contrib.auth.views import logout
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('main.urls')),
-    path('', include('social_django.urls', namespace='social')),
-    path('logout/', logout, '', include('social_django.urls', namespace='social',
-    name='logout'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/profile/', RedirectView.as_view(pattern_name='index', permanent=False)),
+    path('oauth/', include('social_django.urls', namespace='social')),
+
 ]

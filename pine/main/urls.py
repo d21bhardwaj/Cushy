@@ -8,8 +8,8 @@ from main import views
 from django.contrib.auth import logout
 from django.conf import settings
 urlpatterns = [
+
     path('', views.index, name='index'),
     path('', include('social_django.urls', namespace='social')),
-    path('logout/', logout, {'next_page': 'users:login'},
-    name='logout'),
+    path('logout/', views.logout_view, name='logout'),
 ]
