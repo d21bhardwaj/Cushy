@@ -7,9 +7,11 @@ from main import views
 
 from django.contrib.auth import logout
 from django.conf import settings
-urlpatterns = [
 
+urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('', include('social_django.urls', namespace='social')),
     path('logout/', views.logout_view, name='logout'),
+    path('Rentform/', views.rentdetails, name='RentForm')
 ]
