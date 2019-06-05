@@ -1,0 +1,137 @@
+*
+{
+    margin : 0;
+    padding: 0;    
+}
+
+body
+
+{
+    font-family:sans-serif;
+    
+}
+
+#nav-bar
+{
+     position: sticky;   
+    padding-top: 20px;
+    top: 0.1;
+    z-index: 10;
+    background-image: url(images/bg++-01.png);
+    padding-left: 20px;
+    padding-right: 20px;
+   
+    
+}
+
+.navbar-nav li
+{
+    padding: 0 10px;
+}
+
+.fa-user-circle-o
+{
+     font-size: 20px !important;
+    margin-right: 2px;
+}
+
+#start
+{
+        background-image: url(images/bg++-01.png);
+}
+
+.navbar
+{
+   
+    padding: 0 !important;
+    
+}
+
+.navbar li a
+{
+  font-weight: 400;
+    float: right;
+    text-align: left;
+}
+.navbar-toggler
+{
+    outline: none !important;
+}
+.fa-bars
+{
+    
+    font-size: 15px !important;
+    border: none !important;
+}
+
+/*------------------------------------Banner Section--------------------------------------------*/
+
+#banner
+{
+
+    margin-top: 30px;
+}
+
+.promo-title
+{
+
+    font-size: 37px;
+    font-weight: 300;
+    margin-top: 150px;
+    
+    
+   
+}
+
+
+
+.buybutton
+{
+   height: 40px;
+    width: auto;
+    padding-left: 70px;
+    
+    
+}
+.Adimage
+{
+    height: 300px;
+    width: auto;
+}
+
+
+.rentbutton
+{
+   height: 40px;
+    width: auto;
+    padding-left: 15px;
+}
+
+
+.img-fluid
+{
+   padding-top: 100px;
+    padding-bottom: 175px;
+   
+}
+
+
+.col-sm
+{
+    font-weight: 300;
+}
+
+.aboutush
+{
+    font-weight: 300;
+}
+.contactush
+{
+    font-weight: 300;
+}
+
+.lower
+{
+    padding-top: 50px;
+    
+}
