@@ -23,6 +23,7 @@ class RentingUser(models.Model):
     Paying_guest = models.BooleanField()
     people_per_room = models.IntegerField()
     food = models.CharField(max_length=3, choices=[('included', 'Included'), ('not included', 'Not Included')])
+    #still need to add a field for uploading photos
 
     def __str__(self):
         return self.name
