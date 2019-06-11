@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'social_django',
     'accounts',
     'widget_tweaks',
+    
 
 ]
 
@@ -153,7 +154,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'CAeMIwJWqvBnMYg40DmUMjyJ'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 
-LOGIN_URL = '/auth/login/google-oauth2/'
-
-LOGIN_REDIRECT_URL = '/'
+#Google_LOGIN_URL = '/auth/login/google-oauth2/'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = '/'
+
+#EMAIL_Backend
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
