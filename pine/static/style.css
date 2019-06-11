@@ -13,7 +13,7 @@ body
 
 #nav-bar
 {
-     position: sticky;   
+    position: sticky;   
     padding-top: 20px;
     top: 0.1;
     z-index: 10;
