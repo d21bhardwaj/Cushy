@@ -17,7 +17,7 @@ class RentingUser(models.Model):
     individual = models.CharField(max_length=3, choices=y_n_choices)
     attached_bathroom = models.CharField(max_length=3, choices=y_n_choices)
     kitchen = models.CharField(max_length=15, choices=[('furnished', 'Furnished'), ('basic', 'Basic')])
-    contact_time = models.CharField(max_length=50)
+    contact_time = models.CharField(max_length=50)  #will change to numeric type
     prefered_customer = models.CharField(max_length=20)
     gender_pref = models.CharField(max_length=10, choices=[('female', 'Female'), ('male', 'Male'), ('none', 'None')])
     Paying_guest = models.BooleanField()
