@@ -41,7 +41,8 @@
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
                
-                <a class="dropdown-item" href="#">My account</a>
+                <a class="dropdown-item" href="{% url 'my_account' %}">My account</a>
+                <!for now My account just changes the name>
                 <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
                   <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-user-circle-o" aria-hidden="true"></i><strong> Logout </strong></a> 
