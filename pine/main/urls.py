@@ -7,6 +7,11 @@ from main import views
 from accounts import views as accounts_views
 from django.contrib.auth import logout
 from django.conf import settings
+#Account view
+
+
+
+#########################################
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -48,4 +53,12 @@ urlpatterns = [
         auth_views.PasswordChangeDoneView.as_view(
             template_name='password_change_done.html'),
         name='password_change_done'),
+
+#MyAccount View
+
+    path('settings/account/',
+        accounts_views.UserUpdateView.as_view(
+        template_name='my_account.html'), 
+        name='my_account'),
+
 ]
