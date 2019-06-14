@@ -18,11 +18,11 @@ class RentingUser(models.Model):
     attached_bathroom = models.CharField(max_length=3, choices=y_n_choices)
     kitchen = models.CharField(max_length=15, choices=[('furnished', 'Furnished'), ('basic', 'Basic')])
     contact_time = models.CharField(max_length=50)  #will change to numeric type
-    prefered_customer = models.CharField(max_length=20)
+    prefered_customer = models.CharField(max_length=20, choices=[('family','Family'),('student','Student')])
     gender_pref = models.CharField(max_length=10, choices=[('female', 'Female'), ('male', 'Male'), ('none', 'None')])
     Paying_guest = models.BooleanField()
     people_per_room = models.IntegerField()
-    food = models.CharField(max_length=3, choices=[('included', 'Included'), ('not included', 'Not Included')])
+    food = models.CharField(max_length=15, choices=[('included', 'Included'), ('not included', 'Not Included')])
 
     def __str__(self):
         return self.name

@@ -7,7 +7,7 @@ class RentForm(forms.ModelForm):
     class Meta:
         model = RentingUser
         fields = ('name', 'contact_number', 'number_of_rooms', 'locality', 'parking', 'balcony', 'individual',
-                  'attached_bathroom', 'kitchen', 'contact_time', 'prefered_customer', 'gender_pref', 'Paying_guest', 'people_per_room',
+                  'attached_bathroom', 'kitchen', 'contact_time','prefered_customer', 'gender_pref', 'Paying_guest', 'people_per_room',
                   'food',)
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Your Full Name'}),
@@ -32,3 +32,16 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ('image', )
+
+class ContactForm(forms.Form):
+    contact_name = forms.CharField(required=True)
+    contact_email = forms.EmailField(required=True)
+    content = forms.CharField(
+        required=True,
+        widget=forms.Textarea
+    )
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.fields['contact_name'].label = "Your name:"
+        self.fields['contact_email'].label = "Your email:"
+        self.fields['content'].label ="Suggestions, Feedback, Want Something more!!"

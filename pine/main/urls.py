@@ -60,5 +60,8 @@ urlpatterns = [
         accounts_views.UserUpdateView.as_view(
         template_name='my_account.html'), 
         name='my_account'),
-
+#Contact Us View
+    path('contact_us/',
+        views.contact, 
+        name='contact_us'),
 ]
