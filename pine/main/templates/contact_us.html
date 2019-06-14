@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us</title>
+
+</head>
+{% block form %}
+        <h3 class="card-title">Contact Us</h3>
+        <form method="post" style="text-align: center">
+            {% csrf_token %}
+            <div class="col-md-12 text-left" style="padding-top: 20px;padding-bottom: 20px;padding-left: 60px;text-align: left">
+            <!--using crispy tag on forms for now-->
+
+            {{ form|crispy }}<br>
+            
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+{% endblock %}
+{% block content %}
+{% endblock %}
+
+
