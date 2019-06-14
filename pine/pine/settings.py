@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #social login -->
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
@@ -117,6 +118,8 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    #facebook backend
+    'social_core.backends.facebook.FacebookOAuth2',
 )
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -149,11 +152,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 ROOT_URLCONF = 'main.urls'
 
 #Login
+#Google
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '87509333172-abrm5g29rkiqvkg4mtvtuuf95e5dl223.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'CAeMIwJWqvBnMYg40DmUMjyJ'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-
+#Facebook
+SOCIAL_AUTH_FACEBOOK_KEY = '336165530611570'    
+SOCIAL_AUTH_FACEBOOK_SECRET = '2a3e7e4a23aa817146f6ab70d783ac57'
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'ru_RU',
+  'fields': 'id, name, email, age_range'
+}
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_LOGIN_ERROR_URL = 'index'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'index'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 #Google_LOGIN_URL = '/auth/login/google-oauth2/'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'

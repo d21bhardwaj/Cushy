@@ -4,7 +4,8 @@
 
 {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
-{% endblock %}
+
+  {% endblock %}
 
 {% block title %}Sign up to CushyRooms {% endblock %}
 
@@ -23,7 +24,7 @@
             <div class="nav-wrapper container">
              <!-- Google Login added here-->
               <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-google" aria-hidden="true"></i>oogle Log!n</a>
-              
+              <a href="{% url 'social:begin' 'facebook' %}"><i class="fa fa-facebook-official" aria-hidden="true"></i>acebook</a>
             </div>    
           </div>
           <div class="card-footer text-muted text-center">
