@@ -11,7 +11,13 @@
             {% csrf_token %}
             <div class="col-md-12 text-left" style="padding-top: 20px;padding-bottom: 20px;padding-left: 60px;text-align: left">
             <!--using crispy tag on forms for now-->
-            {{ form|crispy }}
+
+            {{ form|crispy }}<br>
+            <h5>Upload Images:</h5><br>
+            {{ imageform.management_form }}
+            {% for field in imageform %}
+                {{ field }}<br>
+            {% endfor %}
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

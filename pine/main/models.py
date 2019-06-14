@@ -23,9 +23,14 @@ class RentingUser(models.Model):
     Paying_guest = models.BooleanField()
     people_per_room = models.IntegerField()
     food = models.CharField(max_length=3, choices=[('included', 'Included'), ('not included', 'Not Included')])
-    #still need to add a field for uploading photos
 
     def __str__(self):
         return self.name
+
+
+class Images(models.Model):
+    user = models.ForeignKey(RentingUser, default=None, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='media/', verbose_name='Image')
+
 
 

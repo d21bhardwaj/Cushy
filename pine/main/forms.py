@@ -1,5 +1,5 @@
 from django import forms
-from .models import RentingUser
+from .models import RentingUser, Images
 
 
 class RentForm(forms.ModelForm):
@@ -26,3 +26,9 @@ class RentForm(forms.ModelForm):
             'people_per_room': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'how many Tenants per room (if PG)'}),
             'food': forms.Select(attrs={'class':'regDropDown'}),
         }
+
+class ImageForm(forms.ModelForm):
+    image = forms.ImageField(label='Image')
+    class Meta:
+        model = Images
+        fields = ('image', )
