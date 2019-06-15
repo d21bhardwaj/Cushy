@@ -57,7 +57,7 @@
           </li>
       
         <li class="nav-item">
-        <a class="nav-link" href="{% url 'RentForm' %}">Sell/Rent your property<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'RentType' %}">Sell/Rent your property<span class="sr-only">(current)</span></a>
         </li>
 
         <li class="nav-item">
@@ -92,7 +92,7 @@
                 </p>
                 <a href="#" class="buy"> <img src="{% static 'images/Buy-button.png' %}" class="buybutton">
                 </a>
-                <a href="#" class="rent"> <img src="{% static 'images/Rent-button.png' %}" class="rentbutton"> </a>
+                <a href="{% url 'RentType' %}" class="rent"> <img src="{% static 'images/Rent-button.png' %}" class="rentbutton"> </a>
 
                 {% endblock %}
 
