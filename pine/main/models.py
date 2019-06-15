@@ -1,5 +1,5 @@
 from django.db import models
-import os
+
 
 y_n_choices = [
     ('yes', 'Yes'),
@@ -23,10 +23,9 @@ class RentingUser(models.Model):
                                 ('others (Specify)', 'Others (Specify)'), ('no such preference', 'No Such Preference')], default='')
     gender_preference = models.CharField(max_length=10, choices=[('only female', 'Only Female'),
                                                                  ('only male', 'Only Male'), ('none', 'None')], default='')
-    alternate_contact_number = models.CharField(max_length=10, default="")
+    alternate_contact_number = models.CharField(max_length=10, default="", blank=True)
     preferred_contact_time = models.CharField(max_length=50, default='')
-    any_other = models.TextField(max_length=100, default="")
-    #files = models.ImageField(upload_to=os.path.join())
+    any_other = models.TextField(max_length=100, default="", blank=True)
 
     def __str__(self):
         return self.contact_number
@@ -57,9 +56,27 @@ class RentingPGUser(models.Model):
         return self.contact_number
 
 
+def user_directory_path(instance, filename):
+
+    return 'Images/user_{0}/{1}'.format(instance.user.id, filename)
+
+
+def user_directory_path_PG(instance, filename):
+
+    return 'ImagesPG/user_{0}/{1}'.format(instance.user.id, filename)
+
+
 class Images(models.Model):
     user = models.ForeignKey(RentingUser, default=None, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='media/', verbose_name='Image')
+    image = models.ImageField(upload_to=user_directory_path, verbose_name='Image')
+
+    def __str__(self):
+        return str(self.image)
 
 
+class ImagesPG(models.Model):
+    user = models.ForeignKey(RentingPGUser, default=None, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=user_directory_path_PG, verbose_name='ImagePG')
 
+    def __str__(self):
+        return str(self.image)

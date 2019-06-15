@@ -75,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 #social login -->
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
@@ -177,9 +178,12 @@ LOGOUT_REDIRECT_URL = '/'
 #EMAIL_Backend
 
 
-EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'testing@example.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_PORT = 1025
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media/')
+MEDIA_URL = "/static/media/"

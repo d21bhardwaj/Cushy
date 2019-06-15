@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from .forms import RentForm, RentPGForm, ImageForm, ContactForm
+from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG
 from django.forms import modelformset_factory
-from .models import Images
+from .models import Images, ImagesPG
 #adding for contact form
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.template.loader import get_template
-
 
 
 def index(request):
@@ -23,12 +22,17 @@ def rentdetails(request):
     ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
     if request.method == "POST":
         form = RentForm(request.POST)
-        imageform = ImageFormSet(request.POST, request.FILES, queryset=Images.objects.none())
+        imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
 
         if form.is_valid() and imageform.is_valid():
-            form.save()
-            imageform.save()
-
+            post_form = form.save(commit=False)
+            post_form.user = request.user
+            post_form.save()
+            for pic in imageform.cleaned_data:
+                if pic:
+                    image = pic['image']
+                    photo = Images(user=post_form, image=image)
+                    photo.save()
             return redirect('index')
         else:
             print(form.errors, imageform.errors)
@@ -39,27 +43,35 @@ def rentdetails(request):
 
 
 def rentpgdetails(request):
-    ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
+    ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=3)
     if request.method == "POST":
         form = RentPGForm(request.POST)
-        imageform = ImageFormSet(request.POST, request.FILES, queryset=Images.objects.none())
+        imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
 
         if form.is_valid() and imageform.is_valid():
-            form.save()
-            imageform.save()
-
+            post_form = form.save(commit=False)
+            post_form.user = request.user
+            post_form.save()
+            for pic in imageform.cleaned_data:
+                if pic:
+                    image = pic['image']
+                    photo = ImagesPG(user=post_form, image=image)
+                    photo.save()
             return redirect('index')
         else:
             print(form.errors, imageform.errors)
     else:
         form = RentPGForm()
-        imageform = ImageFormSet(queryset=Images.objects.none())
+        imageform = ImageFormSet(queryset=ImagesPG.objects.none())
     return render(request, 'form.html', {'form': form, 'imageform': imageform})
+
 
 def renttype(request):
     return render(request, 'choice.html')
 #For contact form
 # our view
+
+
 def contact(request):
     form_class = ContactForm
 
