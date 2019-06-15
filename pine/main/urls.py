@@ -19,6 +19,8 @@ urlpatterns = [
     path('', include('social_django.urls', namespace='social')),
     path('logout/', views.logout_view, name='logout'),
     path('Rentform/', views.rentdetails, name='RentForm'),
+    path('ChooseType/', views.renttype, name='RentType'),
+    path('RentPGForm/', views.rentpgdetails, name='RentPGForm'),
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'),name='login'),
 

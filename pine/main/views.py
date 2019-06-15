@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from .forms import RentForm, ImageForm, ContactForm
+from .forms import RentForm, RentPGForm, ImageForm, ContactForm
 from django.forms import modelformset_factory
 from .models import Images
 #adding for contact form
@@ -20,7 +20,7 @@ def logout_view(request):
 
 
 def rentdetails(request):
-    ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=6)
+    ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
     if request.method == "POST":
         form = RentForm(request.POST)
         imageform = ImageFormSet(request.POST, request.FILES, queryset=Images.objects.none())
@@ -37,8 +37,28 @@ def rentdetails(request):
         imageform = ImageFormSet(queryset=Images.objects.none())
     return render(request, 'form.html', {'form': form, 'imageform': imageform})
 
-#For contact form
 
+def rentpgdetails(request):
+    ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
+    if request.method == "POST":
+        form = RentPGForm(request.POST)
+        imageform = ImageFormSet(request.POST, request.FILES, queryset=Images.objects.none())
+
+        if form.is_valid() and imageform.is_valid():
+            form.save()
+            imageform.save()
+
+            return redirect('index')
+        else:
+            print(form.errors, imageform.errors)
+    else:
+        form = RentPGForm()
+        imageform = ImageFormSet(queryset=Images.objects.none())
+    return render(request, 'form.html', {'form': form, 'imageform': imageform})
+
+def renttype(request):
+    return render(request, 'choice.html')
+#For contact form
 # our view
 def contact(request):
     form_class = ContactForm
