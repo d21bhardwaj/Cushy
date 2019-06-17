@@ -1,13 +1,14 @@
 {% extends 'index.html' %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
+
 <head>
     <meta charset="UTF-8">
     <title>Rent Form</title>
 
 </head>
 {% block form %}
-        <form method="post" style="text-align: center">
+        <form method="post" enctype="multipart/form-data" style="text-align: center" id="post_form" action="" >
             {% csrf_token %}
             <div class="col-md-12 text-left" style="padding-top: 20px;padding-bottom: 20px;padding-left: 60px;text-align: left">
             <!--using crispy tag on forms for now-->
