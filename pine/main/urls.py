@@ -7,6 +7,7 @@ from main import views
 from accounts import views as accounts_views
 from django.contrib.auth import logout
 from django.conf import settings
+from django.conf.urls.static import static
 #Account view
 
 
@@ -66,4 +67,4 @@ urlpatterns = [
     path('contact_us/',
         views.contact, 
         name='contact_us'),
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
