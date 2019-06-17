@@ -47,7 +47,6 @@ def rentpgdetails(request):
     if request.method == "POST":
         form = RentPGForm(request.POST)
         imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
-
         if form.is_valid() and imageform.is_valid():
             post_form = form.save(commit=False)
             post_form.user = request.user
@@ -68,6 +67,8 @@ def rentpgdetails(request):
 
 def renttype(request):
     return render(request, 'choice.html')
+
+
 #For contact form
 # our view
 

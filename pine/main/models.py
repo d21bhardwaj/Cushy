@@ -44,7 +44,7 @@ class RentingPGUser(models.Model):
     preferred_customer = models.CharField(max_length=50, choices=[('family', 'Family'), ('student', 'Student'),
                                                                   ('others (Specify)', 'Others (Specify)'),
                                                                   ('no such preference', 'No Such Preference')], default='')
-    gender_preference = models.CharField(max_length=10, choices=[('only female', 'Only Female'),
+    gender_preference = models.CharField(max_length=50, choices=[('only female', 'Only Female'),
                                                                  ('only male', 'Only Male'), ('none', 'None')], default='')
     preferred_contact_time = models.CharField(max_length=50, default='')
     contact_number = models.CharField(max_length=10, default='')
@@ -61,7 +61,7 @@ def user_directory_path(instance, filename):
     return 'Images/user_{0}/{1}'.format(instance.user.id, filename)
 
 
-def user_directory_path_PG(instance, filename):
+def user_directory_path_pg(instance, filename):
 
     return 'ImagesPG/user_{0}/{1}'.format(instance.user.id, filename)
 
@@ -76,7 +76,7 @@ class Images(models.Model):
 
 class ImagesPG(models.Model):
     user = models.ForeignKey(RentingPGUser, default=None, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=user_directory_path_PG, verbose_name='ImagePG')
+    image = models.ImageField(upload_to=user_directory_path_pg, verbose_name='ImagePG')
 
     def __str__(self):
         return str(self.image)
