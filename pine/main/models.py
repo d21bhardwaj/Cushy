@@ -21,7 +21,7 @@ class RentingUser(models.Model):
     electricity_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
     preferred_customer = models.CharField(max_length=50, choices=[('family', 'Family'), ('student', 'Student'),
                                 ('others (Specify)', 'Others (Specify)'), ('no such preference', 'No Such Preference')], default='')
-    gender_preference = models.CharField(max_length=10, choices=[('only female', 'Only Female'),
+    gender_preference = models.CharField(max_length=50, choices=[('only female', 'Only Female'),
                                                                  ('only male', 'Only Male'), ('none', 'None')], default='')
     alternate_contact_number = models.CharField(max_length=10, default="", blank=True)
     preferred_contact_time = models.CharField(max_length=50, default='')
