@@ -16,7 +16,7 @@ body
 
 .major
 {
-     background-image: url(images/final-01.jpg);
+    background-image: url('images/mountains.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background background-attachment: fixed;
@@ -25,10 +25,10 @@ body
 }
 #nav-bar
 {
-     position: sticky;   
+    position: sticky;   
     padding-top: 10px;
     padding-bottom: 10px;
-   background-color: #44499a;
+    background-color: #44499a;
     top: 0.1;
     z-index: 10;
     
@@ -48,7 +48,7 @@ body
 .fa-user-circle-o
 {
     color: white;
-     font-size: 20px !important;
+    font-size: 20px !important;
     margin-right: 2px;
 }
 
@@ -64,7 +64,7 @@ body
 
 .navbar li a
 {
-  font-weight: 400;
+    font-weight: 400;
     float: right;
     color: #fff !important;
    
