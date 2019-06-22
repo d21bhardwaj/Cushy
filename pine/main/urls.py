@@ -60,8 +60,7 @@ urlpatterns = [
 #MyAccount View
 
     path('settings/account/',
-        accounts_views.UserUpdateView.as_view(
-        template_name='my_account.html'), 
+        accounts_views.profileupdate, 
         name='my_account'),
 #Contact Us View
     path('contact_us/',
