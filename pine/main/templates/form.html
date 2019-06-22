@@ -19,6 +19,8 @@
             {% for field in imageform %}
                 {{ field }}<br>
             {% endfor %}
+            {{ formset.management_form }}
+            {{ formset.as_p }}
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
