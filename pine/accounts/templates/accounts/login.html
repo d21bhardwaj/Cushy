@@ -1,0 +1,42 @@
+{% extends 'base_accounts.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+
+  {% endblock %}
+
+{% block title %}Sign up to CushyRooms {% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-6 col-sm-8">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Log in</h3>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              {% include 'includes/form.html' %}
+              <button type="submit" class="btn btn-primary btn-block">Log in</button>
+            </form>
+            <div class="nav-wrapper container">
+             <!-- Google Login added here-->
+              <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-google" aria-hidden="true"></i>oogle Log!n</a>
+              <a href="{% url 'social:begin' 'facebook' %}"><i class="fa fa-facebook-official" aria-hidden="true"></i>acebook</a>
+            </div>    
+          </div>
+          <div class="card-footer text-muted text-center">
+            New to CushyRooms? <a href="{% url 'signup' %}">Sign up</a>
+          </div>
+        </div>
+        <div class="text-center py-2">
+          <small>
+            <a href="{% url 'password_reset' %}" class="text-muted">Forgot your password?</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

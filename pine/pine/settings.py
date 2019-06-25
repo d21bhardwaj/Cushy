@@ -67,7 +67,7 @@ ROOT_URLCONF = 'pine.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates'],
+        'DIRS': [BASE_DIR, 'templates','accounts/templates/accounts/',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -152,7 +152,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 ##################################################
 
-ROOT_URLCONF = 'main.urls'
+
 
 #Login
 #Google

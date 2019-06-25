@@ -113,6 +113,6 @@ def contact(request):
         'form': form_class,
     })
 
-def details(request):
+def allrooms(request):
     rooms = RentingUser.objects.all()
-    return render(request, 'rooms.html', {'rooms': rooms})
+    return render(request, 'all_rooms.html', {'rooms': rooms})

@@ -42,7 +42,7 @@ def profileupdate(request):
     user = User.objects.get(pk=pk)
     user_form = ProfileForm(instance=user)
  
-    ProfileInlineFormset = inlineformset_factory( User, model=Profile, fields=('name','mobile_no','email','verified'))
+    ProfileInlineFormset = inlineformset_factory( User, model=Profile, fields=('name','mobile_no','email'))
     formset = ProfileInlineFormset(instance=user)
  
     if request.user.is_authenticated and request.user.id == user.id:
@@ -60,7 +60,7 @@ def profileupdate(request):
                     return redirect('index')
         else:
  
-            return render(request, 'form.html', {
+            return render(request, 'my_account.html', {
                 "noodle": pk,
                 "noodle_form": user_form,
                 "formset": formset,
