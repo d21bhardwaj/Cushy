@@ -10,11 +10,11 @@
 {% block form %}
         <form method="post" enctype="multipart/form-data" style="text-align: center" id="post_form" action="" >
             {% csrf_token %}
-            <div class="col-md-12 text-left" style="padding-top: 20px;padding-bottom: 20px;padding-left: 60px;text-align: left">
+            <div class="col-md-12 text-left" style="padding-top: 20px;padding-bottom: 20px;padding-left: 60px;text-align: left; color: white">
             <!--using crispy tag on forms for now-->
 
             {{ form|crispy }}<br>
-            <h5>Upload Images:</h5><br>
+            <h5>Upload Images(Bedroom,Bathroom,Kitchen):</h5><br>
             {{ imageform.management_form }}
             {% for field in imageform %}
                 {{ field }}<br>
