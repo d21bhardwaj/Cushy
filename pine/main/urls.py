@@ -24,7 +24,7 @@ urlpatterns = [
     path('RentPGForm/', views.rentpgdetails, name='RentPGForm'),
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'),name='login'),
-
+    path('rooms/', views.details, name='rooms'),
 #Adding url password related form the link(https://simpleisbetterthancomplex.com/series/2017/09/25/a-complete-beginners-guide-to-django-part-4.html)
 
     path('reset/',
@@ -60,8 +60,7 @@ urlpatterns = [
 #MyAccount View
 
     path('settings/account/',
-        accounts_views.UserUpdateView.as_view(
-        template_name='my_account.html'), 
+        accounts_views.profileupdate, 
         name='my_account'),
 #Contact Us View
     path('contact_us/',
