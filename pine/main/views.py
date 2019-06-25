@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG
 from django.forms import modelformset_factory
-from .models import Images, ImagesPG
+from .models import Images, ImagesPG, RentingUser
 #adding for contact form
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.template.loader import get_template
-
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'index.html')
@@ -17,7 +17,7 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
-
+@login_required
 def rentdetails(request):
     ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
     if request.method == "POST":
@@ -41,7 +41,7 @@ def rentdetails(request):
         imageform = ImageFormSet(queryset=Images.objects.none())
     return render(request, 'form.html', {'form': form, 'imageform': imageform})
 
-
+@login_required
 def rentpgdetails(request):
     ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=3)
     if request.method == "POST":
@@ -112,3 +112,7 @@ def contact(request):
     return render(request, 'contact_us.html', {
         'form': form_class,
     })
+
+def details(request):
+    rooms = RentingUser.objects.all()
+    return render(request, 'rooms.html', {'rooms': rooms})

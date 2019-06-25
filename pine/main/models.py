@@ -1,5 +1,5 @@
 from django.db import models
-
+from accounts.models import Profile
 
 y_n_choices = [
     ('yes', 'Yes'),
@@ -8,6 +8,7 @@ y_n_choices = [
 
 
 class RentingUser(models.Model):
+   
     number_of_rooms = models.IntegerField()
     price = models.CharField(max_length=50, default='')
     locality = models.CharField(max_length=100, default='')
@@ -32,6 +33,7 @@ class RentingUser(models.Model):
 
 
 class RentingPGUser(models.Model):
+
     occupants_per_room = models.IntegerField()
     price = models.CharField(max_length=50, default='')
     locality = models.CharField(max_length=100, default='')
