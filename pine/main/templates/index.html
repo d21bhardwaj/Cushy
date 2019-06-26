@@ -54,7 +54,7 @@
           <!--<a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-user-circle-o" aria-hidden="true"> </i><strong>Login</strong></a>-->
         {% endif %}
           </li>
-      
+       
         <li class="nav-item">
         <a class="nav-link" href="{% url 'RentType' %}">Give On Rent!<span class="sr-only">(current)</span></a>
         </li>
@@ -83,10 +83,12 @@
 
               {% block form %}
                 <p class="promo-title">
-                    Looking for a place to live or start a new business in Solan?<br>
-                    We've got you covered!
+                    Looking for a place to live in Solan?<br>
+                    We are trying to get you covered!
                 </p>
-                <a href="#" class="buy"> <img src="{% static 'img/button11.png' %}" class="findbutton"> 
+                <a href="{% url 'all_rooms' %}" class="buy"> <img src="{% static 'img/button11.png' %}" class="findbutton"> 
+                </a>
+                <a href="{% url 'all_pgs' %}" class="buy"> <img src="{% static 'img/button12.png' %}" class="findbutton"> 
                 </a>
                 {% endblock %}
 
