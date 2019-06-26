@@ -20,12 +20,14 @@ urlpatterns = [
     path('Rentform/', views.rentdetails, name='RentForm'),
     path('ChooseType/', views.renttype, name='RentType'),
     path('RentPGForm/', views.rentpgdetails, name='RentPGForm'),
-    path('all_rooms/', views.allrooms, name='all_rooms'),
+    #Rooms and Pgs
+    path('Rooms/', views.allrooms, name='all_rooms'),
+    path('Pgs/', views.allpgs, name='all_pgs'),
 #Adding url password related form the link(https://simpleisbetterthancomplex.com/series/2017/09/25/a-complete-beginners-guide-to-django-part-4.html)
 
     
 #Contact Us View
-    path('contact_us/',
+    path('contact_us/', 
         views.contact, 
         name='contact_us'),
 ]

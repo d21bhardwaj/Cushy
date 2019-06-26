@@ -113,6 +113,13 @@ def contact(request):
         'form': form_class,
     })
 
+#To view all the rooms
 def allrooms(request):
     rooms = RentingUser.objects.all()
     return render(request, 'all_rooms.html', {'rooms': rooms})
+
+#To view all the PGs
+
+def allpgs(request):
+    rooms = RentingUser.objects.all()
+    return render(request, 'all_pgs.html', {'rooms': rooms})
