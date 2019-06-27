@@ -42,7 +42,7 @@ def profileupdate(request):
     user = User.objects.get(pk=pk)
     user_form = ProfileForm(instance=user)
  
-    ProfileInlineFormset = inlineformset_factory( User, model=Profile, fields=('name','mobile_no','email'))
+    ProfileInlineFormset = inlineformset_factory( User, model=Profile, fields=('name','mobile_no','email'),can_delete=False)
     formset = ProfileInlineFormset(instance=user)
  
     if request.user.is_authenticated and request.user.id == user.id:
