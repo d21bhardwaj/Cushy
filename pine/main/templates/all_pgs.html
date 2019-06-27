@@ -23,7 +23,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Type</th>
+                            <th>Persons in one room</th>
                             <th>Location</th>
                             <th>Price</th>
                             <th>Drive In</th>
@@ -33,7 +33,7 @@
                         <tbody>
                             {% for room in rooms %}
                             <tr>
-                                <td>{{ room.occupants_per_room }}BHK</td>
+                                <td>{{ room.occupants_per_room }}</td>
                                 <td>{{ room.locality }}</td>
                                 <td>{{ room.price }}</td> 
                                 <td>{{ room.drive_in }}</td>
