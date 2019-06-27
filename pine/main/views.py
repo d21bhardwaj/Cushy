@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG
 from django.forms import modelformset_factory
-from .models import Images, ImagesPG, RentingUser
+from .models import Images, ImagesPG, RentingUser, RentingPGUser
 #adding for contact form
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
@@ -116,10 +116,20 @@ def contact(request):
 #To view all the rooms
 def allrooms(request):
     rooms = RentingUser.objects.all()
+    
     return render(request, 'all_rooms.html', {'rooms': rooms})
 
 #To view all the PGs
 
 def allpgs(request):
-    rooms = RentingUser.objects.all()
+    rooms = RentingPGUser.objects.all()
     return render(request, 'all_pgs.html', {'rooms': rooms})
+
+#Detail of the room selected
+@login_required()
+def detailroom(request, room_id, image_id):
+    rooms = RentingUser.objects.get(pk=room_id)
+    images = Images.objects.get(pk=image_id)
+    return render(request, 'room_detail.html', {'rooms': rooms, 'images': images})
+
+

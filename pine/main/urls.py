@@ -23,6 +23,7 @@ urlpatterns = [
     #Rooms and Pgs
     path('Rooms/', views.allrooms, name='all_rooms'),
     path('Pgs/', views.allpgs, name='all_pgs'),
+    path('<int:room_id>/RoomDetails/<int:image_id>/', views.detailroom, name='room_detail'),
 #Adding url password related form the link(https://simpleisbetterthancomplex.com/series/2017/09/25/a-complete-beginners-guide-to-django-part-4.html)
 
     
