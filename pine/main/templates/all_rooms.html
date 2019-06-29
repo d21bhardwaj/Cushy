@@ -1,0 +1,95 @@
+{% extends 'base_accounts.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+
+        <!-- Left Album Info 
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% for room in rooms %}
+                    <a href="#">
+                        {{ i }} 
+                        {%  for images in room.images_set.all %}
+                        
+                        {% if images.image %}
+                            <img src="{{ images.image.url }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                        
+                        <h3>{{ images.pk  }}{{i}}</h3>
+                    
+                        {% endfor %}
+                        
+                    </a>
+                    <h1>{{ room.locality }} <small>{{ room.price }}</small></h1>
+                    <h2>{{ room.number_of_rooms }}</h2>
+                    {% endfor %}
+                </div>
+            </div>
+        </div> 
+
+        <!-- Right Rooms Info -->
+        <div class="col-sm-8 col-md-9">
+
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Rooms</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Price</th>
+                            <th>Drive In</th>
+                            <th>Click here for more information</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for room in rooms %}
+                            <tr>
+                                <td>{{ room.number_of_rooms }}BHK</td>
+                                <td>{{ room.locality }}</td>
+                                <td>{{ room.price }}</td> 
+                                <td>{{ room.drive_in }}</td>
+                               
+                                {%  for images in room.images_set.all %}
+                                    {% if forloop.counter == 1 %}
+                                <td> <form action="{% url 'room_detail' room.id images.id %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="room_id" value="{{ room.id }}" />
+                                    <input type="hidden" name="image_id" value="{{ images.id }}" />
+                                    <button type="submit" class="btn btn-success btn-xs">
+                                        <span class="glyphicon  glyphicon-thumbs-up"></span>&nbsp; KnowMore
+                                    </button>
+                                </form></td>
+                                    {% endif %}
+                                {% endfor %}
+                               
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div> 
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base_accounts.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+
+       
+        <div class="col-sm-8 col-md-9">
+
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All PGs</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Persons in one room</th>
+                            <th>Location</th>
+                            <th>Price</th>
+                            <th>Drive In</th>
+                            <th>Only Boys/Girls</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for room in rooms %}
+                            <tr>
+                                <td>{{ room.occupants_per_room }}</td>
+                                <td>{{ room.locality }}</td>
+                                <td>{{ room.price }}</td> 
+                                <td>{{ room.drive_in }}</td>
+                                <td>{{ room.gender_preference }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div> -->
+
+    </div>
+
+</div>
+
+{% endblock %}

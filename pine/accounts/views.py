@@ -1,19 +1,30 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
+from django.http import HttpResponse, JsonResponse
 #from django.contrib.auth.forms import UserCreationForm Not needed now
-from .forms import SignUpForm
+from .forms import SignUpForm, ProfileForm
 # Now adding for Account View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import UpdateView
+# not required i guess(d) from django.views.generic import UpdateView
 from django.contrib.auth.forms import PasswordChangeForm, AdminPasswordChangeForm
 
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from social_django.models import UserSocialAuth
+
+#for profile update view
+from django.views.generic.edit import UpdateView
+from .models import Profile
+from django.forms.models import inlineformset_factory
+from django.core.exceptions import PermissionDenied
+
+#for mobile verification
+from .mobile_verification import *
 # Create your views here.
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -29,16 +40,40 @@ def signup(request):
 
 #My account view
 
-@method_decorator(login_required, name='dispatch')
-class UserUpdateView(UpdateView):
-    model = User
-    fields =('first_name', 'last_name','email', )
-    template_name = 'my_account.html'
-    success_url = reverse_lazy('my_account')
-
-    def get_object(self):
-        return self.request.user
-
+@login_required
+def profileupdate(request):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    user_form = ProfileForm(instance=user)
+ 
+    ProfileInlineFormset = inlineformset_factory( User, model=Profile, fields=('name','mobile_no','email'),can_delete=False)
+    formset = ProfileInlineFormset(instance=user)
+ 
+    if request.user.is_authenticated and request.user.id == user.id:
+        if request.method == "POST":
+            user_form = ProfileForm(request.POST, request.FILES, instance=user)
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
+ 
+            if user_form.is_valid():
+                created_user = user_form.save(commit=False)
+                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
+ 
+                if formset.is_valid():
+                    created_user.save()
+                    formset.save()
+                    ##########################################
+                    global session_id
+                    session_id  = otp_send(request.POST['profile-0-mobile_no'])
+                    return redirect('/otp/')
+        else:
+ 
+            return render(request, 'my_account.html', {
+                "noodle": pk,
+                "noodle_form": user_form,
+                "formset": formset,
+                })
+    else:
+        raise PermissionDenied
 
 
 @login_required
@@ -60,3 +95,17 @@ def password(request):
     else:
         form = PasswordForm(request.user)
     return render(request, 'my_account.html', {'form': form})
+
+
+def verify_mobile(request):
+    if request.method == "POST":
+        otp = request.POST['otp']
+        resp = otp_recieve(session_id,otp)
+        user = Profile.objects.filter(user_id = request.user.id).first()
+        if resp == "OTP Matched":
+            user.verified = True
+            user.save()
+            return HttpResponse("verifier")
+        else:
+            return HttpResponse("Not verified")
+    return render(request,'otp.html')   

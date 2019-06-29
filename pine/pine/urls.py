@@ -19,14 +19,17 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
 from main import views
 #Login
-
-from django.contrib.auth.views import logout
+from django.contrib.auth import logout
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('main.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', RedirectView.as_view(pattern_name='index', permanent=False)),
-    path('oauth/', include('social_django.urls', namespace='social')),
-
-]
+    
+    path('', views.index, name='index'),
+    path('',include('accounts.urls')),
+    
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

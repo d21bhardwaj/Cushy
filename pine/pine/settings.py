@@ -25,7 +25,7 @@ SECRET_KEY = 'twhfs)&cu^-^8brtp+5-f3g&@-o#+a&876qk=i#6&lk$m^q#&d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.104','localhost','127.0.0.1']
 
 
 # Application definition
@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware', 
 ]
 
 ROOT_URLCONF = 'pine.urls'
@@ -67,7 +68,7 @@ ROOT_URLCONF = 'pine.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates'],
+        'DIRS': [BASE_DIR, 'templates','accounts/templates/accounts/',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 #social login -->
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
@@ -151,21 +153,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 ##################################################
 
-ROOT_URLCONF = 'main.urls'
+
 
 #Login
 #Google
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'last_name', 'email']
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '87509333172-abrm5g29rkiqvkg4mtvtuuf95e5dl223.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'CAeMIwJWqvBnMYg40DmUMjyJ'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 #Facebook
-SOCIAL_AUTH_FACEBOOK_KEY = '336165530611570'    
-SOCIAL_AUTH_FACEBOOK_SECRET = '2a3e7e4a23aa817146f6ab70d783ac57'
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-  'locale': 'ru_RU',
-  'fields': 'id, name, email, age_range'
-}
+SOCIAL_AUTH_FACEBOOK_KEY = '2536176213080592'    
+SOCIAL_AUTH_FACEBOOK_SECRET = '6767a53d4fa0cb613c4c423d217c5772'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email'
+}
 SOCIAL_AUTH_LOGIN_ERROR_URL = 'index'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'index'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
@@ -177,9 +179,12 @@ LOGOUT_REDIRECT_URL = '/'
 #EMAIL_Backend
 
 
-EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'testing@example.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_PORT = 1025
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = "/media/"
