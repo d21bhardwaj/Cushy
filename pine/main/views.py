@@ -132,4 +132,9 @@ def detailroom(request, room_id, image_id):
     images = Images.objects.get(pk=image_id)
     return render(request, 'room_detail.html', {'rooms': rooms, 'images': images})
 
+@login_required()
+def detailpg(request, room_id, image_id):
+    rooms = RentingPGUser.objects.get(pk=room_id)
+    images = ImagesPG.objects.get(pk=image_id)
+    return render(request, 'room_detail.html', {'rooms': rooms, 'images': images})
 
