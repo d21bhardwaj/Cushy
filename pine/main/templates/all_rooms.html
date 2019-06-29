@@ -1,8 +1,55 @@
-{% extends 'base_accounts.html' %}
+<html>
 {% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CR-Thumbnail</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+</head>
 
+<body>
+    <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color:#2d2a5e;">
+        <div class="container-fluid"><a class="navbar-brand" href="{% url 'index' %}" style="color:rgba(255,255,255,0.9);">CUSHYROOMS</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div
+                class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav float-right ml-auto">
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#" style="color:rgba(255,255,255,0.9);">Hi {{ user.get_full_name }}</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgba(255,255,255,0.5);">Second Item</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgba(255,255,255,0.5);">Third Item</a></li>
+                </ul>
+        </div>
+        </div>
+    </nav>
+    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{rooms.count }} properties found </p>
+    <div class="projects-clean">
+        <div class="container align-items-center align-content-center align-self-center">
+            <div class="row justify-content-center projects" style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
+                {% for room in rooms %}
+                    {%  for images in room.images_set.all %}
+                    {% if forloop.counter == 1 %}
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_detail" room.id images.id %}'" style="height:388px;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:275 px;margin-top:25 px;margin-bottom:25px;min-height:388px;"><img class="img-fluid" src="{{ images.image.url }}" style="height:auto;width:auto;max-height:250px;min-width:235px;min-height:235px;max-width:250px;">
+                        <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
+                        <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
+                        <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ room.number_of_rooms }} BHK</p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                    
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
 
-{% block content %}
+</html>
+
+ <!--
 <div class="container-fluid songs-container">
 
     <div class="row">
@@ -34,7 +81,7 @@
             </div>
         </div> 
 
-        <!-- Right Rooms Info -->
+        <!-- Right Rooms Info 
         <div class="col-sm-8 col-md-9">
 
 
@@ -92,4 +139,4 @@
 
 </div>
 
-{% endblock %}
+-->
