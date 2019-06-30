@@ -67,19 +67,19 @@
                 {% if rooms.water_bill_included == 'yes' %}
 				    <p style="font-size:19px;"><i class="icon ion-waterdrop"></i>&nbsp; &nbsp;Water bill included</p>
 				{% else %}
-                    <p style="font-size:19px;color: rgba(33,37,41,0.4);"><i class="icon ion-waterdrop"></i>&nbsp; &nbsp;Water bill included</p>
+                    <p style="font-size:19px;color: rgba(33,37,41,0.4);"><i class="icon ion-waterdrop"></i>&nbsp; &nbsp;Water bill Extra</p>
                 {% endif %}
 
                 {% if rooms.electricity_bill_included == 'yes' %}
                     <p style="font-size:19px;width:244px;;padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity bill included</p>
 				{% else %}
-                    <p style="font-size:19px;width:244px;color:rgba(33,37,41,0.4);padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity bill included</p>
+                    <p style="font-size:19px;width:244px;color:rgba(33,37,41,0.4);padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity bill Extra</p>
                 {% endif %}
 
                 {% if rooms.attached_kitchen == 'yes' %}
 				    <p style="font-size:19px;"><i class="fa fa-cutlery"></i>&nbsp;&nbsp; Attached kitchen</p>
                 {% else %}
-                    <p style="font-size:19px;color:rgba(33,37,41,0.4)"><i class="fa fa-cutlery"></i>&nbsp;&nbsp; &nbsp;Attached kitchen</p>
+                    <p style="font-size:19px;color:rgba(33,37,41,0.4)"><i class="fa fa-cutlery"></i>&nbsp;&nbsp; No Attached kitchen</p>
                 {% endif %}
 			</div>
 
@@ -88,19 +88,19 @@
                 {% if rooms.parking == 'yes' %}
                     <p style="font-size:19px;"><i class="material-icons">local_parking</i> &nbsp; Parking available</p>
 				{% else %}
-                    <p style="font-size:19px;color:rgba(33,37,41,0.4)"><i class="material-icons">local_parking</i> &nbsp; Parking available</p>
+                    <p style="font-size:19px;color:rgba(33,37,41,0.4)"><i class="material-icons">local_parking</i> &nbsp; Parking Not available</p>
                 {% endif %}
 
                 {% if rooms.attached_bathroom == 'yes' %}
                     <p style="font-size:19px;width:221px;"><i class="fa fa-bath"></i> &nbsp; Attached bathroom</p>
 				{% else %}
-                    <p style="font-size:19px;width:221px;color:rgba(33,37,41,0.4)"><i class="fa fa-bath"></i> &nbsp; Attached bathroom</p>
+                    <p style="font-size:19px;width:221px;color:rgba(33,37,41,0.4)"><i class="fa fa-bath"></i> &nbsp; No Attached bathroom</p>
                 {% endif %}
 
                 {% if rooms.drive_in == 'yes' %}
                     <p style="font-size:19px;"><i class="fa fa-car"></i> &nbsp; Drive-in available</p>
                 {% else %}
-                    <p style="font-size:19px;color:rgba(33,37,41,0.4);"><i class="fa fa-car"></i> &nbsp; Drive-in available</p>
+                    <p style="font-size:19px;color:rgba(33,37,41,0.4);"><i class="fa fa-car"></i> &nbsp; Drive-in Not available</p>
                 {% endif %}
 			</div>
 		</div>
