@@ -19,7 +19,7 @@
                 {% for room in rooms %}
                     {%  for images in room.images_set.all %}
                     {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_detail" room.id images.id %}'" style="height:388px;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:275 px;margin-top:25 px;margin-bottom:25px;min-height:388px;"><img class="img-fluid" src="{{ images.image.url }}" style="height:auto;width:auto;max-height:250px;min-width:235px;min-height:235px;max-width:250px;">
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_detail" room.id images.id %}'" style="cursor: all-scroll;height:388px;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:275 px;margin-top:25 px;margin-bottom:25px;min-height:388px;"><img class="img-fluid" src="{{ images.image.url }}" style="height:auto;width:auto;max-height:250px;min-width:235px;min-height:235px;max-width:250px;">
                         <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
                         <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
                         <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ room.number_of_rooms }} BHK</p>

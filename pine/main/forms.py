@@ -39,7 +39,7 @@ class RentPGForm(forms.ModelForm):
 
     class Meta:
         model = RentingPGUser
-        fields = ('occupants_per_room', 'price', 'locality', 'attached_bathroom', 'attached_kitchen', 'drive_in',
+        fields = ('occupants_per_room', 'price', 'locality', 'attached_bathroom', 'food_included', 'drive_in',
                   'parking', 'water_bill_included', 'electricity_bill_included', 'preferred_customer',
                   'gender_preference', 'preferred_contact_time', 'contact_number', 'alternate_contact_number',
                   'any_other', 'timings')
@@ -49,7 +49,7 @@ class RentPGForm(forms.ModelForm):
             'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
             'locality': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Locality'}),
             'attached_bathroom': forms.Select(attrs={'class': 'regDropDown'}),
-            'attached_kitchen': forms.Select(attrs={'class': 'regDropDown'}),
+            'food_included': forms.Select(attrs={'class': 'regDropDown'}),
             'drive_in': forms.Select(attrs={'class': 'regDropDown'}),
             'parking': forms.Select(attrs={'class': 'regDropDown'}),
             'water_bill_included': forms.Select(attrs={'class': 'regDropDown'}),

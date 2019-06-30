@@ -9,9 +9,16 @@
 </head>
 <body>
 {% block form %}
-    <h1 style="text-align: left; color: darkblue">Choose a Renting Option</h1><br>
-    <a class="btn btn-primary btn-lg" style="margin: 10px" href="{% url 'RentForm' %}" role="button">Normal Rent</a><br>
-    <a class="btn btn-primary btn-lg" style="margin: 10px" href="{% url 'RentPGForm' %}" role="button">PG Rooms</a>
+    <div class="row">
+        <div class="col-md-4"></div>
+            <div class="col-md-8">
+                <h1 style="text-align: left; color: rgba(255,255,255,0.9)">Choose a Renting Option</h1><br>
+                <a class="btn btn-primary btn-lg" style="margin: 10px;border-color: #44499a;background-color: #44499a;color: rgba(255,255,255,0.9)" href="{% url 'RentForm' %}" role="button">Normal Rent</a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                <a class="btn btn-primary btn-lg" style="margin: 10px;border-color: #44499a;background-color: #44499a;color: rgba(255,255,255,0.9)" href="{% url 'RentPGForm' %}" role="button">PG Rooms</a>
+
+            </div>
+    </div>
+
 {% endblock %}
 {% block content %}
 {% endblock %}
