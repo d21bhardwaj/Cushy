@@ -20,10 +20,13 @@ class RentingUser(models.Model):
     parking = models.CharField(max_length=3, choices=y_n_choices, default='')
     water_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
     electricity_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
-    preferred_customer = models.CharField(max_length=50, choices=[('family', 'Family'), ('student', 'Student'),
-                                ('others (Specify)', 'Others (Specify)'), ('no such preference', 'No Such Preference')], default='')
-    gender_preference = models.CharField(max_length=50, choices=[('only female', 'Only Female'),
-                                                                 ('only male', 'Only Male'), ('none', 'None')], default='')
+    preferred_customer = models.CharField(max_length=50, choices=[('family preferred', 'Family Preferred'),
+                                                                  ('student preferred', 'Student Preferred'),
+                                                                    ('others (Specify)', 'Others (Specify)'),
+                                    ('no such preference for customer', 'No Such Preference for Customer')], default='')
+    gender_preference = models.CharField(max_length=50, choices=[('female preferred', 'Females Preferred'),
+                                                                 ('males preferred', 'Males Preferred'),
+                                                        ('no gender preference', 'No Gender Preference')], default='')
     alternate_contact_number = models.CharField(max_length=10, default="", blank=True)
     preferred_contact_time = models.CharField(max_length=50, default='')
     any_other = models.TextField(max_length=100, default="", blank=True)
@@ -43,11 +46,12 @@ class RentingPGUser(models.Model):
     parking = models.CharField(max_length=3, choices=y_n_choices, default='')
     water_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
     electricity_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
-    preferred_customer = models.CharField(max_length=50, choices=[('family', 'Family'), ('student', 'Student'),
-                                                                  ('others (Specify)', 'Others (Specify)'),
-                                                                  ('no such preference', 'No Such Preference')], default='')
-    gender_preference = models.CharField(max_length=50, choices=[('only female', 'Only Female'),
-                                                                 ('only male', 'Only Male'), ('none', 'None')], default='')
+    preferred_customer = models.CharField(max_length=50, choices=[('family preferred', 'Family Preferred'),
+                                                                  ('student preferred', 'Student Preferred'),
+                                        ('no preference for customer', 'No Preference for Customer')], default='')
+    gender_preference = models.CharField(max_length=50, choices=[('female preferred', 'Females Preferred'),
+                                                                 ('males preferred', 'Males Preferred'),
+                                                        ('no gender preference', 'No Gender Preference')], default='')
     preferred_contact_time = models.CharField(max_length=50, default='')
     contact_number = models.CharField(max_length=10, default='')
     alternate_contact_number = models.CharField(max_length=10, default='')
