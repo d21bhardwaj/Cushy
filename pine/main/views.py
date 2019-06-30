@@ -136,5 +136,5 @@ def detailroom(request, room_id, image_id):
 def detailpg(request, room_id, image_id):
     rooms = RentingPGUser.objects.get(pk=room_id)
     images = ImagesPG.objects.get(pk=image_id)
-    return render(request, 'room_detail.html', {'rooms': rooms, 'images': images})
+    return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images})
 
