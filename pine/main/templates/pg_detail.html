@@ -1,0 +1,81 @@
+{% extends 'base_view_rooms.html' %}
+{% block title %} Room Details {% endblock %}
+{% load static %}
+<body>
+{% block stylesheet %}
+	<link rel="stylesheet" href="{% static 'assets/fonts/ionicons.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/fonts/material-icons.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/fonts/simple-line-icons.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/Customizable-Carousel-swipe-enabled.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/MUSA_carousel-extended.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/MUSA_carousel-extended1.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/Pretty-Carousel-Fade--TouchSwipe.css' %}">
+{% endblock %}
+{% block body %}
+<div>
+	<div class="container">
+		<div class="row justify-content-center" style="margin-top:39px;">
+			<div class="col-md-6" style="padding-left:15px;max-width:468px;">
+				<div class="carousel slide carousel-fade" data-ride="carousel" id="carousel1" style="width:auto;max-width:617px;max-height:617px;height:auto;">
+					<div class="carousel-inner" role="listbox" style="max-width:617px;height:auto;max-height:617px;width:auto;min-width:auto;min-height:auto;">
+						<!-- Not required 
+						<div class="carousel-item active" style="max-width:617px;width:auto;height:auto;max-height:617px;min-width:4px;min-height:auto;"><img class="w-100 d-block" src="assets/img/img_003.jpg" alt="Slide Image">
+							<div></div>
+						</div> -->
+						{% for img in rooms.imagespg_set.all %}
+						<div	{% if images.id == img.id %} class="carousel-item active" style="max-width:617px;width:auto;height:auto;max-height:617px;min-width:4px;min-height:auto;"
+								{% else %} class="carousel-item" 
+								{% endif %}><img class="w-100 d-block" src="{{img.image.url}}" alt="Slide Image">
+							<div></div>
+						</div>
+						{% endfor %}
+						
+					</div>
+					<div><a class="carousel-control-prev" href="#carousel1" role="button" data-slide="prev"><i class="icon-arrow-left"></i><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel1" role="button" data-slide="next"><i class="icon-arrow-right"></i><span class="sr-only">Next</span></a></div>
+					<ol
+						class="carousel-indicators">
+						<li data-target="#carousel1" data-slide-to="0" class="active"></li>
+						<li data-target="#carousel1" data-slide-to="1"></li>
+						<li data-target="#carousel1" data-slide-to="2"></li>
+						</ol>
+				</div>
+			</div>
+			<div class="col-auto col-md-6 d-block float-none" style="width:226px;padding-top:15px;max-width:242px;max-height:276.6;padding-right:0px;padding-left:0px;">
+				<p style="width:235px;font-size:30px;">&nbsp;<strong>₹ {{ room.price }}</strong> /month<br></p>
+				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp;&nbsp; &nbsp;<i class="fa fa-map-marker"></i>&nbsp; &nbsp; Location : {{ rooms.locality }}</p>
+				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-check"></i>&nbsp; &nbsp;{{ rooms.gender_preference}}</p>
+				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-bed"></i>&nbsp; &nbsp;2 BHK</p>
+				<p style="width:288px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-group"></i>&nbsp; &nbsp;{{ rooms.occupants_per_room }} Occupants per room</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row justify-content-center" style="margin-top:24px;">
+	<div class="col-auto"><a class="btn btn-primary btn-lg d-block" role="button" href="#" style="background-color:rgb(68,73,154);">Contact Seller</a></div>
+</div>
+<div class="row justify-content-center" style="margin-top:24px;">
+	<div class="col-auto" id="features">
+		<p style="margin-bottom:-13px;background-color:#ffffff;color:rgba(33,37,41,0.62);width:92px;">&nbsp; &nbsp;Features &nbsp;&nbsp;</p>
+	</div>
+</div>
+<div style="margin-top:30px;">
+	<div class="container">
+		<div class="row justify-content-center align-items-center align-content-center align-self-center" style="width:auto;background-position:top;background-size:auto;background-repeat:no-repeat;margin-top:6px;height:auto;margin-right:0px;margin-left:0px;">
+			<div class="col-md-6" style="margin-top:0px;width:371px;max-width:225px;height:134px;margin-right:0px;">
+				<p style="font-size:19px;{% if rooms.water_bill_included == 'no' %}color:rgba(33,37,41,0.4);{% endif %}"><i class="icon ion-waterdrop"></i>&nbsp; &nbsp;Water bill {% if rooms.water_bill_included == 'no' %}extra{% else %}included{% endif %}</p>
+				<p style="font-size:19px;width:244px;{% if rooms.electricity_bill_included == 'no' %}color:rgba(33,37,41,0.4);{% endif %};padding-right:0px;"><i class="fa fa-plug"></i>&nbsp; &nbsp;Electricity bill {% if rooms.electricity_bill_included == 'no' %}extra{% else %}included{% endif %}</p>
+				<p style="font-size:19px;"><i class="fa fa-cutlery"></i>&nbsp; &nbsp;Attached kitchen</p>
+			</div>
+			<div class="col-md-6" style="margin-top:0px;width:346px;max-width:225px;height:134px;">
+				<p style="font-size:19px;{% if rooms.parking == 'no' %}color:rgba(33,37,41,0.4);{% endif %}"><i class="material-icons">local_parking</i>&nbsp; &nbsp;Parking {% if rooms.parking == 'no' %}not{% endif %} available</p>
+				<p style="font-size:19px;width:221px;{% if rooms.attached_bathroom == 'no' %}color:rgba(33,37,41,0.4);{% endif %}"><i class="fa fa-bath"></i>&nbsp; &nbsp;Attached bathroom</p>
+				<p style="font-size:19px;{% if rooms.drive_in == 'no' %}color:rgba(33,37,41,0.4);{% endif %}"><i class="fa fa-car"></i>&nbsp; &nbsp;Drive-in {% if rooms.drive_in == 'no' %}not{% endif %}available</p>
+			</div>
+		</div>
+		<div class="row justify-content-center" style="margin-top:24px;">
+			<div class="col-auto" id="features" style="margin-top:-100px;"></div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
