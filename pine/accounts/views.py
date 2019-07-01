@@ -20,7 +20,6 @@ from django.views.generic.edit import UpdateView
 from .models import Profile
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
-
 #for mobile verification
 from .mobile_verification import *
 # Create your views here.

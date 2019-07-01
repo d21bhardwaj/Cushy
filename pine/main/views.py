@@ -3,7 +3,6 @@ from django.contrib.auth import logout
 from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG
 from django.forms import modelformset_factory
 from .models import Images, ImagesPG, RentingUser, RentingPGUser
-
 #for profile linking
 from accounts.models import Profile
 from django.core.exceptions import PermissionDenied
@@ -12,8 +11,17 @@ from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.template.loader import get_template
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
+from django.contrib import messages
+
+
+def user_verified(user):
+    if user.profile:
+        return user.profile.is_verified()
+    else:
+        return False
+
 
 def index(request):
     return render(request, 'index.html')
@@ -23,7 +31,9 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
+
 @login_required
+@user_passes_test(user_verified, login_url='/settings/account/')
 def rentdetails(request):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
@@ -56,6 +66,7 @@ def rentdetails(request):
         raise PermissionDenied      
 
 @login_required
+@user_passes_test(user_verified, login_url='/settings/account/')
 def rentpgdetails(request):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
@@ -153,11 +164,13 @@ def allpgs(request):
 def detailroom(request, room_id, image_id):
     rooms = RentingUser.objects.get(pk=room_id)
     images = Images.objects.get(pk=image_id)
-    return render(request, 'room_detail.html', {'rooms': rooms, 'images': images})
+    seller = rooms.user_profile
+    return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
 
 @login_required()
 def detailpg(request, room_id, image_id):
     rooms = RentingPGUser.objects.get(pk=room_id)
     images = ImagesPG.objects.get(pk=image_id)
-    return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images})
+    seller = rooms.user_profile
+    return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
 

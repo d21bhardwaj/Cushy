@@ -51,9 +51,44 @@
 		</div>
 	</div>
 </div>
+
+<!-- Button to Open the Modal -->
 <div class="row justify-content-center" style="margin-top:24px;">
-	<div class="col-auto"><a class="btn btn-primary btn-lg d-block" role="button" href="#" style="background-color:rgb(68,73,154);">Contact Seller</a></div>
+	<div class="col-auto" data-toggle="modal" data-target="#myModal"><a class="btn btn-primary btn-lg d-block" role="button"  href="#" style="background-color:rgb(68,73,154);border-color: rgb(68,73,154)">Contact Seller</a></div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">{{ seller.name }}</h4><br>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Contact Number: {{ seller.mobile_no }}<br>
+        E-Mail: {{ seller.email }}<br>
+        Time for Contacting: {{ rooms.preferred_contact_time }}<br>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
 </div>
+
+
+
+</div>
+
+
+
 <div class="row justify-content-center" style="margin-top:24px;">
 	<div class="col-auto" id="features">
 		<p style="margin-bottom:-13px;background-color:#ffffff;color:rgba(33,37,41,0.62);width:92px;">&nbsp; &nbsp;Features &nbsp;&nbsp;</p>

@@ -2,7 +2,7 @@ from django.db import models
 from accounts.models import Profile
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-
+from django.utils.timezone import now
 y_n_choices = [
     ('yes', 'Yes'),
     ('no', 'No'),
@@ -33,8 +33,8 @@ class RentingUser(models.Model):
     any_other = models.TextField(max_length=100, default="", blank=True)
     
     #Adding for security adn better functionality
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(default=now, blank=True)
+    updated_at = models.DateTimeField(default=now, blank=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
@@ -64,8 +64,8 @@ class RentingPGUser(models.Model):
     timings = models.CharField(max_length=50, blank=True, default='')
 
     #Adding for security adn better functionality
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(default=now, blank=True)
+    updated_at = models.DateTimeField(default=now, blank=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):

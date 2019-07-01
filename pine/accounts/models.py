@@ -12,6 +12,13 @@ class Profile(models.Model):
     email = models.EmailField(max_length=70, null=True, blank=True)
     verified = models.BooleanField(default=False)
 
+    def is_verified(self):
+
+        if self.verified:
+            return True
+        else:
+            return False
+
 
 def create_profile(sender, **kwargs):
     user = kwargs["instance"]
