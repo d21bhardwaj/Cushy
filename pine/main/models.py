@@ -31,10 +31,14 @@ class RentingUser(models.Model):
     alternate_contact_number = models.CharField(max_length=10, default="", blank=True)
     preferred_contact_time = models.CharField(max_length=50, default='')
     any_other = models.TextField(max_length=100, default="", blank=True)
+    
+    #Adding for security adn better functionality
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.contact_number
-
+        return str(self.user_profile)
 
 class RentingPGUser(models.Model):
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
@@ -59,8 +63,13 @@ class RentingPGUser(models.Model):
     any_other = models.TextField(max_length=100, blank=True, default='')
     timings = models.CharField(max_length=50, blank=True, default='')
 
+    #Adding for security adn better functionality
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    approved = models.BooleanField(default=False)
+
     def __str__(self):
-        return self.contact_number
+        return str(self.user_profile)
 
 
 
