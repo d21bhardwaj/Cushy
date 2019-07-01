@@ -3,11 +3,17 @@ from django.contrib.auth import logout
 from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG
 from django.forms import modelformset_factory
 from .models import Images, ImagesPG, RentingUser, RentingPGUser
+
+#for profile linking
+from accounts.models import Profile
+from django.core.exceptions import PermissionDenied
+
 #adding for contact form
 from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 def index(request):
     return render(request, 'index.html')
@@ -17,52 +23,69 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
-
+@login_required
 def rentdetails(request):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+   
+  
     ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
-    if request.method == "POST":
-        form = RentForm(request.POST)
-        imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
+    if request.user.is_authenticated and request.user.id == user.id:
+        if request.method == "POST":
+            form = RentForm(request.POST,request.FILES, )
+            imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
 
-        if form.is_valid() and imageform.is_valid():
-            post_form = form.save(commit=False)
-            post_form.user = request.user
-            post_form.save()
-            for pic in imageform.cleaned_data:
-                if pic:
-                    image = pic['image']
-                    photo = Images(user=post_form, image=image)
-                    photo.save()
-            return redirect('index')
+            if form.is_valid() and imageform.is_valid():
+                post_form = form.save(commit=False)
+                post_form.user_profile = profile
+                post_form.save()
+                for pic in imageform.cleaned_data:
+                    if pic:
+                        image = pic['image']
+                        photo = Images(user=post_form, image=image)
+                        photo.save()
+                return redirect('index')
+            else:
+                print(form.errors, imageform.errors)
         else:
-            print(form.errors, imageform.errors)
+            form = RentForm()
+            imageform = ImageFormSet(queryset=Images.objects.none())
+        return render(request, 'form.html', {'form': form, 'imageform': imageform})
     else:
-        form = RentForm()
-        imageform = ImageFormSet(queryset=Images.objects.none())
-    return render(request, 'form.html', {'form': form, 'imageform': imageform})
+        raise PermissionDenied      
 
 @login_required
 def rentpgdetails(request):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+
     ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=3)
-    if request.method == "POST":
-        form = RentPGForm(request.POST)
-        imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
-        if form.is_valid() and imageform.is_valid():
-            post_form = form.save(commit=False)
-            post_form.user = request.user
-            post_form.save()
-            for pic in imageform.cleaned_data:
-                if pic:
-                    image = pic['image']
-                    photo = ImagesPG(user=post_form, image=image)
-                    photo.save()
-            return redirect('index')
+    if request.user.is_authenticated and request.user.id == user.id:
+
+        if request.method == "POST":
+            form = RentPGForm(request.POST)
+            imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
+            if form.is_valid() and imageform.is_valid():
+                post_form = form.save(commit=False)
+                post_form.user = request.user
+                post_form.save()
+                for pic in imageform.cleaned_data:
+                    if pic:
+                        image = pic['image']
+                        photo = ImagesPG(user=post_form, image=image)
+                        photo.save()
+                return redirect('index')
+            else:
+                print(form.errors, imageform.errors)
         else:
-            print(form.errors, imageform.errors)
+            form = RentPGForm()
+            imageform = ImageFormSet(queryset=ImagesPG.objects.none())
+        return render(request, 'form.html', {'form': form, 'imageform': imageform})
     else:
-        form = RentPGForm()
-        imageform = ImageFormSet(queryset=ImagesPG.objects.none())
-    return render(request, 'form.html', {'form': form, 'imageform': imageform})
+        raise PermissionDenied      
+
 
 
 def renttype(request):
