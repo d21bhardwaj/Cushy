@@ -1,7 +1,7 @@
 from django import forms
 from .models import RentingUser, RentingPGUser, Images, ImagesPG
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.layout import Layout, Submit, Row, Column, ButtonHolder
 
 
 class RentForm(forms.ModelForm):
@@ -38,6 +38,7 @@ class RentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.layout = Layout(
             Row(
                 Column('number_of_rooms', css_class='form-group col-md-4 mb-0'),
@@ -78,6 +79,7 @@ class RentForm(forms.ModelForm):
             ),
             Row(
                 Column('preferred_contact_time', css_class='form-group col-md-4 mb-0'),
+                Column('contact_number', css_class='form-group col-md-4 mb-0'),
                 Column('alternate_contact_number', css_class='form-group col-md-4 mb-0'),
                 
                 css_class='form-row'
@@ -121,6 +123,7 @@ class RentPGForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.layout = Layout(
             Row(
                 Column('gender_preference', css_class='form-group col-md-4 mb-0'),
