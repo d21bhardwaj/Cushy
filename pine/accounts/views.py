@@ -64,6 +64,20 @@ def profileupdate(request):
                     global session_id
                     session_id  = otp_send(request.POST['profile-0-mobile_no'])
                     return redirect('/otp/')
+                else:
+ 
+                    return render(request, 'my_account.html', {
+                        "noodle": pk,
+                        "noodle_form": user_form,
+                        "formset": formset,
+                        })
+            else:
+ 
+                return render(request, 'my_account.html', {
+                    "noodle": pk,
+                    "noodle_form": user_form,
+                    "formset": formset,
+                    })
         else:
  
             return render(request, 'my_account.html', {
