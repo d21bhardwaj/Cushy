@@ -13,7 +13,7 @@
             <div class="col-md-12 text-left" style="padding: 60px;text-align: left; color: white">
             <!--using crispy tag on forms for now-->
 
-            {{ form|crispy }}<br>
+            {% crispy form %}<br>
             <h5>Upload Images:</h5><br>
             {{ imageform.management_form }}
             {% for field in imageform %}
