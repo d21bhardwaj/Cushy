@@ -1,13 +1,14 @@
-{% extends 'base_view_rooms.html' %}
+{% extends 'base.html' %}
 {% block title %} All Room Details {% endblock %}
 <body>
 {% load static %}
 {% block stylesheet %} 
-    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+    
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/AllRoom/styles.css' %}">
 {% endblock %}
 
 {% load static %}
@@ -15,13 +16,23 @@
     <p class="text-center text-secondary" style="padding-bottom:10px;"> {{rooms.count }} room{%if rooms.count > 1 %}s{% endif %} found </p>
     <div class="projects-clean">
         <div class="container align-items-center align-content-center align-self-center">
-            <div class="row justify-content-center projects" style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
+            <div class="row justify-content-center projects" 
+            style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
                 {% for room in rooms %}
                     {%  for images in room.images_set.all %}
                     {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_detail" room.id images.id %}'" style="cursor: all-scroll;height:388px;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:275 px;margin-top:25 px;margin-bottom:25px;min-height:388px;"><img class="img-fluid" src="{{ images.image.url }}" style="height:auto;width:auto;max-height:250px;min-width:235px;min-height:235px;max-width:250px;">
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_detail" room.id images.id %}'" 
+                        style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+                            max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+                            margin-bottom:25px;min-height:auto;">
+                        <img class="img-fluid" 
+                        style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;"
+                        src="{{ images.image.url }}"  >
+                       
                         <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
+                        
                         <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
+                        
                         <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ room.number_of_rooms }} BHK</p>
                     </div>
                     {% endif %}
@@ -34,94 +45,3 @@
 {% endblock %}
 </body>
 
- <!--
-<div class="container-fluid songs-container">
-
-    <div class="row">
-
-            Left Album Info 
-        <div class="col-sm-4 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {% for room in rooms %}
-                    <a href="#">
-                        {{ i }} 
-                        {%  for images in room.images_set.all %}
-                        
-                        {% if images.image %}
-                            <img src="{{ images.image.url }}" class="img-responsive">
-                        {% else %}
-                            <h3>No image to display</h3>
-                        {% endif %}
-                        
-                        <h3>{{ images.pk  }}{{i}}</h3>
-                    
-                        {% endfor %}
-                        
-                    </a>
-                    <h1>{{ room.locality }} <small>{{ room.price }}</small></h1>
-                    <h2>{{ room.number_of_rooms }}</h2>
-                    {% endfor %}
-                </div>
-            </div>
-        </div> 
-
-        <!-- Right Rooms Info 
-        <div class="col-sm-8 col-md-9">
-
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-
-                    <h3>All Rooms</h3>
-
-                    {% if error_message %}
-                        <p><strong>{{ error_message }}</strong></p>
-                    {% endif %}
-
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Location</th>
-                            <th>Price</th>
-                            <th>Drive In</th>
-                            <th>Click here for more information</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {% for room in rooms %}
-                            <tr>
-                                <td>{{ room.number_of_rooms }}BHK</td>
-                                <td>{{ room.locality }}</td>
-                                <td>{{ room.price }}</td> 
-                                <td>{{ room.drive_in }}</td>
-                               
-                                {%  for images in room.images_set.all %}
-                                    {% if forloop.counter == 1 %}
-                                <td> <form action="{% url 'room_detail' room.id images.id %}" method="post" style="display: inline;">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="room_id" value="{{ room.id }}" />
-                                    <input type="hidden" name="image_id" value="{{ images.id }}" />
-                                    <button type="submit" class="btn btn-success btn-xs">
-                                        <span class="glyphicon  glyphicon-thumbs-up"></span>&nbsp; KnowMore
-                                    </button>
-                                </form></td>
-                                    {% endif %}
-                                {% endfor %}
-                               
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-
-        </div> 
-
-    </div>
-
-</div>
-
--->
