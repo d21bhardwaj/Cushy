@@ -8,6 +8,7 @@ from django.db.models.signals import post_save
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=181, blank=True)
+    title = models.CharField(max_length= 10 ,blank=True, choices=[('Mr.', 'Mr.'),('Ms.', 'Ms.'),],default='')
     mobile_no = models.IntegerField(null=True, blank=True, unique=True)
     email = models.EmailField(max_length=70, null=True, blank=True)
     verified = models.BooleanField(default=False)

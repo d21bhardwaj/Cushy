@@ -45,7 +45,7 @@ def profileupdate(request):
     user = User.objects.get(pk=pk)
     user_form = ProfileForm(instance=user)
  
-    ProfileInlineFormset = inlineformset_factory( User, model=Profile, fields=('name','mobile_no','email'),can_delete=False)
+    ProfileInlineFormset = inlineformset_factory( User, model=Profile, form=ProfileForm, can_delete=False)
     formset = ProfileInlineFormset(instance=user)
  
     if request.user.is_authenticated and request.user.id == user.id:
@@ -112,9 +112,11 @@ def password(request):
 
 def verify_mobile(request):
     if request.method == "POST":
+        user = Profile.objects.filter(user_id = request.user.id).first()
+        user.verified = False
         otp = request.POST['otp']
         resp = otp_recieve(session_id,otp)
-        user = Profile.objects.filter(user_id = request.user.id).first()
+        
         if resp == "OTP Matched":
             user.verified = True
             user.save()
