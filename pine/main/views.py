@@ -24,7 +24,7 @@ def user_verified(user):
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'home.html')
 
 
 def logout_view(request):
@@ -149,14 +149,14 @@ def contact(request):
 
 #To view all the rooms
 def allrooms(request):
-    rooms = RentingUser.objects.all()
+    rooms = RentingUser.objects.filter(approved=True)
     
     return render(request, 'all_rooms.html', {'rooms': rooms})
 
 #To view all the PGs
 
 def allpgs(request):
-    rooms = RentingPGUser.objects.all()
+    rooms = RentingPGUser.objects.filter(approved=True)
     return render(request, 'all_pgs.html', {'rooms': rooms})
 
 #Detail of the room selected
