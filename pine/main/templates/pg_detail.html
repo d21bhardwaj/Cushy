@@ -1,4 +1,4 @@
-{% extends 'base_view_rooms.html' %}
+{% extends 'base.html' %}
 {% block title %} Room Details {% endblock %}
 {% load static %}
 <body>
@@ -45,7 +45,7 @@
 				<p style="width:235px;font-size:30px;">&nbsp;<strong>₹ {{ rooms.price }}</strong> /month<br></p>
 				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp;&nbsp; &nbsp;<i class="fa fa-map-marker"></i>&nbsp; &nbsp; {{ rooms.locality }}</p>
 				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-check"></i>&nbsp; &nbsp;{{ rooms.preferred_customer }}</p>
-				<p style="width:288px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-group"></i>&nbsp; &nbsp;{{ rooms.occupants_per_room }} Occupants </p>
+				<p style="width:288px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-group"></i>&nbsp; &nbsp;{{ rooms.occupants_per_room }} Occupants Per Room</p>index
 			</div>
 		</div>
 	</div>

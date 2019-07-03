@@ -1,3 +1,6 @@
+{% extends 'home.html' %}
+
+
 {% load staticfiles %}
 {% load static %}
 
@@ -5,7 +8,7 @@
 <head>
     <title>Cushyrooms - Buy/Sell/Rent in Solan</title>
 
-   
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
@@ -27,31 +30,17 @@
     <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
 
-{% block body %}
+
 
 <body>
-        <section id="nav-bar">
-            <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="{% url 'index' %}">CUSHYROOMS</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fa fa-bars" aria-hidden="true"></i>
-                </button>
-                {% if user.is_authenticated %}
-                <div class="collapse navbar-collapse" id="navbarNav">
-                  <ul class="navbar-nav ml-auto">
-                    <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-user-circle-o" aria-hidden="true"></i><strong> Logout </strong></a>
-                  </ul>
-                </div>
-                {% endif %}
-            </nav>
-        </section>
-        <div class="container">
-            {% block content %}
-            {% endblock %}
+    {% block body %}
+        <div style="background-image: url(&quot;{% static 'assets/img/final-01.jpg' %}&quot;);background-position: center;background-size: cover;background-repeat: no-repeat;overflow: hidden">
+            <div class="container" style="padding-top: 100px;padding-bottom: 150px">
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
-        
 
-        {% endblock %}
-    </body> 
+    {% endblock %}
+</body>
  </html>
