@@ -17,8 +17,9 @@
             <form method="post" enctype="multipart/form-data"  id="post_form" action="">
                 {% csrf_token %}
                 
-                {{ formset.management_form|crispy }}
-                {{ formset|crispy }}
+
+              
+                {% crispy formset formset.form.helper %}
 
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
