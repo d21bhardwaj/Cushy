@@ -3,28 +3,41 @@
 <body>
 {% load static %}
 {% block stylesheet %} 
-    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+    
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/AllRoom/styles.css' %}">
 {% endblock %}
 
-
-
-<body>
-    {% block body %}
-    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{rooms.count }} PG{%if rooms.count > 1 %}s{% endif %} found </p>
+{% load static %}
+{% block body %}
+    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{rooms.count }} room{%if rooms.count > 1 %}s{% endif %} found </p>
     <div class="projects-clean">
         <div class="container align-items-center align-content-center align-self-center">
-            <div class="row justify-content-center projects" style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
+            <div class="row justify-content-center projects" 
+            style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
                 {% for room in rooms %}
-                    {%  for images in room.imagespg_set.all %}
+                {%  for images in room.imagespg_set.all %}
                     {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_detail" room.id images.id %}'" style="cursor: all-scroll;height:388px;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:275 px;margin-top:25 px;margin-bottom:25px;min-height:388px;"><img class="img-fluid" src="{{ images.image.url }}" style="height:auto;width:auto;max-height:250px;min-width:235px;min-height:235px;max-width:250px;">
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_detail" room.id images.id %}'" 
+                        style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+                            max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+                            margin-bottom:25px;min-height:auto;">
+                        <img class="img-fluid" 
+                        style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;"
+                        src="{{ images.image.url }}"  >
+                       
                         <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
+                        
                         <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
-                        <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ room.occupants_per_room}}/Room</p>
+                        
+                        {% if room.gender_preference == "Only Girls" %}
+                        <p style="font-size:18px;"><i class="fa fa-female"></i>&nbsp;{{ room.gender_preference}}</p>
+				        {% elif room.gender_preference == "Only Boys" %}
+                        <p style="font-size:18px;"><i class="fa fa-male"></i>&nbsp;{{ room.gender_preference }}</p>
+				        {% endif %}
                     </div>
                     {% endif %}
                     {% endfor %}
@@ -33,8 +46,7 @@
             </div>
         </div>
     </div>
-    {% endblock %}
-
+{% endblock %}
 </body>
 
 
