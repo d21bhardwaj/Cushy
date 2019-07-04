@@ -120,7 +120,7 @@ def verify_mobile(request):
         if resp == "OTP Matched":
             user.verified = True
             user.save()
-            return HttpResponse("verifier")
+            return render(request, 'verified.html')
         else:
-            return HttpResponse("Not verified")
-    return render(request,'otp.html')   
+            return render(request, 'not_verified.html')
+    return render(request, 'otp.html')
