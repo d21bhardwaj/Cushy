@@ -1,5 +1,5 @@
 from django import forms
-from .models import RentingUser, RentingPGUser, Images, ImagesPG
+from .models import RentingUser, RentingPGUser, Images, ImagesPG, Location
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, ButtonHolder
 
@@ -16,7 +16,7 @@ class RentForm(forms.ModelForm):
             'number_of_rooms': forms.NumberInput(attrs={'class': 'form-control',
                                                         'placeholder': 'Enter the Number of Rooms in the House'}),
             'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
-            'locality': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Locality'}),
+            'locality':  forms.Select(attrs={'class': 'regDropDown'}),
             'attached_bathroom': forms.Select(attrs={'class': 'regDropDown'}),
             'attached_kitchen': forms.Select(attrs={'class': 'regDropDown'}),
             'maximum_no_of_occupants': forms.NumberInput(attrs={'class': 'form-control',
@@ -100,7 +100,7 @@ class RentPGForm(forms.ModelForm):
             'occupants_per_room': forms.NumberInput(attrs={'class': 'form-control',
                                                         'placeholder': 'Enter the Number of Rooms in the House'}),
             'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
-            'locality': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Locality'}),
+            'locality':  forms.Select(attrs={'class': 'regDropDown'}),  
             'attached_bathroom': forms.Select(attrs={'class': 'regDropDown'}),
             'food_included': forms.Select(attrs={'class': 'regDropDown'}),
             'drive_in': forms.Select(attrs={'class': 'regDropDown'}),

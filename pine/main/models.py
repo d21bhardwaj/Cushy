@@ -8,12 +8,17 @@ y_n_choices = [
     ('no', 'No'),
 ]
 
+class Location(models.Model):
+    location = models.CharField(max_length=30, null = True, default='')
+
+    def __str__(self):
+        return str(self.location)
 
 class RentingUser(models.Model):
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     number_of_rooms = models.IntegerField()
     price = models.CharField(max_length=50, default='')
-    locality = models.CharField(max_length=100, default='')
+    locality = models.OneToOneField(Location, on_delete=models.DO_NOTHING,  primary_key=False, null=True,default='')
     maximum_no_of_occupants = models.IntegerField()
     attached_bathroom = models.CharField(max_length=3, choices=y_n_choices, default='no')
     attached_kitchen = models.CharField(max_length=15, choices=y_n_choices, default='no')
@@ -44,7 +49,7 @@ class RentingPGUser(models.Model):
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
     occupants_per_room = models.IntegerField()
     price = models.CharField(max_length=50, default='')
-    locality = models.CharField(max_length=100, default='')
+    locality = models.OneToOneField(Location, on_delete=models.DO_NOTHING,  primary_key=False, null=True,default='')
     attached_bathroom = models.CharField(max_length=3, choices=y_n_choices, default='no')
     food_included = models.CharField(max_length=15, choices=y_n_choices, default='no')
     drive_in = models.CharField(max_length=3, choices=y_n_choices, default='no')
