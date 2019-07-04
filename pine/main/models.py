@@ -14,20 +14,20 @@ class RentingUser(models.Model):
     number_of_rooms = models.IntegerField()
     price = models.CharField(max_length=50, default='')
     locality = models.CharField(max_length=100, default='')
-    contact_number = models.CharField(max_length=10, default='')
     maximum_no_of_occupants = models.IntegerField()
-    attached_bathroom = models.CharField(max_length=3, choices=y_n_choices, default='')
-    attached_kitchen = models.CharField(max_length=15, choices=y_n_choices, default='')
-    drive_in = models.CharField(max_length=3, choices=y_n_choices, default='')
-    parking = models.CharField(max_length=3, choices=y_n_choices, default='')
-    water_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
-    electricity_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
+    attached_bathroom = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    attached_kitchen = models.CharField(max_length=15, choices=y_n_choices, default='no')
+    drive_in = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    parking = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    water_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    electricity_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='no')
     preferred_customer = models.CharField(max_length=50, choices=[('Family Preferred', 'Family Preferred'),
-                                                                  ('Student Preferred', 'Student Preferred'),
-                                    ('No Such Preference for Customer', 'No Such Preference for Customer')], default='')
-    gender_preference = models.CharField(max_length=50, choices=[('Female Preferred', 'Females Preferred'),
-                                                                 ('Males Preferred', 'Males Preferred'),
-                                                        ('No Gender Preference', 'No Gender Preference')], default='')
+                                                                ('Working Preferred', 'Working Preferred'),
+                                                                ('Student Preferred', 'Student Preferred'),
+                                    ('no', 'No Such Preference')], default='no')
+    gender_preference = models.CharField(max_length=50, choices=[('Only Girls', 'Only Girls'),
+                                                                 ('Only Boys', 'Only Boys'),
+                                                        ('no', 'No Gender Preference')], default='no')
     alternate_contact_number = models.CharField(max_length=10, default="", blank=True)
     preferred_contact_time = models.CharField(max_length=50, default='')
     any_other = models.TextField(max_length=100, default="", blank=True)
@@ -45,20 +45,20 @@ class RentingPGUser(models.Model):
     occupants_per_room = models.IntegerField()
     price = models.CharField(max_length=50, default='')
     locality = models.CharField(max_length=100, default='')
-    attached_bathroom = models.CharField(max_length=3, choices=y_n_choices, default='')
-    food_included = models.CharField(max_length=15, choices=y_n_choices, default='')
-    drive_in = models.CharField(max_length=3, choices=y_n_choices, default='')
-    parking = models.CharField(max_length=3, choices=y_n_choices, default='')
-    water_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
-    electricity_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='')
-    preferred_customer = models.CharField(max_length=50, choices=[('Family Preferred', 'Family Preferred'),
+    attached_bathroom = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    food_included = models.CharField(max_length=15, choices=y_n_choices, default='no')
+    drive_in = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    parking = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    water_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    electricity_bill_included = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    preferred_customer = models.CharField(max_length=50, choices=[('Working Preferred', 'Working Preferred'),
                                                                   ('Student Preferred', 'Student Preferred'),
-                                        ('No Preference For Customer', 'No Preference for Customer')], default='')
-    gender_preference = models.CharField(max_length=50, choices=[('Female Preferred', 'Females Preferred'),
-                                                                 ('Males Preferred', 'Males Preferred'),
-                                                        ('No Gender Preference', 'No Gender Preference')], default='')
+                                        ('no ', 'No Preference ')], default='no')
+    gender_preference = models.CharField(max_length=50, choices=[('Only Girls', 'Only Girls'),
+                                                                 ('Only Boys', 'Only Boys'),
+                                                        ], default='')
     preferred_contact_time = models.CharField(max_length=50, default='')
-    contact_number = models.CharField(max_length=10, default='')
+
     alternate_contact_number = models.CharField(max_length=10, default='', blank=True)
     any_other = models.TextField(max_length=100, blank=True, default='')
     timings = models.CharField(max_length=50, blank=True, default='')

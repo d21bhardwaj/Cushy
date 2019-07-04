@@ -10,7 +10,7 @@ class RentForm(forms.ModelForm):
         model = RentingUser
         fields = ('number_of_rooms', 'price', 'maximum_no_of_occupants', 'locality', 'attached_bathroom',
                   'attached_kitchen', 'drive_in', 'parking', 'water_bill_included', 'electricity_bill_included',
-                  'preferred_customer', 'gender_preference', 'preferred_contact_time', 'contact_number',
+                  'preferred_customer', 'gender_preference', 'preferred_contact_time',
                   'alternate_contact_number', 'any_other')
         widgets = {
             'number_of_rooms': forms.NumberInput(attrs={'class': 'form-control',
@@ -30,7 +30,6 @@ class RentForm(forms.ModelForm):
             'gender_preference': forms.Select(attrs={'class': 'regDropDown'}),
             'preferred_contact_time': forms.TextInput(attrs={'class': 'form-control',
                                                              'placeholder': 'Your Preferred Contact Time'}),
-            'contact_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Contact Number'}),
             'alternate_contact_number': forms.TextInput(attrs={'class': 'form-control',
                                                                'placeholder': 'Enter Contact Number'}),
             'any_other': forms.Textarea(attrs={'placeholder': 'Any Other Specification'})
@@ -79,7 +78,6 @@ class RentForm(forms.ModelForm):
             ),
             Row(
                 Column('preferred_contact_time', css_class='form-group col-md-4 mb-0'),
-                Column('contact_number', css_class='form-group col-md-4 mb-0'),
                 Column('alternate_contact_number', css_class='form-group col-md-4 mb-0'),
                 
                 css_class='form-row'
@@ -96,7 +94,7 @@ class RentPGForm(forms.ModelForm):
         model = RentingPGUser
         fields = ('occupants_per_room', 'price', 'locality', 'attached_bathroom', 'food_included', 'drive_in',
                   'parking', 'water_bill_included', 'electricity_bill_included', 'preferred_customer',
-                  'gender_preference', 'preferred_contact_time', 'contact_number', 'alternate_contact_number',
+                  'gender_preference', 'preferred_contact_time', 'alternate_contact_number',
                   'any_other', 'timings')
         widgets = {
             'occupants_per_room': forms.NumberInput(attrs={'class': 'form-control',
@@ -113,7 +111,6 @@ class RentPGForm(forms.ModelForm):
             'gender_preference': forms.Select(attrs={'class': 'regDropDown'}),
             'preferred_contact_time': forms.TextInput(attrs={'class': 'form-control',
                                                              'placeholder': 'Your Preferred Contact Time'}),
-            'contact_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Contact Number'}),
             'alternate_contact_number': forms.TextInput(attrs={'class': 'form-control',
                                                                'placeholder': 'Enter Contact Number'}),
             'any_other': forms.Textarea(attrs={'placeholder': 'Any Other Specifications'}),
@@ -164,13 +161,12 @@ class RentPGForm(forms.ModelForm):
                 css_class='form-row'
             ),
             Row(
-                Column('contact_number', css_class='form-group col-md-4 mb-0'),
                 Column('alternate_contact_number', css_class='form-group col-md-4 mb-0'),
-                
+                Column('timings', css_class='form-group col-md-4 mb-0'),  
                 css_class='form-row'
             ),
             'any_other',
-            'timings'
+            
         
         )
 

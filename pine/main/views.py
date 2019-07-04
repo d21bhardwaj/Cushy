@@ -14,14 +14,15 @@ from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def user_verified(user):
-    if user.profile:
+    try:
         return user.profile.is_verified()
-    else:
-        return False
-
+    except ObjectDoesNotExist:
+        return False 
+       
 
 def index(request):
     return render(request, 'home.html')
@@ -80,7 +81,7 @@ def rentpgdetails(request):
             imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
             if form.is_valid() and imageform.is_valid():
                 post_form = form.save(commit=False)
-                post_form.user = request.user
+                post_form.user_profile = profile
                 post_form.save()
                 for pic in imageform.cleaned_data:
                     if pic:
