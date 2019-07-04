@@ -49,7 +49,7 @@
 			<div class="col-auto col-md-6 d-block float-none" style="width:226px;padding-top:15px;max-width:242px;max-height:276.6;padding-right:0px;padding-left:0px;">
 				<p style="width:235px;font-size:30px;">&nbsp;<strong>₹ {{ rooms.price }}</strong> /month<br></p>
 				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp;&nbsp; &nbsp;<i class="fa fa-map-marker"></i>&nbsp; &nbsp; {{ rooms.locality }}</p>
-				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-bed"></i>&nbsp; &nbsp;{{ rooms.number_of_rooms }} BHK</p>
+				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-bed"></i>&nbsp; &nbsp;{{ rooms.number_of_rooms }} Room </p>
 				<p style="width:288px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fas fa-user-plus"></i>&nbsp; &nbsp;{{ rooms.maximum_no_of_occupants }} Occupants</p>
 				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-group"></i>&nbsp; &nbsp;{{ rooms.preferred_customer }}</p>
 				
@@ -108,15 +108,15 @@
 			<div class="col-md-6" style="margin-top:0px;width:371px;max-width:225px;height:134px;margin-right:0px;">
 
                 {% if rooms.water_bill_included == 'yes' %}
-				    <p style="font-size:19px;"><i class="fas fa-check"></i>&nbsp; &nbsp;Water bill included</p>
+				    <p style="font-size:19px;"><i class="fas fa-check"></i>&nbsp; &nbsp;Water Bill included</p>
 				{% else %}
-                    <p style="font-size:19px;color: rgba(33,37,41,0.4);"><i class="fa fa-times"></i>&nbsp; &nbsp;Water bill Included</p>
+                    <p style="font-size:19px;color: rgba(33,37,41,0.4);"><i class="fa fa-times"></i>&nbsp; &nbsp;Water Bill Included</p>
                 {% endif %}
 
                 {% if rooms.electricity_bill_included == 'yes' %}
-                    <p style="font-size:19px;width:244px;;padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity bill included</p>
+                    <p style="font-size:19px;width:244px;;padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity Bill included</p>
 				{% else %}
-                    <p style="font-size:19px;width:244px;color:rgba(33,37,41,0.4);padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity bill Extra</p>
+                    <p style="font-size:19px;width:244px;color:rgba(33,37,41,0.4);padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity Bill Extra</p>
                 {% endif %}
 
                 {% if rooms.attached_kitchen == 'yes' %}
@@ -131,7 +131,7 @@
                 {% if rooms.parking == 'yes' %}
                     <p style="font-size:19px;"><i class="fas fa-check"></i> &nbsp; Parking available</p>
 				{% else %}
-                    <p style="font-size:19px;color:rgba(33,37,41,0.4)"><i class="fa fa-times"></i> &nbsp; Parking Not available</p>
+                    <p style="font-size:19px;color:rgba(33,37,41,0.4)"><i class="fa fa-times"></i> &nbsp; Parking available</p>
                 {% endif %}
 
                 {% if rooms.attached_bathroom == 'yes' %}
@@ -143,7 +143,7 @@
                 {% if rooms.drive_in == 'yes' %}
                     <p style="font-size:19px;"><i class="fas fa-check"></i> &nbsp; Drive-in available</p>
                 {% else %}
-                    <p style="font-size:19px;color:rgba(33,37,41,0.4);"><i class="fa fa-times"></i> &nbsp; Drive-in Not available</p>
+                    <p style="font-size:19px;color:rgba(33,37,41,0.4);"><i class="fa fa-times"></i> &nbsp; Drive-in available</p>
                 {% endif %}
 			</div>
 		</div>
