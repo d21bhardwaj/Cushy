@@ -40,7 +40,7 @@
 
            <li class="nav-item dropdown">
             {% if user.is_authenticated %}
-            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi {{ user.get_full_name }}
+            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi {{ user.profile.name }}
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu" style="background-color: #44499a" >
                 <a class="dropdown-item" href="{% url 'my_account' %}">My account</a>
