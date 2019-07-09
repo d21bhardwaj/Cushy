@@ -5,7 +5,8 @@
 {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  {% endblock %}
+  <link rel="stylesheet" href="{% static 'assets/css/Customizable-Background--Overlay.css' %}">  
+{% endblock %}
 
 {% block title %}Sign up to CushyRooms {% endblock %}
 
@@ -24,9 +25,9 @@
             <div class="nav-wrapper container">
              <!-- Google Login added here-->
              <br>
-              <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google Log!n</a>
+              <a href="{% url 'social:begin' 'google-oauth2' %}"class="google btn" ><i class="fa fa-google fa-fw"></i>  Google Login</a>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <a href="{% url 'social:begin' 'facebook' %}"><i class="fa fa-facebook-official" aria-hidden="true"></i>  Facebook</a>
+              <a href="{% url 'social:begin' 'facebook' %}" class="fb btn"><i class="fa fa-facebook fa-fw"></i>Facebook Login</a>
             </div>    
           </div>
           <div class="card-footer text-muted text-center">
