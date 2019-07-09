@@ -122,6 +122,9 @@ def contact(request):
             contact_email = request.POST.get(
                 'contact_email'
             , '')
+            contact_number = request.POST.get(
+                'contact_number'
+            , '')
             form_content = request.POST.get('content', '')
 
             # Email the profile with the
@@ -130,15 +133,16 @@ def contact(request):
             context = {
                 'contact_name': contact_name,
                 'contact_email': contact_email,
+                'contact_number': contact_number,
                 'form_content': form_content,
             }
             content = template.render(context)
-
+    
             email = EmailMessage(
                 "New contact form submission",
                 content,
-                "Your website" +'',
-                ['youremail@gmail.com'],
+                "CushyRooms Contact Form" +'',
+                ['project.pinetown@gmail.com'],
                 headers = {'Reply-To': contact_email }
             )
             email.send()

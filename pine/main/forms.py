@@ -190,6 +190,7 @@ class ImageFormPG(forms.ModelForm):
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True)
     contact_email = forms.EmailField(required=True)
+    contact_number = forms.IntegerField(required=True)
     content = forms.CharField(
         required=True,
         widget=forms.Textarea
@@ -198,4 +199,5 @@ class ContactForm(forms.Form):
         super(ContactForm, self).__init__(*args, **kwargs)
         self.fields['contact_name'].label = "Your name:"
         self.fields['contact_email'].label = "Your email:"
+        self.fields['contact_number'].label = "Your mobile-number:"
         self.fields['content'].label ="Suggestions, Feedback, Want Something more!!"
