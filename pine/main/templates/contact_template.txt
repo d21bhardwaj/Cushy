@@ -5,5 +5,8 @@ Contact Name:
 Email:
 {{ contact_email }}
 
+Number:
+{{ contact_number }}
+
 Content:
 {{ form_content|safe|striptags }}
