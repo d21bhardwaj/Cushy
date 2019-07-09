@@ -1,8 +1,11 @@
 {% extends 'base_accounts.html' %}
 {% load static %}
+
+{% load staticfiles %}
 {% load crispy_forms_tags %}
 
 {% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
 
