@@ -16,7 +16,7 @@
     
 
 {% block content %}
-
+<body>
         <h3 class="card-title">Sign up</h3>
         <form method="post" novalidate>
           {% csrf_token %}
@@ -27,7 +27,7 @@
                 Already have an account? <a href="{% url 'login' %}">Log in</a>
              </div>
          
-
+            </body>
 {% endblock %}
 
 
