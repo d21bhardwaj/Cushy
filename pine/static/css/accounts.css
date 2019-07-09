@@ -22,7 +22,7 @@ body {
 * {box-sizing: border-box}
 
 /* style the container */
-.container {
+.container1 {
   position: relative;
   border-radius: 5px;
   background-color: #f2f2f2;
