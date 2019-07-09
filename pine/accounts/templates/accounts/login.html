@@ -4,7 +4,7 @@
 
 {% block stylesheet %}
   <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
-
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   {% endblock %}
 
 {% block title %}Sign up to CushyRooms {% endblock %}
@@ -23,8 +23,10 @@
             </form>
             <div class="nav-wrapper container">
              <!-- Google Login added here-->
-              <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-google" aria-hidden="true"></i>oogle Log!n</a>
-              <a href="{% url 'social:begin' 'facebook' %}"><i class="fa fa-facebook-official" aria-hidden="true"></i>acebook</a>
+             <br>
+              <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-google" aria-hidden="true"></i>  Google Log!n</a>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="{% url 'social:begin' 'facebook' %}"><i class="fa fa-facebook-official" aria-hidden="true"></i>  Facebook</a>
             </div>    
           </div>
           <div class="card-footer text-muted text-center">
