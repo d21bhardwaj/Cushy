@@ -12,6 +12,8 @@ urlpatterns = [
     path('signup/', accounts_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'),name='login'),
 
+     path('activate_account/<str:token>',accounts_views.activate_account, name='activate_account'),
+
     ############################################### MOBILE VERIFICATION DEMO ##################################
     
     path('otp/', accounts_views.verify_mobile, name='vm'),

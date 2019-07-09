@@ -20,8 +20,12 @@ from django.views.generic.edit import UpdateView
 from .models import Profile
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
+from django.core.mail import EmailMessage
 #for mobile verification
 from .mobile_verification import *
+from .function import *
+from .token import *
+from django.template.loader import render_to_string,get_template
 # Create your views here.
 
 def signup(request):
@@ -63,6 +67,23 @@ def profileupdate(request):
                     ##########################################
                     global session_id
                     session_id  = otp_send(request.POST['profile-0-mobile_no'])
+                    mail = request.POST['profile-0-email']
+                    usr = Profile.objects.filter(user_id=request.user.id).first()
+                    template = get_template('email_ver.txt')
+                    context = {
+                    "name" : usr.name,
+                    "link": "https://pinetown.in/activate_account/"+encrypt_val(str(usr.id)+";"+usr.name),
+                    
+                    }
+                    content = template.render(context)
+                    email = EmailMessage(
+                        "Email Verification",
+                        content,
+                        "CushyRooms" +'',
+                        [mail],
+                        headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                    )
+                    email.send()
                     return redirect('/otp/')
                 else:
  
@@ -124,3 +145,11 @@ def verify_mobile(request):
         else:
             return render(request, 'not_verified.html')
     return render(request, 'otp.html')
+
+def activate_account(request,token):
+    token = decrypt_val(token)
+    iden = int(token.split(";")[0])
+    usr = Profile.objects.filter(id=iden).first()
+    usr.email_verified = True
+    usr.save()
+    return redirect("/")

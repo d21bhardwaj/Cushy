@@ -12,6 +12,8 @@ class Profile(models.Model):
     mobile_no = models.IntegerField(null=True, blank=True, unique=True)
     email = models.EmailField(max_length=70, null=True, blank=True)
     verified = models.BooleanField(default=False)
+    email_verified = models.BooleanField(default=False)
+
 
     def is_verified(self):
 
