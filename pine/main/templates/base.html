@@ -24,7 +24,7 @@
                 <ul class="nav navbar-nav float-right ml-auto">
                     <li class="nav-item dropdown">
                     {% if user.is_authenticated %}
-                    <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgba(255,255,255,0.9)">Hi {{ user.get_full_name }}
+                    <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgba(255,255,255,0.9)">Hi {{ user.profile.name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu" style="background-color: #44499a" >
                         <a class="dropdown-item" href="{% url 'my_account' %}" style="color: rgba(255,255,255,0.9)">My account</a>
