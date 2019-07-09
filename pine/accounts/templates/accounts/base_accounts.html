@@ -32,15 +32,15 @@
 
 
 
-<body>
     {% block body %}
-        <div style="background-image: url(&quot;{% static 'assets/img/final-01.jpg' %}&quot;);background-position: center;background-size: cover;background-repeat: no-repeat;overflow: hidden">
-            <div class="container" style="padding-top: 100px;padding-bottom: 150px">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </div>
-
+                
+<body>
+    <div class="container">	
+        {% block content %}	
+        {% endblock %}	
+    </div>
+          
+</body>      
     {% endblock %}
-</body>
+
  </html>
