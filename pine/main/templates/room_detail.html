@@ -51,8 +51,16 @@
 				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp;&nbsp; &nbsp;<i class="fa fa-map-marker"></i>&nbsp; &nbsp; {{ rooms.locality }}</p>
 				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-bed"></i>&nbsp; &nbsp;{{ rooms.number_of_rooms }} Room </p>
 				<p style="width:288px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fas fa-user-plus"></i>&nbsp; &nbsp;{{ rooms.maximum_no_of_occupants }} Occupants</p>
+				{% if rooms.preferred_customer != 'no' %}
 				<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-group"></i>&nbsp; &nbsp;{{ rooms.preferred_customer }}</p>
-				
+					{% if rooms.preferred_customer != 'Family Preferred' %}
+						{% if rooms.gender_preference == "Only Girls" %}
+						<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-female"></i>&nbsp; &nbsp;{{ rooms.gender_preference}}</p>
+						{% elif rooms.gender_preference == "Only Boys" %}
+						<p style="width:269px;font-size:22px;color:rgba(33,37,41,0.75);">&nbsp; &nbsp;<i class="fa fa-male"></i>&nbsp; &nbsp;{{ rooms.gender_preference }}</p>
+						{% endif %}
+					{% endif %}
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -75,7 +83,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        Contact Number: {{ seller.mobile_no }}<br>
+        Contact Number: {{ seller.title }}{{ seller.mobile_no }}<br>
         E-Mail: {{ seller.email }}<br>
         Time for Contacting: {{ rooms.preferred_contact_time }}<br>
       </div>
