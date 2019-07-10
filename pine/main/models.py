@@ -7,6 +7,10 @@ y_n_choices = [
     ('yes', 'Yes'),
     ('no', 'No'),
 ]
+s_i_choices = [
+    ('sh', 'Shared'),
+    ('in', 'Individual'),
+]
 
 class Location(models.Model):
     location = models.CharField(max_length=30, null = True, default='')
@@ -20,7 +24,7 @@ class RentingUser(models.Model):
     price = models.CharField(max_length=50, default='')
     locality = models.ForeignKey(Location, on_delete=models.DO_NOTHING,  primary_key=False, null=True,default='')
     maximum_no_of_occupants = models.IntegerField()
-    attached_bathroom = models.CharField(max_length=3, choices=y_n_choices, default='no')
+    attached_bathroom = models.CharField(max_length=3, choices=s_i_choices, default='no')
     attached_kitchen = models.CharField(max_length=15, choices=y_n_choices, default='no')
     drive_in = models.CharField(max_length=3, choices=y_n_choices, default='no')
     parking = models.CharField(max_length=3, choices=y_n_choices, default='no')
@@ -43,7 +47,7 @@ class RentingUser(models.Model):
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.user_profile)
+        return str(self.id)
 
 class RentingPGUser(models.Model):
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
@@ -74,7 +78,7 @@ class RentingPGUser(models.Model):
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.user_profile)
+        return str(self.id)
 
 
 
