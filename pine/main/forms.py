@@ -8,6 +8,10 @@ class RentForm(forms.ModelForm):
 
     class Meta:
         model = RentingUser
+        labels = {
+            'gender_preference': 'Only Boys/Girls',
+            'attached_bathroom': 'Bathroom '
+        }
         fields = ('number_of_rooms', 'price', 'maximum_no_of_occupants', 'locality', 'attached_bathroom',
                   'attached_kitchen', 'drive_in', 'parking', 'water_bill_included', 'electricity_bill_included',
                   'preferred_customer', 'gender_preference', 'preferred_contact_time',
@@ -29,10 +33,10 @@ class RentForm(forms.ModelForm):
             'preferred_customer': forms.Select(attrs={'class': 'regDropDown'}),
             'gender_preference': forms.Select(attrs={'class': 'regDropDown'}),
             'preferred_contact_time': forms.TextInput(attrs={'class': 'form-control',
-                                                             'placeholder': 'Your Preferred Contact Time'}),
+                                                             'placeholder': 'Your Preferred Contact Time Eg. 5-9 pm'}),
             'alternate_contact_number': forms.TextInput(attrs={'class': 'form-control',
                                                                'placeholder': 'Enter Contact Number'}),
-            'any_other': forms.Textarea(attrs={'placeholder': 'Any Other Specification'})
+            'any_other': forms.Textarea(attrs={'placeholder': "Any Other Specification Or Something you would wan't to clarify about your property!"})
         }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,22 +55,22 @@ class RentForm(forms.ModelForm):
                 css_class='form-row'
             ),
             Row(
-                Column('attached_bathroom', css_class='form-group col-md-3 mb-0'),
-                Column('attached_kitchen', css_class='form-group col-md-3 mb-0'),
+                Column('attached_bathroom', css_class='form-group col-md-4 mb-0'),
+                Column('attached_kitchen', css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
             Row(
                 
-                Column('drive_in', css_class='form-group col-md-3 mb-0'),
-                Column('parking', css_class='form-group col-md-3 mb-0'),
+                Column('drive_in', css_class='form-group col-md-4 mb-0'),
+                Column('parking', css_class='form-group col-md-4 mb-0'),
                
                 css_class='form-row'
             ),
              Row(
                 
                 
-                Column('water_bill_included', css_class='form-group col-md-3 mb-0'),
-                Column('electricity_bill_included', css_class='form-group col-md-3 mb-0'),
+                Column('water_bill_included', css_class='form-group col-md-4 mb-0'),
+                Column('electricity_bill_included', css_class='form-group col-md-4 mb-0'),
                
                 css_class='form-row'
             ),
@@ -92,6 +96,11 @@ class RentPGForm(forms.ModelForm):
 
     class Meta:
         model = RentingPGUser
+        labels = {
+            'gender_preference': 'Only Boys/Girls',
+          
+        }
+
         fields = ('occupants_per_room', 'price', 'locality', 'attached_bathroom', 'food_included', 'drive_in',
                   'parking', 'water_bill_included', 'electricity_bill_included', 'preferred_customer',
                   'gender_preference', 'preferred_contact_time', 'alternate_contact_number',
@@ -110,11 +119,11 @@ class RentPGForm(forms.ModelForm):
             'preferred_customer': forms.Select(attrs={'class': 'regDropDown'}),
             'gender_preference': forms.Select(attrs={'class': 'regDropDown'}),
             'preferred_contact_time': forms.TextInput(attrs={'class': 'form-control',
-                                                             'placeholder': 'Your Preferred Contact Time'}),
+                                                             'placeholder': 'Your Preferred Contact Time Eg. 5-9 pm'}),
             'alternate_contact_number': forms.TextInput(attrs={'class': 'form-control',
                                                                'placeholder': 'Enter Contact Number'}),
-            'any_other': forms.Textarea(attrs={'placeholder': 'Any Other Specifications'}),
-            'timings': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Timings (if Any)'})
+            'any_other': forms.Textarea(attrs={'placeholder': "Any Other Specification Or Something you would wan't to tell about your property!"}),
+            'timings': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter In-Out Timings (if Any)'})
 
         }
     def __init__(self, *args, **kwargs):
@@ -134,23 +143,23 @@ class RentPGForm(forms.ModelForm):
                 css_class='form-row'
             ),
             Row(
-                Column('attached_bathroom', css_class='form-group col-md-3 mb-0'),
-                Column('food_included', css_class='form-group col-md-3 mb-0'),
+                Column('attached_bathroom', css_class='form-group col-md-4 mb-0'),
+                Column('food_included', css_class='form-group col-md-4 mb-0'),
                 
                 css_class='form-row'
             ),
             Row(
             
-                Column('drive_in', css_class='form-group col-md-3 mb-0'),
-                Column('parking', css_class='form-group col-md-3 mb-0'),
+                Column('drive_in', css_class='form-group col-md-4 mb-0'),
+                Column('parking', css_class='form-group col-md-4 mb-0'),
                 
                 css_class='form-row'
             ),
              Row(
                 
                
-                Column('water_bill_included', css_class='form-group col-md-3 mb-0'),
-                Column('electricity_bill_included', css_class='form-group col-md-3 mb-0'),
+                Column('water_bill_included', css_class='form-group col-md-4 mb-0'),
+                Column('electricity_bill_included', css_class='form-group col-md-4 mb-0'),
                
                 css_class='form-row'
             ),
