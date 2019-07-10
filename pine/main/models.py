@@ -47,7 +47,7 @@ class RentingUser(models.Model):
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.user_profile)
+        return str(self.id)
 
 class RentingPGUser(models.Model):
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
@@ -78,7 +78,7 @@ class RentingPGUser(models.Model):
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.user_profile)
+        return str(self.id)
 
 
 
