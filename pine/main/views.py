@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.http import FileResponse
 
 def user_verified(user):
     try:
@@ -26,6 +26,10 @@ def user_verified(user):
 
 def index(request):
     return render(request, 'home.html')
+
+def privacy(request):
+   
+    return FileResponse( open('static/privacy-policy.pdf', 'rb'), content_type='application/pdf')
 
 
 def logout_view(request):
