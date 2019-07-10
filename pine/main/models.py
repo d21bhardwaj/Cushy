@@ -8,8 +8,8 @@ y_n_choices = [
     ('no', 'No'),
 ]
 s_i_choices = [
-    ('Shared', 'Shared'),
-    ('Individual', 'Individual'),
+    ('sh', 'Shared'),
+    ('in', 'Individual'),
 ]
 
 class Location(models.Model):
