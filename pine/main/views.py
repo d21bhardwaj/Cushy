@@ -92,7 +92,7 @@ def rentpgdetails(request):
                         image = pic['image']
                         photo = ImagesPG(user=post_form, image=image)
                         photo.save()
-                eturn render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your will notified once your details are approved."})
+                return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your will notified once your details are approved."})
             else:
                 print(form.errors, imageform.errors)
         else:
@@ -150,7 +150,7 @@ def contact(request):
                 headers = {'Reply-To': contact_email }
             )
             email.send()
-            eturn render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"We are grateful you contacted us ,  will soon revert back to you."})
+            return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"We are grateful you contacted us ,  will soon revert back to you."})
 
     return render(request, 'contact_us.html', {
         'form': form_class,
