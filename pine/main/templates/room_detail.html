@@ -108,13 +108,13 @@
 			<div class="col-md-6" style="margin-top:0px;width:371px;max-width:225px;height:134px;margin-right:0px;">
 
                 {% if rooms.water_bill_included == 'yes' %}
-				    <p style="font-size:19px;"><i class="fas fa-check"></i>&nbsp; &nbsp;Water Bill included</p>
+				    <p style="font-size:19px;"><i class="fas fa-check"></i>&nbsp; &nbsp;Water Bill Included</p>
 				{% else %}
-                    <p style="font-size:19px;color: rgba(33,37,41,0.4);"><i class="fa fa-times"></i>&nbsp; &nbsp;Water Bill Included</p>
+                    <p style="font-size:19px;color: rgba(33,37,41,0.4);"><i class="fa fa-times"></i>&nbsp; &nbsp;Water Bill included</p>
                 {% endif %}
 
                 {% if rooms.electricity_bill_included == 'yes' %}
-                    <p style="font-size:19px;width:244px;;padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity Bill included</p>
+                    <p style="font-size:19px;width:244px;;padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity Bill Included</p>
 				{% else %}
                     <p style="font-size:19px;width:244px;color:rgba(33,37,41,0.4);padding-right:0px;"><i class="fa fa-plug"></i> &nbsp; Electricity Bill Extra</p>
                 {% endif %}
@@ -129,19 +129,19 @@
 			<div class="col-md-6" style="margin-top:0px;width:346px;max-width:225px;height:134px;">
 
                 {% if rooms.parking == 'yes' %}
-                    <p style="font-size:19px;"><i class="fas fa-check"></i> &nbsp; Parking available</p>
+                    <p style="font-size:19px;"><i class="fas fa-check"></i> &nbsp; Parking Available</p>
 				{% else %}
                     <p style="font-size:19px;color:rgba(33,37,41,0.4)"><i class="fa fa-times"></i> &nbsp; Parking available</p>
                 {% endif %}
 
-                {% if rooms.attached_bathroom == 'yes' %}
-                    <p style="font-size:19px;width:221px;"><i class="fas fa-check"></i> &nbsp; Attached bathroom</p>
+                {% if rooms.attached_bathroom == 'in' %}
+                    <p style="font-size:19px;width:221px;"><i class="fas fa-bath"></i> &nbsp; Individual Bathroom</p>
 				{% else %}
-                    <p style="font-size:19px;width:221px;color:rgba(33,37,41,0.4)"><i class="fa fa-times"></i> &nbsp; No Attached bathroom</p>
+                    <p style="font-size:19px;width:221px;color:rgba(33,37,41,0.4)"><i class="fas fa-bath"></i> &nbsp; Shared bathroom</p>
                 {% endif %}
 
                 {% if rooms.drive_in == 'yes' %}
-                    <p style="font-size:19px;"><i class="fas fa-check"></i> &nbsp; Drive-in available</p>
+                    <p style="font-size:19px;"><i class="fas fa-check"></i> &nbsp; Drive-in Available</p>
                 {% else %}
                     <p style="font-size:19px;color:rgba(33,37,41,0.4);"><i class="fa fa-times"></i> &nbsp; Drive-in available</p>
                 {% endif %}
