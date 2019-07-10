@@ -77,13 +77,13 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">{{ seller.name }}</h4><br>
+        <h4 class="modal-title">{{ seller.title }} {{ seller.name }}</h4><br>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
-        Contact Number: {{ seller.title }}{{ seller.mobile_no }}<br>
+        Contact Number: {{ seller.mobile_no }}<br>
         E-Mail: {{ seller.email }}<br>
         Time for Contacting: {{ rooms.preferred_contact_time }}<br>
       </div>
