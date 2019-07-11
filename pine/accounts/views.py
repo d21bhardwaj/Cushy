@@ -65,8 +65,9 @@ def profileupdate(request):
                     created_user.save()
                     formset.save()
                     ##########################################
-                    global session_id
-                    session_id  = otp_send(request.POST['profile-0-mobile_no'])
+                    usr = Profile.objects.filter(user=request.user).first()
+                    usr.session_id  = otp_send(request.POST['profile-0-mobile_no'])
+                    usr.save()
                     mail = request.POST['profile-0-email']
                     usr = Profile.objects.filter(user_id=request.user.id).first()
                     template = get_template('email_ver.txt')
@@ -136,7 +137,7 @@ def verify_mobile(request):
         user = Profile.objects.filter(user_id = request.user.id).first()
         user.verified = False
         otp = request.POST['otp']
-        resp = otp_recieve(session_id,otp)
+        resp = otp_recieve(user.session_id,otp)
         
         if resp == "OTP Matched":
             user.verified = True
