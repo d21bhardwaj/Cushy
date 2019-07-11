@@ -13,6 +13,7 @@ class Profile(models.Model):
     email = models.EmailField(max_length=70, null=True, blank=True)
     verified = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
+    session_id = models.CharField(max_length=181, blank=True)
 
 
     def is_verified(self):
