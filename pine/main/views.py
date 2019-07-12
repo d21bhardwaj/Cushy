@@ -169,17 +169,30 @@ def allpgs(request):
     return render(request, 'all_pgs.html', {'rooms': rooms})
 
 #Detail of the room selected
-@login_required()
+
 def detailroom(request, room_id, image_id):
     rooms = RentingUser.objects.get(pk=room_id)
     images = Images.objects.get(pk=image_id)
     seller = rooms.user_profile
-    return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
+    try:
+        pk = request.user.pk
+        user = User.objects.get(pk=pk)
+        profile = Profile.objects.get(user=user)
+        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller, 'prof': profile})
+    except ObjectDoesNotExist:
+        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
+       
 
-@login_required()
 def detailpg(request, room_id, image_id):
     rooms = RentingPGUser.objects.get(pk=room_id)
     images = ImagesPG.objects.get(pk=image_id)
     seller = rooms.user_profile
-    return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
-
+    try:
+        pk = request.user.pk
+        user = User.objects.get(pk=pk)
+        profile = Profile.objects.get(user=user)
+        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller, 'prof': profile})
+    
+    except ObjectDoesNotExist:
+        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
+       
