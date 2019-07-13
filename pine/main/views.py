@@ -31,6 +31,8 @@ def privacy(request):
    
     return FileResponse( open('static/privacy-policy.pdf', 'rb'), content_type='application/pdf')
 
+def sitemap(request):
+    return render(request,'sitemap.html')
 
 def logout_view(request):
     logout(request)

@@ -28,6 +28,7 @@ urlpatterns = [
 #Adding url password related form the link(https://simpleisbetterthancomplex.com/series/2017/09/25/a-complete-beginners-guide-to-django-part-4.html)
 
     path('Privacy-Policy/', views.privacy, name='privacy-policy'),
+    path('sitemap/', views.sitemap, name='sitemap'),
 #Contact Us View
     path('contact_us/', 
         views.contact, 
