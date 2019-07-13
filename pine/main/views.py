@@ -62,6 +62,23 @@ def rentdetails(request):
                         image = pic['image']
                         photo = Images(user=post_form, image=image)
                         photo.save()
+
+
+                template = get_template('alert_room.txt')
+                context = {
+                        'value':'room'
+                    }
+                content = template.render(context)
+        
+                email = EmailMessage(
+                    "New Room submission",
+                    content,
+                    "CushyRooms Room Approval" +'',
+                    ['project.pinetown@gmail.com'],
+                    headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                )
+                email.send()
+
                 return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your will notified once your details are approved."})
             else:
                 print(form.errors, imageform.errors)
@@ -94,6 +111,21 @@ def rentpgdetails(request):
                         image = pic['image']
                         photo = ImagesPG(user=post_form, image=image)
                         photo.save()
+
+                template = get_template('alert_room.txt')
+                context = {
+                        'value':'room'
+                    }
+                content = template.render(context)
+        
+                email = EmailMessage(
+                    "New Room submission",
+                    content,
+                    "CushyRooms Room Approval" +'',
+                    ['project.pinetown@gmail.com'],
+                    headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                )
+                email.send()
                 return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your will notified once your details are approved."})
             else:
                 print(form.errors, imageform.errors)
