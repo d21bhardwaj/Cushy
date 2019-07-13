@@ -114,7 +114,7 @@ def rentpgdetails(request):
 
                 template = get_template('alert_room.txt')
                 context = {
-                        'value':'room'
+                        'value':'pg'
                     }
                 content = template.render(context)
         
