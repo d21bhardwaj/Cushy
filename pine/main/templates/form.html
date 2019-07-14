@@ -1,7 +1,10 @@
-{% extends 'index.html' %}
+{% extends 'home.html' %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
-
+{% block stylesheet %} 
+<link rel="stylesheet" href="{% static 'assets/css/Customizable-Background--Overlay.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
 <head>
     <meta charset="UTF-8">
     <title>Rent Form</title>
@@ -10,11 +13,12 @@
 {% block form %}
         <form method="post" enctype="multipart/form-data" style="text-align: center" class="uniForm" id="post_form" action="" >
             {% csrf_token %}
-            <div class="col-md-12 text-left" style="padding: 60px;text-align: left; color: white">
+            <div class="col-md-10 text-left" style="padding: 60px;text-align: right; color: white">
             <!--using crispy tag on forms for now-->
 
             {% crispy form %}<br>
-            <h5>Upload Images:</h5><br>
+           
+            <h5>Upload Images:</h5>
             {{ imageform.management_form }}
             {% for field in imageform %}
                 {% if forloop.counter == 1 %}
@@ -30,8 +34,9 @@
                     {{ subform }}<br>
                 {% endfor %}
             {% endfor %}
-            </div>
+            
             <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
 {% endblock %}
 {% block content %}
