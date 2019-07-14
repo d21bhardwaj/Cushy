@@ -23,8 +23,19 @@
 
               
                 {% crispy formset formset.form.helper %}
-
-                <button type="submit" class="btn btn-primary">Submit</button>
+                {% if user.profile.verified == False %}
+                <div style="width: auto;height: auto;margin-top: 15px;margin-bottom: 15px;">
+                    <div class="row text-center justify-content-center" style="width: auto;height: auto;margin-right: 0px;margin-left: 0px;">
+                        <div class="col-auto" style="padding-left: 0px;padding-right: 0px;height: auto;width: auto;">
+                            <p class="text-center" style="width: auto;height: auto;margin-bottom: 0px;">We will send you an OTP to veify your mobile and email.</p>
+                        </div>
+                    </div>
+                </div>
+                    
+                <button type="submit" class="btn btn-primary">Verify Details</button>
+                {% else %}
+                <button type="submit" class="btn btn-primary">Update</button>
+                {% endif %}
             </form>
         </div>
     </div>

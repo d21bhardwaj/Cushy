@@ -1,13 +1,12 @@
 {% extends 'base_accounts.html' %}
-{%load static%}
+{% load static %}
+{% load staticfiles %}
 {%block title%}{{title}}{%endblock%}
 
 {%block content%}
 <div class="text-center">
-	<img src="{% static 'images/logow.png'%}" style="width:140px" alt="CUSHYROOMS"/>
-	<a style="position: absolute; z-index:2; right:0" href="{%url 'logout'%}"> 
-		<img src="{% static 'images/logout.png'%}" style="width:50px">&nbsp;&nbsp;
-	</a>
+	<img src="{% static 'assets/img/Asset%204-1.png' %}" style="width:140px" alt="CUSHYROOMS"/>
+	
 </div>
 <br>
 <br>
@@ -32,7 +31,7 @@
 {%endblock%}
 {%block script%}
 <script type="text/javascript">
-	var delay = 4000; 
+	var delay = 5000; 
 	setTimeout(function(){ window.location = "https://pinetown.in"; }, delay);
 </script>
 {%endblock%}
