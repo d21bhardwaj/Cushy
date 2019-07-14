@@ -79,7 +79,7 @@ def rentdetails(request):
                 )
                 email.send()
 
-                return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your will notified once your details are approved."})
+                return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your Room Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
                 print(form.errors, imageform.errors)
         else:
@@ -126,7 +126,7 @@ def rentpgdetails(request):
                     headers = {'Reply-To': 'project.pinetown@gmail.com' }
                 )
                 email.send()
-                return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your will notified once your details are approved."})
+                return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your PG Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
                 print(form.errors, imageform.errors)
         else:
@@ -184,7 +184,7 @@ def contact(request):
                 headers = {'Reply-To': contact_email }
             )
             email.send()
-            return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"We are grateful you contacted us ,  will soon revert back to you."})
+            return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"We are grateful you contacted us ,  will revert back to you soon."})
 
     return render(request, 'contact_us.html', {
         'form': form_class,

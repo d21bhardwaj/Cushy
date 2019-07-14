@@ -33,4 +33,5 @@ urlpatterns = [
     path('contact_us/', 
         views.contact, 
         name='contact_us'),
+    path('submit/', views.test, name='submit'),
 ]
