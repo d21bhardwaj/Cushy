@@ -85,7 +85,7 @@ def rentdetails(request):
         else:
             form = RentForm()
             imageform = ImageFormSet(queryset=Images.objects.none())
-        return render(request, 'form.html', {'form': form, 'imageform': imageform})
+        return render(request, 'form.html', {'form': form, 'imageform': imageform , 'header':'Room Details'})
     else:
         raise PermissionDenied      
 
@@ -132,14 +132,14 @@ def rentpgdetails(request):
         else:
             form = RentPGForm()
             imageform = ImageFormSet(queryset=ImagesPG.objects.none())
-        return render(request, 'form.html', {'form': form, 'imageform': imageform})
+        return render(request, 'form.html', {'form': form, 'imageform': imageform , 'header':'Pg Details'})
     else:
         raise PermissionDenied      
 
 
 
 def renttype(request):
-    return render(request, 'choice.html')
+    return render(request, 'choice.html' ,{'header': 'Choose Type of Renting'})
 
 
 #For contact form
@@ -187,7 +187,7 @@ def contact(request):
             return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"We are grateful you contacted us ,  will revert back to you soon."})
 
     return render(request, 'contact_us.html', {
-        'form': form_class,
+        'form': form_class,'header':'Contact Us'
     })
 
 #To view all the rooms

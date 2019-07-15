@@ -23,16 +23,18 @@
 
   gtag('config', 'UA-143816468-1');
 </script>
-
-
-      
+<style type="text/css">
+  .pt-changed {
+      min-height: 10vh;
+   }
+</style>
 
         {% block stylesheet %}
         {% endblock %}
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: #2d2a5e;color: rgb(255,255,255);">        
+    <nav class="navbar navbar-light navbar-expand-md sticky-top">        
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}" style="color: rgba(255,255,255,0.9);">
           <img src="{% static 'assets/img/Asset4-1.png' %}" style="height: 50px;margin-top: 0px;">
@@ -71,8 +73,7 @@
           </div>
         
     </nav>
-
-      
+    
       {% block body %} 
 
        {% endblock %}
