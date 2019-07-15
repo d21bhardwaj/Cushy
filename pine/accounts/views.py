@@ -38,7 +38,7 @@ def signup(request):
             return redirect('index')
     else:
         form = SignUpForm()
-    return render(request, 'signup.html',{'form': form})
+    return render(request, 'signup.html',{'form': form , 'header':'Sign Up'})
 
 
 #My account view
@@ -106,7 +106,7 @@ def profileupdate(request):
                 "noodle": pk,
                 "noodle_form": user_form,
                 "formset": formset,
-                })
+                'header':'Profile Update'})
     else:
         raise PermissionDenied
 
@@ -129,7 +129,7 @@ def password(request):
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordForm(request.user)
-    return render(request, 'my_account.html', {'form': form})
+    return render(request, 'my_account.html', {'form': form })
 
 
 def verify_mobile(request):
@@ -145,7 +145,7 @@ def verify_mobile(request):
             return render(request, 'verified.html')
         else:
             return render(request, 'not_verified.html')
-    return render(request, 'otp.html')
+    return render(request, 'otp.html',{'header':'Mobile Number Verification'})
 
 def activate_account(request,token):
     token = decrypt_val(token)
