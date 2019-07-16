@@ -210,3 +210,32 @@ class ContactForm(forms.Form):
         self.fields['contact_email'].label = "Your email:"
         self.fields['contact_number'].label = "Your mobile-number:"
         self.fields['content'].label ="Suggestions, Feedback, Want Something more!!"
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Row(
+            Column('contact_name ', css_class='form-group col-md-4 mb-0'),
+           
+            
+            css_class='form-row centered'
+            ),
+            Row(
+            Column('contact_email', css_class='form-group col-md-4 mb-0'),
+           
+            
+            css_class='form-row centered'
+            ),
+            Row(
+            Column('contact_number', css_class='form-group col-md-4 mb-0'),
+           
+            
+            css_class='form-row centered'
+            ),
+            Row(
+            Column('content', css_class='form-group col-md-4 mb-4'),
+           
+            
+            css_class='form-row centered'
+            ),
+         
+        )
