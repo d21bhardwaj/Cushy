@@ -73,12 +73,21 @@
           </div>
         
     </nav>
+    <div class="container">
+    <div class="pt-changed"></div>
+      <div class="page-header">
+        <h1>{{header}}</h1>      
+      </div>
+      <hr>
+    </div>
+
     
       {% block body %} 
 
        {% endblock %}
       {% block content %}
       {% endblock %}
+    <div class="pt-changed"></div>
        {%include 'footer.html'%}
 
 

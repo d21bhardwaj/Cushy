@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
 
-<body>
+
     
 
 {% block content %}
-<body>
+      <div class="container">
         
         <form method="post" novalidate>
           {% csrf_token %}
@@ -26,10 +26,8 @@
         <div class="card-footer white text-black text-center">
                 Already have an account? <a href="{% url 'login' %}">Log in</a>
              </div>
+      </div>
          
-            </body>
+          
 {% endblock %}
-
-
-</body>
 </html>
