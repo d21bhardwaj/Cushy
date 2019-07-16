@@ -213,8 +213,9 @@ class ContactForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
+        
             Row(
-            Column('contact_name ', css_class='form-group col-md-4 mb-0'),
+            Column('contact_name', css_class='form-group col-md-4 mb-0'),
            
             
             css_class='form-row centered'
@@ -232,7 +233,7 @@ class ContactForm(forms.Form):
             css_class='form-row centered'
             ),
             Row(
-            Column('content', css_class='form-group col-md-4 mb-4'),
+            Column('content', css_class='form-group col-md-4 mb-2'),
            
             
             css_class='form-row centered'
