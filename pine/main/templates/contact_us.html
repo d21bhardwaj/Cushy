@@ -1,7 +1,8 @@
-{% extends 'base_accounts.html' %}
+{% extends 'base.html' %}
 
 {% load crispy_forms_tags %}
 {% load staticfiles %}
+{% block title %}Contact Us {% endblock %}
 <head>
     <meta charset="UTF-8">
     <title>Contact Us</title>
@@ -10,10 +11,10 @@
 {% block content %}
         <form method="post" style="text-align: center">
             {% csrf_token %}
-            <div class="col-md-12 text-left" style="padding-top: 20px;padding-bottom: 20px;padding-left: 60px;text-align: left">
+            <div class="col-md-center container  text-left" style="padding-top: 20px;padding-bottom: 20px;padding-left: auto;text-align: left">
             <!--using crispy tag on forms for now-->
 
-            {{ form|crispy }}<br>
+            {% crispy form %}<br>
             
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
