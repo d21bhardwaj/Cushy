@@ -1,4 +1,4 @@
-media/
+	media/
 
 # Created by https://www.gitignore.io
 
@@ -86,6 +86,9 @@ target/
 *.pyc
 __pycache__/
 local_settings.py
+
+.env
+.server_env
 
 .env
 db.sqlite3

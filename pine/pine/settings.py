@@ -9,7 +9,13 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+import environ
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -20,10 +26,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'twhfs)&cu^-^8brtp+5-f3g&@-o#+a&876qk=i#6&lk$m^q#&d'
+SECRET_KEY = env('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['192.168.1.104','localhost','127.0.0.1','*']
 
@@ -87,6 +94,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pine.wsgi.application'
 
+OTP_KEY = env('OTP_KEY')
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -99,14 +107,7 @@ WSGI_APPLICATION = 'pine.wsgi.application'
 #}
 
 DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'pinetown',
-    'USER': 'pinetown',
-    'PASSWORD': 'Machau2021',
-    'HOST': 'pinetown-in.ckq3u1ivyr3z.us-east-2.rds.amazonaws.com',
-    'PORT': '5432',
-    }
+    'default': env.db('DATABASE_URL',"sqlite:///sqlite3.db")
 }
 
 
@@ -169,12 +170,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #Login
 #Google
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'last_name', 'email']
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '87509333172-abrm5g29rkiqvkg4mtvtuuf95e5dl223.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'CAeMIwJWqvBnMYg40DmUMjyJ'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 #Facebook
-SOCIAL_AUTH_FACEBOOK_KEY = '2536176213080592'    
-SOCIAL_AUTH_FACEBOOK_SECRET = '6767a53d4fa0cb613c4c423d217c5772'
+SOCIAL_AUTH_FACEBOOK_KEY = env('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = env('SOCIAL_AUTH_FACEBOOK_SECRET')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email'
@@ -196,7 +197,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "project.pinetown@gmail.com"
-EMAIL_HOST_PASSWORD = "Machau2021"
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'CushyRooms <project.pinetown@gmail.com>'
 
 

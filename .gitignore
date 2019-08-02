@@ -88,5 +88,6 @@ __pycache__/
 local_settings.py
 
 .env
+.server_env
 db.sqlite3
 sqlite3.db
