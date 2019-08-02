@@ -9,7 +9,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=181, blank=True)
     title = models.CharField(max_length= 10 ,blank=True, choices=[('Mr.', 'Mr.'),('Ms.', 'Ms.'),],default='')
-    mobile_no = models.IntegerField(null=True, blank=True, unique=True)
+    mobile_no = models.CharField(null=True,blank=True,max_length=12)
     email = models.EmailField(max_length=70, null=True, blank=True)
     verified = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
