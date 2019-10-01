@@ -21,6 +21,9 @@ from .models import Profile
 from django.forms.models import inlineformset_factory
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
+
+#for all the uploads done by an user
+from main.models import RentingUser
 #for mobile verification
 from .mobile_verification import *
 from .function import *
@@ -154,3 +157,23 @@ def activate_account(request,token):
     usr.email_verified = True
     usr.save()
     return redirect("/")
+
+def uploads(request):
+    # Have to add for profile not existing
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    rooms = RentingUser.objects.filter(user_profile=profile)
+
+    return render(request, 'my_upload.html',{'rooms':rooms})
+
+def delete_upload(request, room_id):
+    #Note: This works, but will always pass the result irrespective of the fact that the objects exsist or not.
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    rooms = RentingUser.objects.filter(user_profile=profile)
+    room  = rooms.filter(pk=room_id)
+    room.delete()
+    return HttpResponse('deleted')
+
