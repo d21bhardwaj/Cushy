@@ -59,5 +59,16 @@ urlpatterns = [
         accounts_views.uploads,
         name='my_uploads'),
         
-    path('settings/account/delete/<int:room_id>/', accounts_views.delete_upload, name='delete_room'),
+    path('settings/account/delete/<int:room_id>/', 
+        accounts_views.delete_upload, 
+        name='delete_room'),
+
+    path('settings/account/hide/<int:room_id>/', 
+        accounts_views.hide_room, 
+        name='hide_room'),
+    
+    path('settings/account/update/<int:room_id>/',
+        accounts_views.room_update,
+        name='my_uploads'),
+
 ]

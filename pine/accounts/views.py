@@ -24,11 +24,15 @@ from django.core.mail import EmailMessage
 
 #for all the uploads done by an user
 from main.models import RentingUser
+from main.forms import RentForm 
 #for mobile verification
 from .mobile_verification import *
 from .function import *
 from .token import *
 from django.template.loader import render_to_string,get_template
+# time stamp
+from django.utils import timezone
+import datetime
 # Create your views here.
 
 def signup(request):
@@ -168,7 +172,7 @@ def uploads(request):
     return render(request, 'my_upload.html',{'rooms':rooms})
 
 def delete_upload(request, room_id):
-    #Note: This works, but will always pass the result irrespective of the fact that the objects exsist or not.
+    #Note: This works, but will always pass the result irrespective of the fact that the objects exsist or not.-Devansh Bhardwaj
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
@@ -177,3 +181,88 @@ def delete_upload(request, room_id):
     room.delete()
     return HttpResponse('deleted')
 
+def hide_room(request, room_id):
+    #Will be used to hide the room
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    rooms = RentingUser.objects.filter(user_profile=profile)
+    room  = rooms.filter(pk=room_id)
+    #Till here we check that only the rooms uploaded by user can be hidden
+    room.hidden = True
+    #room.hidden_at = datetime.datetime.now()
+    for objects in room:
+        objects.hidden_at = datetime.datetime.now()
+        objects.hidden = True
+        objects.save()
+    
+    return HttpResponse('done')
+
+def room_update(request, room_id):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    rooms = RentingUser.objects.filter(user_profile=profile,pk=room_id).first()
+    print(rooms)
+    user_form = RentForm(instance=rooms)
+ 
+    ProfileInlineFormset = inlineformset_factory( Profile, model=RentingUser, form=RentForm, can_delete=True)
+    formset = ProfileInlineFormset(instance=profile)
+ 
+    if request.user.is_authenticated and request.user.id == user.id:
+        if request.method == "POST":
+            user_form = ProfileForm(request.POST, request.FILES, instance=rooms)
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=profile)
+ 
+            if user_form.is_valid():
+                created_user = user_form.save(commit=False)
+                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
+ 
+                if formset.is_valid():
+                    created_user.save()
+                    formset.save()
+                    ##########################################
+                    usr = Profile.objects.filter(user=request.user).first()
+                    usr.session_id  = otp_send(request.POST['profile-0-mobile_no'])
+                    usr.save()
+                    mail = request.POST['profile-0-email']
+                    usr = Profile.objects.filter(user_id=request.user.id).first()
+                    template = get_template('email_ver.txt')
+                    context = {
+                    "name" : usr.name,
+                    "link": "https://pinetown.in/activate_account/"+encrypt_val(str(usr.id)+";"+usr.name),
+                    
+                    }
+                    content = template.render(context)
+                    email = EmailMessage(
+                        "Email Verification",
+                        content,
+                        "CushyRooms" +'',
+                        [mail],
+                        headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                    )
+                    email.send()
+                    return redirect('/otp/')
+                else:
+ 
+                    return render(request, 'my_account.html', {
+                        "noodle": pk,
+                        "noodle_form": user_form,
+                        "formset": formset,
+                        })
+            else:
+ 
+                return render(request, 'my_account.html', {
+                    "noodle": pk,
+                    "noodle_form": user_form,
+                    "formset": formset,
+                    })
+        else:
+ 
+            return render(request, 'my_account.html', {
+                "noodle": pk,
+                "noodle_form": user_form,
+                "formset": formset,
+                'header':'Profile Update'})
+    else:
+        raise PermissionDenied
