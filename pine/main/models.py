@@ -41,10 +41,14 @@ class RentingUser(models.Model):
     preferred_contact_time = models.CharField(max_length=50, default='')
     any_other = models.TextField(max_length=100, default="", blank=True)
     
-    #Adding for security adn better functionality
+    #Adding for security and better functionality
     created_at = models.DateTimeField(default=now, blank=True)
-    updated_at = models.DateTimeField(default=now, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
     approved = models.BooleanField(default=False)
+
+    #Adding if a user wants to hide the room uploaded
+    hidden = models.BooleanField(default=False)
+    hidden_at = models.DateTimeField(default=now, blank=True)
 
     def __str__(self):
         return str(self.id)
@@ -74,8 +78,12 @@ class RentingPGUser(models.Model):
 
     #Adding for security adn better functionality
     created_at = models.DateTimeField(default=now, blank=True)
-    updated_at = models.DateTimeField(default=now, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
     approved = models.BooleanField(default=False)
+
+     #Adding if a user wants to hide the room uploaded
+    hidden = models.BooleanField(default=False)
+    hidden_at = models.DateTimeField(default=now, blank=True)
 
     def __str__(self):
         return str(self.id)
