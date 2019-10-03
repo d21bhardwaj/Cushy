@@ -19,6 +19,8 @@ from social_django.models import UserSocialAuth
 from django.views.generic.edit import UpdateView
 from .models import Profile
 from django.forms.models import inlineformset_factory
+#change 1
+from django.forms.models import modelformset_factory
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
 
@@ -187,14 +189,14 @@ def hide_room(request, room_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     rooms = RentingUser.objects.filter(user_profile=profile)
-    room  = rooms.filter(pk=room_id)
+    room  = rooms.filter(pk=room_id).first()
     #Till here we check that only the rooms uploaded by user can be hidden
     room.hidden = True
     #room.hidden_at = datetime.datetime.now()
-    for objects in room:
-        objects.hidden_at = datetime.datetime.now()
-        objects.hidden = True
-        objects.save()
+    # for objects in room:
+    #     objects.hidden_at = datetime.datetime.now()
+    #     objects.hidden = True
+    #     objects.save()
     
     return HttpResponse('done')
 
@@ -205,14 +207,24 @@ def room_update(request, room_id):
     rooms = RentingUser.objects.filter(user_profile=profile,pk=room_id).first()
     print(rooms)
     user_form = RentForm(instance=rooms)
- 
-    ProfileInlineFormset = inlineformset_factory( Profile, model=RentingUser, form=RentForm, can_delete=True)
-    formset = ProfileInlineFormset(instance=profile)
- 
+    #change-2(removed parent model and changed instance to rooms)
+    #formset = modelformset_factory(model=RentingUser, form=RentForm, can_delete=True, extra=0)
+    #formset = ProfileInlineFormset(instance=rooms)
+    if request.user.is_authenticated and request.user.id == user.id:
+        #user_form = ProfileForm(request.POST, request.FILES, instance=rooms)
+        #formset = ProfileInlineFormset(request.POST, request.FILES, instance=rooms)
+        return render(request, 'upload_edit.html', {
+                "noodle": pk,
+                "noodle_form": user_form,
+                "formset": user_form,
+                'header':'Profile Update'})
+    else:
+        raise PermissionDenied
+'''
     if request.user.is_authenticated and request.user.id == user.id:
         if request.method == "POST":
             user_form = ProfileForm(request.POST, request.FILES, instance=rooms)
-            formset = ProfileInlineFormset(request.POST, request.FILES, instance=profile)
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=rooms)
  
             if user_form.is_valid():
                 created_user = user_form.save(commit=False)
@@ -266,3 +278,4 @@ def room_update(request, room_id):
                 'header':'Profile Update'})
     else:
         raise PermissionDenied
+'''
