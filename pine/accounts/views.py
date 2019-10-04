@@ -192,11 +192,10 @@ def hide_room(request, room_id):
     room  = rooms.filter(pk=room_id).first()
     #Till here we check that only the rooms uploaded by user can be hidden
     room.hidden = True
-    #room.hidden_at = datetime.datetime.now()
-    # for objects in room:
-    #     objects.hidden_at = datetime.datetime.now()
-    #     objects.hidden = True
-    #     objects.save()
+    
+    room.hidden_at = datetime.datetime.now()
+    room.save()
+  
     
     return HttpResponse('done')
 
@@ -213,69 +212,23 @@ def room_update(request, room_id):
     if request.user.is_authenticated and request.user.id == user.id:
         #user_form = ProfileForm(request.POST, request.FILES, instance=rooms)
         #formset = ProfileInlineFormset(request.POST, request.FILES, instance=rooms)
-        return render(request, 'upload_edit.html', {
-                "noodle": pk,
-                "noodle_form": user_form,
-                "formset": user_form,
-                'header':'Profile Update'})
-    else:
-        raise PermissionDenied
-'''
-    if request.user.is_authenticated and request.user.id == user.id:
-        if request.method == "POST":
-            user_form = ProfileForm(request.POST, request.FILES, instance=rooms)
-            formset = ProfileInlineFormset(request.POST, request.FILES, instance=rooms)
- 
-            if user_form.is_valid():
-                created_user = user_form.save(commit=False)
-                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
- 
-                if formset.is_valid():
-                    created_user.save()
-                    formset.save()
-                    ##########################################
-                    usr = Profile.objects.filter(user=request.user).first()
-                    usr.session_id  = otp_send(request.POST['profile-0-mobile_no'])
-                    usr.save()
-                    mail = request.POST['profile-0-email']
-                    usr = Profile.objects.filter(user_id=request.user.id).first()
-                    template = get_template('email_ver.txt')
-                    context = {
-                    "name" : usr.name,
-                    "link": "https://pinetown.in/activate_account/"+encrypt_val(str(usr.id)+";"+usr.name),
-                    
-                    }
-                    content = template.render(context)
-                    email = EmailMessage(
-                        "Email Verification",
-                        content,
-                        "CushyRooms" +'',
-                        [mail],
-                        headers = {'Reply-To': 'project.pinetown@gmail.com' }
-                    )
-                    email.send()
-                    return redirect('/otp/')
-                else:
- 
-                    return render(request, 'my_account.html', {
-                        "noodle": pk,
-                        "noodle_form": user_form,
-                        "formset": formset,
-                        })
-            else:
- 
-                return render(request, 'my_account.html', {
+        if request.method =='POST':
+            form = RentForm(request.POST, instance=rooms)
+            if form.is_valid():
+                form.save()
+                return render(request, 'upload_edit.html', {
                     "noodle": pk,
                     "noodle_form": user_form,
-                    "formset": formset,
-                    })
-        else:
- 
-            return render(request, 'my_account.html', {
-                "noodle": pk,
-                "noodle_form": user_form,
-                "formset": formset,
-                'header':'Profile Update'})
+                    "formset": user_form,
+                    'header':'Room Update'})
+            else :
+                print(form.error)
+        else :
+                
+            return render(request, 'upload_edit.html', {
+                    "noodle": pk,
+                    "noodle_form": user_form,
+                    "formset": user_form,
+                    'header':'Room Update'})
     else:
         raise PermissionDenied
-'''
