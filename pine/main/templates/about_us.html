@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} About Us {% endblock %}
+{% load static %}
+{% block stylesheet %} 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'about_us/css/Customizable-Background--Overlay.css' %}">
+    <link rel="stylesheet" href="{% static 'about_us/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'about_us/css/Team-Boxed.css' %}">
+{% endblock %}
+
+<body>
+{% block body %} 
+
+<div class="team-boxed">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center">Team </h2>
+            <p class="text-center">Pinetown is a project that is being built to easy the way some of the bussiness are done.</p>
+        </div>
+        <div class="row people">
+            <div class="col-md-6 col-lg-4 item">
+                <div class="box"><img class="rounded-circle" src="{% static 'about_us/img/1.jpg' %}">
+                    <h3 class="name">Mayank&nbsp;</h3>
+                    <p class="title">Full Stack developer</p>
+                    <p class="description">Mayank is a pre final yearite in the department of CST.<br>He stays in CC and chills.</p>
+                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 item">
+                <div class="box"><img class="rounded-circle" src="{% static 'about_us/img/2.jpg' %}">
+                    <h3 class="name">Vidhi</h3>
+                    <p class="title">Designer</p>
+                    <p class="description">Vidhi is in department of design.<br>She is a btech of deisign.<br>She takes a lot of work and panics</p>
+                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 item">
+                <div class="box"><img class="rounded-circle" src="{% static 'about_us/img/3.jpg' %}">
+                    <h3 class="name">Siddhant</h3>
+                    <p class="title">Hoster</p>
+                    <p class="description">Siddhant is MNC Under Grad.<br>He is WebOps head in Team Techniche.<br>He would not correct ssh.</p>
+                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 offset-xl-4 item">
+                <div class="box"><img class="rounded-circle" src="{% static 'about_us/img/4.jpg' %}">
+                    <h3 class="name">Devansh&nbsp;</h3>
+                    <p class="title">Freelancer</p>
+                    <p class="description">I'm a Btech in Physics&nbsp;<br>I do backchodi and chill<br>Can be found at khoka and SAC</p>
+                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'about_us/js/jquery.min.js' %}"></script>
+<script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
+{% endblock %}
+
+
+</body>
+
