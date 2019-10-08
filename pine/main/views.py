@@ -23,6 +23,8 @@ def user_verified(user):
     except ObjectDoesNotExist:
         return False 
        
+def about_us(request):
+    return render(request, 'about_us.html')
 
 def index(request):
     return render(request, 'home.html')
@@ -192,14 +194,14 @@ def contact(request):
 
 #To view all the rooms
 def allrooms(request):
-    rooms = RentingUser.objects.filter(approved=True)
+    rooms = RentingUser.objects.filter(approved=True, deleted=False, hidden=False)
     
     return render(request, 'all_rooms.html', {'rooms': rooms})
 
 #To view all the PGs
 
 def allpgs(request):
-    rooms = RentingPGUser.objects.filter(approved=True)
+    rooms = RentingPGUser.objects.filter(approved=True, delete=False, hidden=False)
     return render(request, 'all_pgs.html', {'rooms': rooms})
 
 #Detail of the room selected

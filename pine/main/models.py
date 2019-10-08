@@ -19,7 +19,7 @@ class Location(models.Model):
         return str(self.location)
 
 class RentingUser(models.Model):
-    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)
     number_of_rooms = models.IntegerField()
     price = models.CharField(max_length=50, default='')
     locality = models.ForeignKey(Location, on_delete=models.DO_NOTHING,  primary_key=False, null=True,default='')
@@ -48,7 +48,10 @@ class RentingUser(models.Model):
 
     #Adding if a user wants to hide the room uploaded
     hidden = models.BooleanField(default=False)
-    hidden_at = models.DateTimeField(default=now, blank=True)
+    hidden_at = models.DateTimeField(null= True, blank=True)
+
+    deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null= True, blank=True)
 
     def __str__(self):
         return str(self.id)
@@ -83,7 +86,10 @@ class RentingPGUser(models.Model):
 
      #Adding if a user wants to hide the room uploaded
     hidden = models.BooleanField(default=False)
-    hidden_at = models.DateTimeField(default=now, blank=True)
+    hidden_at = models.DateTimeField(null= True, blank=True)
+
+    deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null= True, blank=True)
 
     def __str__(self):
         return str(self.id)
