@@ -97,21 +97,21 @@ def profileupdate(request):
                     return redirect('/otp/')
                 else:
  
-                    return render(request, 'my_account.html', {
+                    return render(request, 'my_profile.html', {
                         "noodle": pk,
                         "noodle_form": user_form,
                         "formset": formset,
                         })
             else:
  
-                return render(request, 'my_account.html', {
+                return render(request, 'my_profile.html', {
                     "noodle": pk,
                     "noodle_form": user_form,
                     "formset": formset,
                     })
         else:
  
-            return render(request, 'my_account.html', {
+            return render(request, 'my_profile.html', {
                 "noodle": pk,
                 "noodle_form": user_form,
                 "formset": formset,
@@ -169,7 +169,8 @@ def uploads(request):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
-    rooms = RentingUser.objects.filter(user_profile=profile)
+    room = RentingUser.objects.filter(user_profile=profile)
+    rooms = room.filter(deleted=False)
 
     return render(request, 'my_upload.html',{'rooms':rooms})
 
@@ -179,9 +180,15 @@ def delete_upload(request, room_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     rooms = RentingUser.objects.filter(user_profile=profile)
-    room  = rooms.filter(pk=room_id)
-    room.delete()
-    return HttpResponse('deleted')
+    room  = rooms.filter(pk=room_id).first()
+    room.deleted = True
+    room.delted_at = datetime.datetime.now()
+
+    room.save()
+
+    return render(request, 'my_upload.html',{'rooms':rooms})
+
+
 
 def hide_room(request, room_id):
     #Will be used to hide the room
@@ -197,7 +204,7 @@ def hide_room(request, room_id):
     room.save()
   
     
-    return HttpResponse('done')
+    return render(request, 'my_upload.html',{'rooms':rooms})
 
 def room_update(request, room_id):
     pk = request.user.pk
