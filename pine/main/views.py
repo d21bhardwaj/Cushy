@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG
 from django.forms import modelformset_factory
-from .models import Images, ImagesPG, RentingUser, RentingPGUser
+from .models import Images, ImagesPG, RentingUser, RentingPGUser, Location
 #for profile linking
 from accounts.models import Profile
 from django.core.exceptions import PermissionDenied
