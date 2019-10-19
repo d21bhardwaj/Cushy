@@ -195,8 +195,23 @@ def contact(request):
 #To view all the rooms
 def allrooms(request):
     rooms = RentingUser.objects.filter(approved=True, deleted=False, hidden=False)
+    location = Location.objects.all()
+    if request.method == 'POST':
+        form = FilterForm(data=request.POST)
+
+        if form.is_valid():
+            locations = form.cleaned_data.get('Locations')
+            room_filter = rooms.filter(locality__in = locations)
+            return render(request, 'filter_room.html', {
+                'form': form, 'rooms': room_filter
+            })
+        else:
+            form = FilterForm()
+    else:
+        form = FilterForm()
+        
     
-    return render(request, 'all_rooms.html', {'rooms': rooms})
+    return render(request, 'all_rooms.html', {'form':form, 'rooms': rooms, 'location' : location})
 
 #To view all the PGs
 
