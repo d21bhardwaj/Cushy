@@ -195,6 +195,14 @@ class ImageFormPG(forms.ModelForm):
         model = ImagesPG
         fields = ('image', )
 
+class FilterForm(forms.ModelForm):
+    LOCATION = ((x.id, x) for x in Location.objects.all())
+    Locations = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                          choices=LOCATION)
+    
+    class Meta: 
+        model = Location 
+        fields = ('Locations',)
 
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True)
