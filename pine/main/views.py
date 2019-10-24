@@ -66,20 +66,20 @@ def rentdetails(request):
                         photo.save()
 
 
-                template = get_template('alert_room.txt')
-                context = {
-                        'value':'room'
-                    }
-                content = template.render(context)
+                # template = get_template('alert_room.txt')
+                # context = {
+                #         'value':'room'
+                #     }
+                # content = template.render(context)
         
-                email = EmailMessage(
-                    "New Room submission",
-                    content,
-                    "CushyRooms Room Approval" +'',
-                    ['project.pinetown@gmail.com'],
-                    headers = {'Reply-To': 'project.pinetown@gmail.com' }
-                )
-                email.send()
+                # email = EmailMessage(
+                #     "New Room submission",
+                #     content,
+                #     "CushyRooms Room Approval" +'',
+                #     ['project.pinetown@gmail.com'],
+                #     headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                # )
+                # email.send()
 
                 return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your Room Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
@@ -98,7 +98,7 @@ def rentpgdetails(request):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
 
-    ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=3)
+    ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=5)
     if request.user.is_authenticated and request.user.id == user.id:
 
         if request.method == "POST":
@@ -108,27 +108,37 @@ def rentpgdetails(request):
                 post_form = form.save(commit=False)
                 post_form.user_profile = profile
                 post_form.save()
+                
                 for pic in imageform.cleaned_data:
+                    print(pic)
                     if pic:
                         image = pic['image']
-                        photo = ImagesPG(user=post_form, image=image)
+                        print(image, "Image")
+                        print(pic, "pic")
+                        photo = ImagesPG(user=profile, room_pg=post_form, image=image)
+                       # print(image.cleaned_data)
+                        
                         photo.save()
+                        print(photo)
+                print(ImagesPg)
+                
+                return render(request, 'image_form.html', {'form': form, 'imageform': imageform , 'header':'Pg Details'})
 
-                template = get_template('alert_room.txt')
-                context = {
-                        'value':'pg'
-                    }
-                content = template.render(context)
+                # template = get_template('alert_room.txt')
+                # context = {
+                #         'value':'pg'
+                #     }
+                # content = template.render(context)
         
-                email = EmailMessage(
-                    "New Room submission",
-                    content,
-                    "CushyRooms Room Approval" +'',
-                    ['project.pinetown@gmail.com'],
-                    headers = {'Reply-To': 'project.pinetown@gmail.com' }
-                )
-                email.send()
-                return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your PG Will be Shown after viewing details submitted by you. Please wait till then!"})
+                # email = EmailMessage(
+                #     "New Room submission",
+                #     content,
+                #     "CushyRooms Room Approval" +'',
+                #     ['project.pinetown@gmail.com'],
+                #     headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                # )
+                # email.send()
+                #return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your PG Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
                 print(form.errors, imageform.errors)
         else:

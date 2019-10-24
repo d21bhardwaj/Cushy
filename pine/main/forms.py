@@ -186,14 +186,15 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ('image', )
-
-
+    
 class ImageFormPG(forms.ModelForm):
     image = forms.ImageField(label='ImagePG')
 
     class Meta:
         model = ImagesPG
         fields = ('image', )
+    
+
 
 class FilterForm(forms.ModelForm):
     LOCATION = ((x.id, x) for x in Location.objects.all())

@@ -59,16 +59,43 @@ urlpatterns = [
         accounts_views.uploads,
         name='my_uploads'),
         
-    path('settings/account/delete/<int:room_id>/', 
-        accounts_views.delete_upload, 
+#Delete
+    path('settings/account/delete/pg/<int:pg_id>/', 
+        accounts_views.delete_pg, 
+        name='delete_pg'),
+   
+    path('settings/account/delete/room/<int:room_id>/', 
+        accounts_views.delete_room, 
         name='delete_room'),
 
-    path('settings/account/hide/<int:room_id>/', 
+#Hide   
+    path('settings/account/hide/pg/<int:pg_id>/', 
+        accounts_views.hide_pg, 
+        name='hide_pg'),
+
+    path('settings/account/hide/room/<int:room_id>/', 
         accounts_views.hide_room, 
         name='hide_room'),
-    
-    path('settings/account/update/<int:room_id>/',
+
+#Update
+    path('settings/account/update/room/<int:room_id>/',
         accounts_views.room_update,
-        name='my_uploads'),
+        name='my_room'),
+
+    path('settings/account/update/pg/<int:pg_id>/',
+        accounts_views.room_update,
+        name='my_pg'),
+
+
+    # path('settings/account/update_pic/<int:pg_id>/',
+    #     accounts_views.pic_update,
+    #     name='my_pics'),
+    path('settings/account/view/room/<int:room_id>/<int:image_id>',
+        accounts_views.room_view,
+        name='room_view'),
+    path('settings/account/view/pg/<int:room_id>/<int:image_id>',
+        accounts_views.pg_view,
+        name='pg_view'),
+
 
 ]
