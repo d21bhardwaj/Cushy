@@ -1,34 +1,46 @@
-from django.shortcuts import render
-from django.http import Http404
-import json
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+from django.forms import modelformset_factory
 
-def cart_add(request,product_id,quantity):
-    user_id = request.user.pk
-    new_item = []
-    new_item.append({str(product_id):quantity})
-    file_path = 'static/json/user' + str(user_id) + 'cart.json'
-    try:
-        with open(file_path, 'r+') as json_read:
-            data = json.loads(json_read.read())
-        data[str(user_id)].extend(add)
-        with open(file_path, 'a+') as f:
-            json.dump(data, f)
-    except:
-        with open(file_path, 'a+') as json_file:
-            d = {}
-            d[str(user_id)] = []
-            d[str(user_id)].extend(add)
-            json.dump(d, json_file)
-    return render(request, 'page.html')
+#for profile linking
+from accounts.models import Profile
+from django.core.exceptions import PermissionDenied
 
+#adding for contact form
+from django.core.mail import EmailMessage
+from django.shortcuts import redirect
+from django.template.loader import get_template
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import FileResponse
+from .models import Product,Company,Shop,Category
 
-def cart_empty(request):
-    user_id = request.user.pk
-    file_path = 'static/json/user' + str(user_id) + 'cart.json'
-    try:
-        with open(file_path, 'w+') as json_new:
-            d = {}
-            json.dump(d, json_new)
-            return render(request, 'page2.html')
-    except:
-        raise Http404("Action Cannot be executed!")
+import xlrd as xl
+
+def data_upload(request,token):
+
+	if request.method == "POST":
+
+		excel_file = request.FILES["excel_file"]
+        wb = xl.open_workbook(excel_file)
+        sheet = wb.sheet_by_index(0)
+        dic = []
+        for i in range(sheet.nrows): 
+
+            if(i!=0):
+                dic.append(Product(product=str(sheet.cell_value(i, 1))  ,mobile=str(sheet.cell_value(i, 2)) ,bib=str(sheet.cell_value(i, 3)) , age=str(sheet.cell_value(i, 4)) , gender=str(sheet.cell_value(i, 5))))
+
+        Product.objects.bulk_create(dic)
+
+	    return HttpResponse("Data created at server for"+" "+str(token))
+
+	else:
+		return render(request,"data_upload.html")
+
+def all_grocery(request):
+    groceries = Product.objects.all()
+    print(groceries)
+    return render(request, 'groceries.html', {'groceries' : groceries})
+

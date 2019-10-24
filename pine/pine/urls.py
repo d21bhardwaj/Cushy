@@ -26,6 +26,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('dashtown/', admin.site.urls),
     path('',include('main.urls')),
+    path('Grocery/', include('grocery.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', RedirectView.as_view(pattern_name='index', permanent=False)),
     

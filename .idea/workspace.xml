@@ -2,7 +2,72 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e00cc2b2-cb7d-48bb-97ee-d69807653ffc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/pine/accounts/templates/accounts/my_profile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/accounts/templates/accounts/temp_my_uploads.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/grocery/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/grocery/templates/groceries.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/grocery/templates/upload_data.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/grocery/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/main/templates/about_us.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/main/templates/filter_pg.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/main/templates/filter_room.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/bootstrap/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/bootstrap/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/css/Customizable-Background--Overlay.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/css/Team-Boxed.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/css/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/css/styles.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/fonts/FontAwesome.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/fonts/font-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/fonts/fontawesome-webfont.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/bg2.0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/bgbg-01.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/final-01.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/header-bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/newbg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/img/pexels-photo-160107.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/about_us/js/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/bootstrap/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/bootstrap/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/css/Customizable-Background--Overlay.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/css/Team-Boxed.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/css/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/bg2.0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/bgbg-01.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/final-01.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/header-bg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/newbg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/img/pexels-photo-160107.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pine/static/profile/js/jquery.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/accounts/templates/accounts/my_account.html" beforeDir="false" afterPath="$PROJECT_DIR$/pine/accounts/templates/accounts/my_account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/accounts/templates/accounts/my_upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/pine/accounts/templates/accounts/my_upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/pine/accounts/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/db.sqlite3" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pine/grocery/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/pine/grocery/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/templates/all_pgs.html" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/templates/all_pgs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/templates/all_rooms.html" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/templates/all_rooms.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/templates/base_accounts.html" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/templates/base_accounts.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/templates/contact_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/templates/contact_us.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/pine/main/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pine/pine/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/pine/pine/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,10 +80,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pine/grocery/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="28" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
+            <state relative-caret-position="435">
+              <caret line="45" selection-start-line="45" selection-end-line="45" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#1#46#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -28,7 +93,10 @@
         <entry file="file://$PROJECT_DIR$/pine/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="14" column="16" selection-start-line="14" selection-end-line="15" />
+              <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -95,6 +163,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -127,12 +196,12 @@
       <workItem from="1570679542862" duration="1681000" />
       <workItem from="1571288322610" duration="643000" />
       <workItem from="1571505093768" duration="3044000" />
-      <workItem from="1571927861466" duration="2990000" />
+      <workItem from="1571927861466" duration="3399000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9156000" />
+    <option name="totallyTimeSpent" value="9565000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-4" width="1368" height="710" extended-state="6" />
@@ -226,16 +295,19 @@
     <entry file="file://$PROJECT_DIR$/pine/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="14" column="16" selection-start-line="14" selection-end-line="15" />
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pine/grocery/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="28" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
+        <state relative-caret-position="435">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#1#46#0" expanded="true" />
           </folding>
         </state>
       </provider>
