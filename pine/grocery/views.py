@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import FileResponse
+from .models import Product,Company,Shop,Category
 
 import xlrd as xl
 
@@ -38,4 +39,8 @@ def data_upload(request,token):
 	else:
 		return render(request,"data_upload.html")
 
+def all_grocery(request):
+    groceries = Product.objects.all()
+    print(groceries)
+    return render(request, 'groceries.html', {'groceries' : groceries})
 
