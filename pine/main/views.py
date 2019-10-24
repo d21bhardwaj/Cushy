@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG, FilterForm
+from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG, FilterFormLocation, FilterFormPrice, FilterFormPGPrice
 from django.forms import modelformset_factory
 from .models import Images, ImagesPG, RentingUser, RentingPGUser, Location
 #for profile linking
@@ -66,20 +66,20 @@ def rentdetails(request):
                         photo.save()
 
 
-                template = get_template('alert_room.txt')
-                context = {
-                        'value':'room'
-                    }
-                content = template.render(context)
+                # template = get_template('alert_room.txt')
+                # context = {
+                #         'value':'room'
+                #     }
+                # content = template.render(context)
         
-                email = EmailMessage(
-                    "New Room submission",
-                    content,
-                    "CushyRooms Room Approval" +'',
-                    ['project.pinetown@gmail.com'],
-                    headers = {'Reply-To': 'project.pinetown@gmail.com' }
-                )
-                email.send()
+                # email = EmailMessage(
+                #     "New Room submission",
+                #     content,
+                #     "CushyRooms Room Approval" +'',
+                #     ['project.pinetown@gmail.com'],
+                #     headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                # )
+                # email.send()
 
                 return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your Room Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
@@ -114,20 +114,20 @@ def rentpgdetails(request):
                         photo = ImagesPG(user=post_form, image=image)
                         photo.save()
 
-                template = get_template('alert_room.txt')
-                context = {
-                        'value':'pg'
-                    }
-                content = template.render(context)
+                # template = get_template('alert_room.txt')
+                # context = {
+                #         'value':'pg'
+                #     }
+                # content = template.render(context)
         
-                email = EmailMessage(
-                    "New Room submission",
-                    content,
-                    "CushyRooms Room Approval" +'',
-                    ['project.pinetown@gmail.com'],
-                    headers = {'Reply-To': 'project.pinetown@gmail.com' }
-                )
-                email.send()
+                # email = EmailMessage(
+                #     "New Room submission",
+                #     content,
+                #     "CushyRooms Room Approval" +'',
+                #     ['project.pinetown@gmail.com'],
+                #     headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                # )
+                # email.send()
                 return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your PG Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
                 print(form.errors, imageform.errors)
@@ -146,6 +146,7 @@ def renttype(request):
 
 #For contact form
 # our view
+
 
 
 def contact(request):
@@ -193,31 +194,82 @@ def contact(request):
     })
 
 #To view all the rooms
+
 def allrooms(request):
     rooms = RentingUser.objects.filter(approved=True, deleted=False, hidden=False)
     location = Location.objects.all()
     if request.method == 'POST':
-        form = FilterForm(data=request.POST)
-
-        if form.is_valid():
-            locations = form.cleaned_data.get('Locations')
-            room_filter = rooms.filter(locality__in = locations)
+        form1 = FilterFormLocation(data=request.POST)
+        form2 = FilterFormPrice(data=request.POST)
+        if form1.is_valid() or form2.is_valid():
+            room_filter = rooms
+            if(form1.is_valid()):
+                locations = form1.cleaned_data.get('Locations')
+                room_filter = rooms.filter(locality__in = locations)
+            if(form2.is_valid()):
+                prices = form2.cleaned_data.get('Prices')
+            
+                temp = -1
+                temp2 = 0
+                for p in prices:
+                    if(temp==-1):
+                        temp = p
+                    if(temp2<=int(p)):
+                        temp2 = (int(p)+2000)
+                room_filter = room_filter.filter(price__range=(temp,temp2))
+            
             return render(request, 'filter_room.html', {
-                'form': form, 'rooms': room_filter
+                'form1': form1,'form2':form2, 'rooms': room_filter
             })
         else:
-            form = FilterForm()
+            form1 = FilterFormLocation()
+            form2 = FilterFormPrice()
+        
     else:
-        form = FilterForm()
+        form1 = FilterFormLocation()
+        form2 = FilterFormPrice()
         
     
-    return render(request, 'all_rooms.html', {'form':form, 'rooms': rooms, 'location' : location})
+    return render(request, 'all_rooms.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location})
 
 #To view all the PGs
 
 def allpgs(request):
-    rooms = RentingPGUser.objects.filter(approved=True, delete=False, hidden=False)
-    return render(request, 'all_pgs.html', {'rooms': rooms})
+    rooms = RentingPGUser.objects.filter(approved=True, deleted=False, hidden=False)
+    location = Location.objects.all()
+    print(location)
+    if request.method == 'POST':
+        form1 = FilterFormLocation(data=request.POST)
+        form2 = FilterFormPGPrice(data=request.POST)
+        if form1.is_valid() or form2.is_valid():
+            room_filter = rooms
+            if(form1.is_valid()):
+                locations = form1.cleaned_data.get('Locations')
+                room_filter = rooms.filter(locality__in = locations)
+            if(form2.is_valid()):
+                prices = form2.cleaned_data.get('Prices')
+            
+                temp = -1
+                temp2 = 0
+                for p in prices:
+                    if(temp==-1):
+                        temp = p
+                    if(temp2<=int(p)):
+                        temp2 = (int(p)+2000)
+                room_filter = room_filter.filter(price__range=(temp,temp2))
+            
+            return render(request, 'filter_pg.html', {
+                'form1': form1,'form2':form2, 'rooms': room_filter
+            })
+        else:
+            form1 = FilterFormLocation()
+            form2 = FilterFormPGPrice()
+        
+    else:
+        form1 = FilterFormLocation()
+        form2 = FilterFormPGPrice()
+
+    return render(request, 'all_pgs.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location})
 
 #Detail of the room selected
 
