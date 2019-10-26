@@ -335,7 +335,7 @@ def pg_update(request, pg_id):
                             d.image = photo.image
                             d.save()
                 imageid = imageid.first()
-                return render(request, 'pg_detail.html', {
+                return render(request, 'my_pg_detail.html', {
                     "prof": profile,
                     "rooms": rooms,
                     "images": imageid,
@@ -361,10 +361,10 @@ def pg_view(request, room_id, image_id):
         pk = request.user.pk
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(user=user)
-        return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile, "pg":'kyahaiyeh'})
+        return render(request, 'my_pg_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile, "pg":'kyahaiyeh'})
     
     except ObjectDoesNotExist:
-        return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
+        return render(request, 'my_pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
 
 def room_view(request, room_id, image_id):
     rooms = RentingUser.objects.get(pk=room_id)
@@ -375,10 +375,10 @@ def room_view(request, room_id, image_id):
         pk = request.user.pk
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(user=user)
-        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile, "body":"room"})
+        return render(request, 'my_room_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile, "body":"room"})
 
     except ObjectDoesNotExist:
-        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
+        return render(request, 'my_room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
 
 
 

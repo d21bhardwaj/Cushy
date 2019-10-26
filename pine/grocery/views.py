@@ -114,5 +114,3 @@ def all_grocery(request):
     groceries = Product.objects.all()
     print(groceries)
     return render(request, 'groceries.html', {'groceries' : groceries})
-
-   
