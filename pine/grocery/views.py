@@ -25,22 +25,21 @@ from django.conf import settings
 def cart_add(request):
     user_id = request.user.pk
     product_id = request.POST.get('product_id')
+    # quantity = request.POST.get('quantity')
     quantity = 2
-    new_item = []
-    new_item.append({str(product_id):quantity})
     file_path = settings.BASE_DIR + '/static/json/user' + str(user_id) + 'cart.json'
     try:
-        with open(file_path, 'r+') as json_read:
+        with open(file_path, 'r') as json_read:
             data = json.loads(json_read.read())
-        data[str(user_id)].extend(add)
+        data[str(product_id)] = quantity
         with open(file_path, 'w+') as f:
             json.dump(data, f)
     except:
         with open(file_path, 'w+') as json_file:
-            d = {}
-            quantity = 3;
-            d[str(product_id)] = 3
-            json.dump(d, json_file)
+            add = {}
+            quantity = 3
+            add[str(product_id)] = quantity
+            json.dump(add, json_file)
     return render(request, 'groceries.html')
 
 
@@ -55,10 +54,11 @@ def cart_change(request):
     user_id = request.user.pk
     product_id = request.POST.get['product_id']
     # quantity = request.POST.get['quantity']
+    quantity = 1
     file_path = 'static/json/user' + str(user_id) + 'cart.json'
     with open(file_path, 'r+') as json_read:
         data = json.loads(json_read.read())
-    data[product_id] = 1
+    data[str(product_id)] = quantity
     with open(file_path, 'w+') as f:
         json.dump(data, f)
     return render(request, 'page3.html')
