@@ -11,5 +11,8 @@ urlpatterns = [
     path('grocery/', 
         views.all_grocery, 
         name='Grocery'),
+    path('cart/',
+         views.cart_add,
+         name='Cart_add'),
    
 ]

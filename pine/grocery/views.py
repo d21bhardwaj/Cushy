@@ -20,14 +20,15 @@ import xlrd as xl
 from django.shortcuts import render
 from django.http import Http404
 import json
+from django.conf import settings
 
 def cart_add(request):
     user_id = request.user.pk
-    product_id = request.POST.get['p_id']
-    quantity = request.POST.get['quantity']
+    product_id = request.POST.get('product_id')
+    quantity = 2
     new_item = []
     new_item.append({str(product_id):quantity})
-    file_path = 'static/json/user' + str(user_id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/static/json/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path, 'r+') as json_read:
             data = json.loads(json_read.read())
@@ -37,10 +38,10 @@ def cart_add(request):
     except:
         with open(file_path, 'w+') as json_file:
             d = {}
-            d[str(user_id)] = []
-            d[str(user_id)].extend(add)
+            quantity = 3;
+            d[str(product_id)] = 3
             json.dump(d, json_file)
-    return render(request, 'page.html')
+    return render(request, 'groceries.html')
 
 
 def show_savings(cart):
@@ -52,12 +53,12 @@ def show_savings(cart):
 
 def cart_change(request):
     user_id = request.user.pk
-    product_id = request.POST.get['p_id']
-    quantity = request.POST.get['quantity']
+    product_id = request.POST.get['product_id']
+    # quantity = request.POST.get['quantity']
     file_path = 'static/json/user' + str(user_id) + 'cart.json'
     with open(file_path, 'r+') as json_read:
         data = json.loads(json_read.read())
-    data[product_id] = quantity
+    data[product_id] = 1
     with open(file_path, 'w+') as f:
         json.dump(data, f)
     return render(request, 'page3.html')
@@ -65,6 +66,9 @@ def cart_change(request):
 
 def cart_empty(request):
     user_id = request.user.pk
+    email_id = request.POST.get('email')
+
+
     file_path = 'static/json/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path, 'w+') as json_new:
