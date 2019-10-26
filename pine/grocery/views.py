@@ -108,7 +108,7 @@ def cart_empty(request):
 
 
 
-def data_upload(request,token):
+def data_upload(request):
     if request.method == "POST":
 
         excel_file = request.FILES["excel_file"]
@@ -124,7 +124,7 @@ def data_upload(request,token):
                 dic.append(Product(
                 product=str(sheet.cell(row=i, column=1).value),  
                 quantity=str(sheet.cell(row=i,column= 2).value), 
-                company=cmpe, 
+                brand=cmpe, 
                 category=cate, 
                 price=str(sheet.cell(row=i,column= 5).value),
                 shop=sh,
