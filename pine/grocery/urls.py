@@ -1,12 +1,18 @@
+from django.contrib import admin
 from django.urls import path, include, re_path 
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
-from grocery import views as grocery_views 
+from grocery import views
+#Login
+from accounts import views as accounts_views
+from django.contrib.auth import logout
 
-urlpatterns = [
+urlpatterns = [    
+    path('grocery/', 
+        views.all_grocery, 
+        name='Grocery'),
+    path('upload/',
+        views.data_upload,
+        name='Upload_data'),
    
-    path('items/',
-        grocery_views.all_grocery,
-        name='all_items'),
-    
 ]

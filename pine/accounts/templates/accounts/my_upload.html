@@ -24,8 +24,8 @@
         <div class="row" style="padding: 0px;">
             <div class="col-md-12 col-lg-3 col-xl-2" style="padding: 00px;">
                 <ul class="list-group">
-                    <li class="list-group-item active text-center" style="background-color: #a2a8ae;"><span>Edit My Profile</span></li>
-                    <li class="list-group-item text-center" style="background-color: #a2a8ae;"><span>My Uploads</span></li>
+                    <li class="list-group-item  text-center" style="background-color: #a2a8ae;"><a href="{% url 'my_account' %}"><span>Edit My Profile</span></a></li>
+                    <li class="list-group-item active text-center" style="background-color: #a2a8ae;"><span>My Uploads</span></li>
                     <li class="list-group-item text-center" style="background-color: #a2a8ae;"><span>Contact PineTown</span></li>
                 </ul>
             </div>
@@ -40,7 +40,7 @@
             {% for room in rooms %}
                     {%  for images in room.images_set.all %}
                     {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_detail" room.id images.id %}'" 
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_view" room.id images.id %}'" 
                         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
                             max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
                             margin-bottom:25px;min-height:auto;">

@@ -23,6 +23,7 @@ from django.forms.models import inlineformset_factory
 from django.forms.models import modelformset_factory
 from django.core.exceptions import PermissionDenied
 from django.core.mail import EmailMessage
+from django.core.exceptions import ObjectDoesNotExist
 
 #for all the uploads done by an user
 from main.models import RentingUser, RentingPGUser, ImagesPG, Images
@@ -214,9 +215,13 @@ def hide_pg(request, pg_id):
     rooms = RentingPGUser.objects.filter(user_profile=profile)
     room  = rooms.filter(pk=pg_id).first()
     #Till here we check that only the rooms uploaded by user can be hidden
-    room.hidden = True
     
-    room.hidden_at = datetime.datetime.now()
+    if (room.hidden == True):
+        room.hidden = False
+    else :
+        room.hidden = True
+        room.hidden_at = datetime.datetime.now()
+    
     room.save()
   
     
@@ -230,12 +235,12 @@ def hide_room(request, room_id):
     rooms = RentingUser.objects.filter(user_profile=profile)
     room  = rooms.filter(pk=room_id).first()
     #Till here we check that only the rooms uploaded by user can be hidden
-    room.hidden = True
-    
-    room.hidden_at = datetime.datetime.now()
+    if (room.hidden == True):
+        room.hidden = False
+    else :
+        room.hidden = True
+        room.hidden_at = datetime.datetime.now()
     room.save()
-  
-    
     return redirect(uploads)
 
 def room_update(request, room_id):
@@ -303,9 +308,9 @@ def pg_update(request, pg_id):
     
     if request.user.is_authenticated and request.user.id == user.id:
         rooms = RentingPGUser.objects.filter(user_profile=profile,pk=pg_id).first()
-        imageid = ImagesPG.objects.filter(room_pg=pg_id)
+        imageid = ImagesPG.objects.filter(user=pg_id)
         if request.method =='POST':
-            imageid = ImagesPG.objects.filter(room_pg=pg_id)
+            imageid = ImagesPG.objects.filter(user=pg_id)
             form = RentPGForm(request.POST, instance=rooms)
             imageform = ImageFormSet(request.POST, request.FILES)
             if form.is_valid() and imageform.is_valid():
@@ -317,7 +322,7 @@ def pg_update(request, pg_id):
                         if pic.cleaned_data['id'] is None:
                             image = pic.cleaned_data['image']
                             
-                            photo = ImagesPG(user=profile, room_pg=rooms, image=image)
+                            photo = ImagesPG(user=rooms, image=image)
                         
                             photo.save()
                         elif pic.cleaned_data['image'] is False:
@@ -326,7 +331,7 @@ def pg_update(request, pg_id):
 
                         else:
                             image = pic.cleaned_data.get('image')
-                            photo = ImagesPG(user=profile, room_pg=rooms, image=image)
+                            photo = ImagesPG(user=rooms, image=image)
                             d = ImagesPG.objects.get(id=imageid[index].id)
                             d.image = photo.image
                             d.save()
@@ -339,7 +344,7 @@ def pg_update(request, pg_id):
             else :
                 print(form.error and imageform.errors)
         else :
-            imageform = ImageFormSet(queryset=ImagesPG.objects.filter(room_pg=pg_id))   
+            imageform = ImageFormSet(queryset=ImagesPG.objects.filter(user=pg_id))   
             return render(request, 'upload_edit.html', {
                     "noodle": pk,
                     "form": user_form,
@@ -357,7 +362,7 @@ def pg_view(request, room_id, image_id):
         pk = request.user.pk
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(user=user)
-        return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile})
+        return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile, "pg":'kyahaiyeh'})
     
     except ObjectDoesNotExist:
         return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
@@ -371,7 +376,7 @@ def room_view(request, room_id, image_id):
         pk = request.user.pk
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(user=user)
-        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile})
+        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile, "body":"room"})
 
     except ObjectDoesNotExist:
         return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
