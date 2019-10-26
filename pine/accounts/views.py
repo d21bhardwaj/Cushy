@@ -84,7 +84,6 @@ def profileupdate(request):
                     context = {
                     "name" : usr.name,
                     "link": "https://pinetown.in/activate_account/"+encrypt_val(str(usr.id)+";"+usr.name),
-                    
                     }
                     content = template.render(context)
                     email = EmailMessage(

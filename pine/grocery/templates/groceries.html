@@ -37,24 +37,53 @@
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
                 {% for grocery in groceries %}
                     
-                    <div class="col-sm-6 col-lg-4 item filterDiv {{grocery.product}} {{grocery.Quantity}} {{grocery.price}} " onclick="location.href='#'" 
+                    <!-- <div class="col-sm-6 col-lg-4 item filterDiv {{grocery.product}} {{grocery.Quantity}} {{grocery.price}} " onclick="location.href='#'" 
                         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
                             max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
                             margin-bottom:25px;min-height:auto;">
-                        
-                       
                         <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ grocery.price }}</strong></p>
                         
                         <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{grocery.company}}</p>
                         
                         <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ grocery.Quantity }} Packets</p>
-                    </div>
-                {% endfor %} 
-                    
+                    <button
+                    class="btn btn-primary btn-lg border rounded product"  type="button" data-p_id = "{{ grocery.product }}"
+                    style="margin-right: 25px;background-color: rgb(150,69,42);color: rgb(87,95,193);">TEST!&nbsp;&nbsp;</button>
+                    </div> -->
+                    <div class="card" style="width: 18rem; margin: 5%;">
+                        {% load static %}<img class="img-fluid" 
+                        style="height:auto;width:auto;"
+                        src="{% static 'assets/img/loft.jpg' %}"  >
+                        <div class="card-body">
+                            <h5 class="description" style="text-align: center; color:rgb(38,39,39);font-size:24px;"><strong>{{ grocery.product }}</strong></h5>
+                            <p class="description just" style="text-align: center;"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{grocery.company}}</p>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                          <p class="description" style="color:rgb(38,39,39);font-size:24px; text-align: center;"><strong>₹{{ grocery.price }}</strong></p>
+                          <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.product }}">Add to cart</button></center>
+                        </div>
+                      </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 
 {% endblock %}
+{% block script %}
+    <script>
+$(document).ready(function(){
+    $(".product").on("click", function(evt) {
+        var p_id = $(this).data("p_id");
+     $.ajax({
+      type: "POST",
+      url: "{%url 'Cart_add'%}",
+      data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+      success: function(result){
+      },
+      error: function(result){
+      }
+    });
+   });
+  });
+</script>
+{% endblock %}
 </body>
-

@@ -27,5 +27,8 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null = False)
     price = models.IntegerField(null = False, default='')
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null = False )
+    # off is in Rs.
     off = models.BooleanField(default=False)
     savings = models.IntegerField(null = True)
+
+# Product Code (or SKU), Product Name, Description, Category, Selling Price, Discount (If any) Brand, Colour and other applicable attributes.
