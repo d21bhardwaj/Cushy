@@ -15,7 +15,16 @@ urlpatterns = [
         views.data_upload,
         name='Upload_data'),
     path('cart/',
-         views.cart_add,
-         name='Cart_add'),
-   
+        views.cart_add,
+        name='Cart_add'),
+    path('shops/',
+        views.all_shops,
+        name='All_Shops'),
+
+#--- Add whatever you want above it --#
+    ## Always keep it Last in path ###
+    path('<str:shop_name>/',
+        views.shops_grocery,
+        name='Shops_Grocery'),
+    #--- Don't add any thing below this -- #
 ]

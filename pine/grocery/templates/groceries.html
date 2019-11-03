@@ -37,7 +37,7 @@
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
                 {% for grocery in groceries %}
                     
-                    <!-- <div class="col-sm-6 col-lg-4 item filterDiv {{grocery.product}} {{grocery.Quantity}} {{grocery.price}} " onclick="location.href='#'" 
+                    {% comment %} <!-- <div class="col-sm-6 col-lg-4 item filterDiv {{grocery.product}} {{grocery.Quantity}} {{grocery.price}} " onclick="location.href=UpdateQueryString('shop','{{shop.shop}}',null)" 
                         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
                             max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
                             margin-bottom:25px;min-height:auto;">
@@ -49,7 +49,7 @@
                     <button
                     class="btn btn-primary btn-lg border rounded product"  type="button" data-p_id = "{{ grocery.product }}"
                     style="margin-right: 25px;background-color: rgb(150,69,42);color: rgb(87,95,193);">TEST!&nbsp;&nbsp;</button>
-                    </div> -->
+                    </div> --> {% endcomment %}
                     <div class="card" style="width: 18rem; margin: 5%;">
                         {% load static %}<img class="img-fluid" 
                         style="height:auto;width:auto;"
@@ -70,6 +70,39 @@
 {% endblock %}
 {% block script %}
     <script>
+    function UpdateQueryString(key, value, url) {
+        if (!url) url = window.location.href;
+        var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
+            hash;
+
+        if (re.test(url)) {
+            if (typeof value !== 'undefined' && value !== null) {
+                return url.replace(re, '$1' + key + "=" + value + '$2$3');
+            } 
+            else {
+                hash = url.split('#');
+                url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+                if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
+                    url += '#' + hash[1];
+                }
+                return url;
+            }
+        }
+        else {
+            if (typeof value !== 'undefined' && value !== null) {
+                var separator = url.indexOf('?') !== -1 ? '&' : '?';
+                hash = url.split('#');
+                url = hash[0] + separator + key + '=' + value;
+                if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
+                    url += '#' + hash[1];
+                }
+                return url;
+            }
+            else {
+                return url;
+            }
+        }
+    }
 $(document).ready(function(){
     $(".product").on("click", function(evt) {
         var p_id = $(this).data("p_id");
