@@ -149,15 +149,12 @@ def rentpgdetails(request):
         raise PermissionDenied      
 
 
-
 def renttype(request):
     return render(request, 'choice.html' ,{'header': 'Choose Type of Renting'})
 
 
 #For contact form
 # our view
-
-
 
 def contact(request):
     form_class = ContactForm
@@ -304,8 +301,8 @@ def detailpg(request, room_id, image_id):
         pk = request.user.pk
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(user=user)
-        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller, 'prof': profile})
+        return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller, 'prof': profile})
     
     except ObjectDoesNotExist:
-        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
+        return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
        

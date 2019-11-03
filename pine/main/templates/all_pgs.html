@@ -35,27 +35,27 @@
             <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
                 {% for room in rooms %}
-                {%  for images in room.imagespg_set.all %}
-                    {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_detail" room.id images.id %}'" 
-                        style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
-                            max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
-                            margin-bottom:25px;min-height:auto;">
-                        <img class="img-fluid" 
-                        style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;"
-                        src="{{ images.image.url }}"  >
-                        
-                        <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
-                        
-                        <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
-                        
-                        {% if room.gender_preference == "Only Girls" %}
-                        <p style="font-size:18px;"><i class="fa fa-female"></i>&nbsp;{{ room.gender_preference}}</p>
-                        {% elif room.gender_preference == "Only Boys" %}
-                        <p style="font-size:18px;"><i class="fa fa-male"></i>&nbsp;{{ room.gender_preference }}</p>
+                    {% for images in room.imagespg_set.all %}
+                        {% if forloop.counter == 1 %}
+                        <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_detail" room.id images.id %}'" 
+                            style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+                                max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+                                margin-bottom:25px;min-height:auto;">
+                            <img class="img-fluid" 
+                            style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;"
+                            src="{{ images.image.url }}"  >
+                            
+                            <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
+                            
+                            <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
+                            
+                            {% if room.gender_preference == "Only Girls" %}
+                            <p style="font-size:18px;"><i class="fa fa-female"></i>&nbsp;{{ room.gender_preference}}</p>
+                            {% elif room.gender_preference == "Only Boys" %}
+                            <p style="font-size:18px;"><i class="fa fa-male"></i>&nbsp;{{ room.gender_preference }}</p>
+                            {% endif %}
+                        </div>
                         {% endif %}
-                    </div>
-                    {% endif %}
                     {% endfor %}
                 {% endfor %}
                     

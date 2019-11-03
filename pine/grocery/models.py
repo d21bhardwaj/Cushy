@@ -7,11 +7,11 @@ class Shop(models.Model):
     def __str__(self):
         return str(self.shop)    
 
-class Company(models.Model):
-    company  = models.CharField(max_length=40, null = False, default='') 
+class Brand(models.Model):
+    brand  = models.CharField(max_length=40, null = False, default='') 
     # This class will be used for listing the product of the company
     def __str__(self):
-        return str(self.company)
+        return str(self.brand)
     
 class Category(models.Model):
     category = models.CharField(max_length=40, null = False, default='')
@@ -23,7 +23,7 @@ class Product(models.Model):
     # This class will be used for listing the product company so on and so forth
     product = models.CharField(max_length=40, null = False, default='')
     quantity = models.CharField(max_length=10, null = False, default='')
-    brand = models.ForeignKey(Company, on_delete=models.DO_NOTHING, null = False )
+    brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, null = False )
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null = False)
     price = models.IntegerField(null = False, default='')
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null = False )
