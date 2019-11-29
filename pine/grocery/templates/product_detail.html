@@ -1,0 +1,41 @@
+<!-- The Modal -->
+<div class="modal fade" id="{{forloop.counter}}">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          {% if grocery.off == True %}
+            <h4 class="modal-title">{{ grocery.product }}- ₹{{ grocery.price }}<br>
+            Savings Worth: ₹{{ grocery.savings }}</h4><br>
+          {% else %}
+            <h4 class="modal-title">{{ grocery.product }}- ₹{{ grocery.price }}
+          {% endif %}<br>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <h5>Brand: {{ grocery.brand }}<br></h5>
+          <br>
+          <h5>Quantity: {{ grocery.quantity }} </h5>
+          <br>
+          {% if grocery.description != Blank  %}
+          More Information: {{ grocery.description }}<br>
+          {% endif %}
+          
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <center><button class="btn btn-primary btn-sm border rounded product" 
+            type="button" 
+            data-p_id = "{{ grocery.product }}">
+            Add to cart</button></center>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+</div>
+   

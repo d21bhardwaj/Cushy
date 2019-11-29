@@ -109,7 +109,7 @@ def data_upload(request):
 def all_grocery(request):
     groceries = Product.objects.all()
     #print(groceries)
-    return render(request, 'groceries.html', {'groceries' : groceries})
+    return render(request, 'grocery.html', {'groceries' : groceries})
 
 def all_shops(request):
     shops = Shop.objects.all()
