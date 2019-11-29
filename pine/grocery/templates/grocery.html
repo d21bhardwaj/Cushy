@@ -88,7 +88,7 @@ $(document).ready(function(){
         var p_id = $(this).data("p_id");
      $.ajax({
       type: "POST",
-      url: "{%url 'Cart_add'%}",
+      url: "{% url 'Cart_add' %}",
       data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
       success: function(result){
       },
