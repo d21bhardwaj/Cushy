@@ -32,5 +32,6 @@ urlpatterns = [
     
     path('', views.index, name='index'),
     path('',include('accounts.urls')),
+    path('grocery/',include('grocery.urls')),
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

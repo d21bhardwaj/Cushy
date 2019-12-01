@@ -38,7 +38,7 @@
                 {% for room in rooms %}
                     {%  for images in room.images_set.all %}
                     {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item filterDiv {{room.locality}} {{room.number_of_rooms}} {{room.price}} " onclick="location.href='{% url "room_detail" room.id images.id %}'" 
+                    <div class="col-sm-6 col-lg-4 item filterDiv {{room.locality}} {{room.number_of_rooms}} {{room.price}} " data-id="shop={{shop.id}}" onclick="location.href='{% url "room_detail" room.id images.id %}'" 
                         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
                             max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
                             margin-bottom:25px;min-height:auto;">

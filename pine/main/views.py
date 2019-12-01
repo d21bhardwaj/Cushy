@@ -98,7 +98,7 @@ def rentpgdetails(request):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
 
-    ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=3)
+    ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=5)
     if request.user.is_authenticated and request.user.id == user.id:
 
         if request.method == "POST":
@@ -108,11 +108,21 @@ def rentpgdetails(request):
                 post_form = form.save(commit=False)
                 post_form.user_profile = profile
                 post_form.save()
+                
                 for pic in imageform.cleaned_data:
+                    print(pic)
                     if pic:
                         image = pic['image']
-                        photo = ImagesPG(user=post_form, image=image)
+                        print(image, "Image")
+                        print(pic, "pic")
+                        photo = ImagesPG(user=profile, room_pg=post_form, image=image)
+                       # print(image.cleaned_data)
+                        
                         photo.save()
+                        print(photo)
+                print(ImagesPg)
+                
+                return render(request, 'image_form.html', {'form': form, 'imageform': imageform , 'header':'Pg Details'})
 
                 # template = get_template('alert_room.txt')
                 # context = {
@@ -128,7 +138,7 @@ def rentpgdetails(request):
                 #     headers = {'Reply-To': 'project.pinetown@gmail.com' }
                 # )
                 # email.send()
-                return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your PG Will be Shown after viewing details submitted by you. Please wait till then!"})
+                #return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your PG Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
                 print(form.errors, imageform.errors)
         else:
@@ -139,15 +149,12 @@ def rentpgdetails(request):
         raise PermissionDenied      
 
 
-
 def renttype(request):
     return render(request, 'choice.html' ,{'header': 'Choose Type of Renting'})
 
 
 #For contact form
 # our view
-
-
 
 def contact(request):
     form_class = ContactForm
@@ -294,8 +301,8 @@ def detailpg(request, room_id, image_id):
         pk = request.user.pk
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(user=user)
-        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller, 'prof': profile})
+        return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller, 'prof': profile})
     
     except ObjectDoesNotExist:
-        return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
+        return render(request, 'pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
        

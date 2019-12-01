@@ -186,18 +186,19 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ('image', )
-
-
+    
 class ImageFormPG(forms.ModelForm):
     image = forms.ImageField(label='ImagePG')
 
     class Meta:
         model = ImagesPG
         fields = ('image', )
+    
+
 
 class FilterFormLocation(forms.ModelForm):
     LOCATION = ((x.id, x) for x in Location.objects.all())
-    print(LOCATION)
+    #print(LOCATION)
     Locations = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                           choices=LOCATION)
     class Meta: 

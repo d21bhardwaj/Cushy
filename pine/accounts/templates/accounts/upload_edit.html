@@ -18,25 +18,30 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-6 col-md-8 col-sm-10">
-            <form method="post" enctype="multipart/form-data"  id="post_form" action="">
+            <form method="post" enctype="multipart/form-data" style="text-align: center" class="uniForm" id="post_form" action="" >
                 {% csrf_token %}
                 
 
                 {% load crispy_forms_tags %}
-                {% crispy formset %}
-                {% if user.profile.verified == False %}
-                <div style="width: auto;height: auto;margin-top: 15px;margin-bottom: 15px;">
-                    <div class="row text-center justify-content-center" style="width: auto;height: auto;margin-right: 0px;margin-left: 0px;">
-                        <div class="col-auto" style="padding-left: 0px;padding-right: 0px;height: auto;width: auto;">
-                            <p class="text-center" style="width: auto;height: auto;margin-bottom: 0px;">We will send you an OTP to veify your mobile and email.</p>
-                        </div>
-                    </div>
-                </div>
-                    
-                <button type="submit" class="btn btn-primary">Verify Details</button>
-                {% else %}
+                {% crispy form %}
+                
+                {{ imageform.management_form }}
+                {% for field in imageform %}
+                    {% if forloop.counter == 1 %}
+                        <h6>Bedroom:</h6>
+                    {% endif %} 
+                    {% if forloop.counter == 2 %}
+                        <h6>Kitchen:</h6>
+                    {% endif %}
+                    {% if forloop.counter == 3 %}
+                        <h6>Bathroom:</h6>
+                    {% endif %}
+                    {% for subform in field %}
+                        {{ subform }}<br>
+                    {% endfor %}
+                {% endfor %}
                 <button type="submit" class="btn btn-primary">Update</button>
-                {% endif %}
+                
             </form>
         </div>
     </div>

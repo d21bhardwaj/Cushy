@@ -24,20 +24,44 @@
         <div class="row" style="padding: 0px;">
             <div class="col-md-12 col-lg-3 col-xl-2" style="padding: 00px;">
                 <ul class="list-group">
-                    <li class="list-group-item active text-center" style="background-color: #a2a8ae;"><span>Edit My Profile</span></li>
-                    <li class="list-group-item text-center" style="background-color: #a2a8ae;"><span>My Uploads</span></li>
+                    <li class="list-group-item  text-center" style="background-color: #a2a8ae;"><a href="{% url 'my_account' %}"><span>Edit My Profile</span></a></li>
+                    <li class="list-group-item active text-center" style="background-color: #a2a8ae;"><span>My Uploads</span></li>
                     <li class="list-group-item text-center" style="background-color: #a2a8ae;"><span>Contact PineTown</span></li>
                 </ul>
             </div>
-            <div class="col-md-12 col-lg-9 col-xl-10" style="height: auto;">
+            <div class="col-md-12 col-lg-9 col-xl-10" style="height: 1000px;">
                 <h1 class="text-center mb-auto" style="height: 65px;">&nbsp;Profile</h1>
                 <div class="clearfix"></div>
                 <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
-                {% for room in rooms %}
+                
+            
+            
+            {% for room in rooms %}
                     {%  for images in room.images_set.all %}
                     {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_detail" room.id images.id %}'" 
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_view" room.id images.id %}'" 
+                        style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+                            max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+                            margin-bottom:25px;min-height:auto;">
+                        <img class="img-fluid" 
+                        style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;"
+                        src="{{ images.image.url }}"  >
+                       
+                        <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
+                        
+                        <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
+                        
+                        <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ room.number_of_rooms }} Room</p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                
+                {% for room in pgs %}
+                    {%  for images in room.imagespg_set.all %}
+                    {% if forloop.counter == 1 %}
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_view" room.id images.id %}'" 
                         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
                             max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
                             margin-bottom:25px;min-height:auto;">

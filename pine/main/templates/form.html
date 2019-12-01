@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
 
-{%block subtitle%} | Room Rent{%endblock%}
+{% block subtitle %} | Room Rent{% endblock %}
 
 {% block form %}
     <div class="pt-changed"></div>
@@ -36,6 +36,12 @@
                 {% endif %}
                 {% if forloop.counter == 3 %}
                     <h6>Bathroom:</h6>
+                {% endif %}
+                {% if forloop.counter == 4 %}
+                    <h6>Extra:</h6>
+                {% endif %}
+                {% if forloop.counter == 5 %}
+                    <h6>Extra:</h6>
                 {% endif %}
                 {% for subform in field %}
                     {{ subform }}<br>
