@@ -31,7 +31,11 @@ def cart_add(request):
     try:
         with open(file_path, 'r') as json_read:
             data = json.loads(json_read.read())
-        data[str(product_id)] = quantity
+        try:
+            if(data[str(product_id)] >= 0):
+                data[str(product_id)] += quantity
+        except:
+            data[str(product_id)] = quantity
         with open(file_path, 'w+') as f:
             json.dump(data, f)
     except:
