@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="{% static 'profile/css/Customizable-Background--Overlay.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/Team-Boxed.css'%}">
+    <style type="text/css">
+        .act{
+            color: blue;
+        }
+
+    </style>
 {% endblock %}
 
 {% block title %}My account {% endblock %}
@@ -19,16 +25,20 @@
 
 
 {% block content %}
+
+<nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li><a class="nav-link" href="{%url 'my_account'%}" style="color: white;" ><span id="prof">Edit My Profile</span></a></li>
+            <li><a class="nav-link" href="{% url 'my_uploads' %}"  style="color: white;"><span id="upload">My Uploads</span></a></li>
+            <li><a class="nav-link" href="#" style="color: white;"><span id="cont">Contact PineTown</span></a></li>
+        </ul>
+    </div>
+</nav>
+
 <div class="align-items-start">
     <div class="container-fluid" style="height: autopx;">
         <div class="row" style="padding: 0px;">
-            <div class="col-md-12 col-lg-3 col-xl-2" style="padding: 00px;">
-                <ul class="list-group">
-                    <li class="list-group-item  text-center" style="background-color: #a2a8ae;"><a href="{% url 'my_account' %}"><span>Edit My Profile</span></a></li>
-                    <li class="list-group-item active text-center" style="background-color: #a2a8ae;"><span>My Uploads</span></li>
-                    <li class="list-group-item text-center" style="background-color: #a2a8ae;"><span>Contact PineTown</span></li>
-                </ul>
-            </div>
             <div class="col-md-12 col-lg-9 col-xl-10" style="height: 1000px;">
                 <h1 class="text-center mb-auto" style="height: 65px;">&nbsp;Profile</h1>
                 <div class="clearfix"></div>
@@ -86,4 +96,8 @@
 </div>
 <script src="{% static 'about_us/js/jquery.min.js' %}"></script>
 <script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript">
+    // $('.row').addClass('ch');
+    $('#upload').addClass('act');
+</script>
 {% endblock %}

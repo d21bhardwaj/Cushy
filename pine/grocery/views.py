@@ -31,7 +31,11 @@ def cart_add(request):
     try:
         with open(file_path, 'r') as json_read:
             data = json.loads(json_read.read())
-        data[str(product_id)] = quantity
+        try:
+            if(data[str(product_id)] >= 0):
+                data[str(product_id)] += quantity
+        except:
+            data[str(product_id)] = quantity
         with open(file_path, 'w+') as f:
             json.dump(data, f)
     except:
@@ -53,10 +57,11 @@ def cart_change(request):
     user_id = request.user.pk
     product_id = request.POST.get['product_id']
     # quantity = request.POST.get['quantity']
+    quantity = 1
     file_path = 'static/json/user' + str(user_id) + 'cart.json'
     with open(file_path, 'r+') as json_read:
         data = json.loads(json_read.read())
-    data[product_id] = 1
+    data[str(product_id)] = quantity
     with open(file_path, 'w+') as f:
         json.dump(data, f)
     return render(request, 'page3.html')
@@ -151,3 +156,6 @@ def all_brands(request, shop_name, brand_name):
     groceries = Products.objects.filter(shop=shop,category=category)
 
     return render(request, 'groceries.html', {'groceries' : groceries})
+
+def cart_view(request):
+    return render(request, 'cart.html')
