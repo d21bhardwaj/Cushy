@@ -156,3 +156,6 @@ def all_brands(request, shop_name, brand_name):
     groceries = Products.objects.filter(shop=shop,category=category)
 
     return render(request, 'groceries.html', {'groceries' : groceries})
+
+def cart_view(request):
+    return render(request, 'cart.html')

@@ -20,6 +20,9 @@ urlpatterns = [
     path('shops/',
         views.all_shops,
         name='All_Shops'),
+    path('usercart/',
+        views.cart_view,
+        name='Cart_view'),
 
 #--- Add whatever you want above it --#
     ## Always keep it Last in path ###
