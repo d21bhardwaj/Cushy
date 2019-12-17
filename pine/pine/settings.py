@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'social_django',
     'accounts',
     'widget_tweaks',
+    'grocery',
     #Adding for contact form
     
     

@@ -26,10 +26,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('dashtown/', admin.site.urls),
     path('',include('main.urls')),
+    path('Grocery/', include('grocery.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', RedirectView.as_view(pattern_name='index', permanent=False)),
     
     path('', views.index, name='index'),
     path('',include('accounts.urls')),
+    path('grocery/',include('grocery.urls')),
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

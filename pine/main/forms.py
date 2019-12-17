@@ -186,15 +186,56 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ('image', )
-
-
+    
 class ImageFormPG(forms.ModelForm):
     image = forms.ImageField(label='ImagePG')
 
     class Meta:
         model = ImagesPG
         fields = ('image', )
+    
 
+
+class FilterFormLocation(forms.ModelForm):
+    LOCATION = ((x.id, x) for x in Location.objects.all())
+    #print(LOCATION)
+    Locations = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                          choices=LOCATION)
+    class Meta: 
+        model = Location
+        fields = ('Locations',)
+
+class FilterFormPrice(forms.ModelForm):
+    PRICE = (
+        (0,'Less than 2000'),
+        (2000,'2000-4000'),
+        (4000,'4000-6000'),
+        (6000,'6000-8000'),
+        (8000,'8000-10000'),
+        (10000,'Above 10000')
+    )
+    Prices = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                          choices=PRICE)
+    class Meta: 
+        model = RentingUser 
+        fields = ('Prices',)
+
+                    
+
+class FilterFormPGPrice(forms.ModelForm):
+    PRICE = (
+        (0,'Less than 2000'),
+        (2000,'2000-4000'),
+        (4000,'4000-6000'),
+        (6000,'6000-8000'),
+        (8000,'8000-10000'),
+        (10000,'Above 10000')
+    )
+    Prices = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                          choices=PRICE)
+    class Meta: 
+        model = RentingPGUser 
+        fields = ('Prices',)     
 
 class ContactForm(forms.Form):
     contact_name = forms.CharField(required=True)

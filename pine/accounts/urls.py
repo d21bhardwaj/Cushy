@@ -10,9 +10,10 @@ urlpatterns = [
    
    
     path('signup/', accounts_views.signup, name='signup'),
+    
     path('login/', auth_views.LoginView.as_view(template_name='login.html'),name='login'),
 
-     path('activate_account/<str:token>',accounts_views.activate_account, name='activate_account'),
+    path('activate_account/<str:token>',accounts_views.activate_account, name='activate_account'),
 
     ############################################### MOBILE VERIFICATION DEMO ##################################
     
@@ -20,7 +21,7 @@ urlpatterns = [
 #Adding url password related form the link(https://simpleisbetterthancomplex.com/series/2017/09/25/a-complete-beginners-guide-to-django-part-4.html)
 
     path('reset/',
-    auth_views.PasswordResetView.as_view(
+        auth_views.PasswordResetView.as_view(
             template_name='password_reset.html',
             email_template_name='password_reset_email.html',
             subject_template_name='password_reset_subject.txt'),
@@ -55,6 +56,47 @@ urlpatterns = [
         accounts_views.profileupdate, 
         name='my_account'),
 
+    path('settings/account/uploads',
+        accounts_views.uploads,
+        name='my_uploads'),
+        
+#Delete
+    path('settings/account/delete/pg/<int:pg_id>/', 
+        accounts_views.delete_pg, 
+        name='delete_pg'),
+   
+    path('settings/account/delete/room/<int:room_id>/', 
+        accounts_views.delete_room, 
+        name='delete_room'),
+
+#Hide   
+    path('settings/account/hide/pg/<int:pg_id>/', 
+        accounts_views.hide_pg, 
+        name='hide_pg'),
+
+    path('settings/account/hide/room/<int:room_id>/', 
+        accounts_views.hide_room, 
+        name='hide_room'),
+
+#Update
+    path('settings/account/update/room/<int:room_id>/',
+        accounts_views.room_update,
+        name='my_room'),
+
+    path('settings/account/update/pg/<int:pg_id>/',
+        accounts_views.pg_update,
+        name='my_pg'),
+
+
+    # path('settings/account/update_pic/<int:pg_id>/',
+    #     accounts_views.pic_update,
+    #     name='my_pics'),
+    path('settings/account/view/room/<int:room_id>/<int:image_id>',
+        accounts_views.room_view,
+        name='room_view'),
+    path('settings/account/view/pg/<int:room_id>/<int:image_id>',
+        accounts_views.pg_view,
+        name='pg_view'),
 
 
 ]
