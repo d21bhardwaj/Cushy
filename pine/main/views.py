@@ -40,6 +40,9 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
+def about_us(request):
+    return render(request, 'about_us.html')
+
 
 @login_required
 @user_passes_test(user_verified, login_url='/settings/account/')
