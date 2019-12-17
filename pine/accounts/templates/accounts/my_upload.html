@@ -78,7 +78,6 @@
         {% endif %}
     </div>
         <div class="container align-items-center align-content-center align-self-center">
-        
             <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
             
@@ -116,4 +115,11 @@
                     margin-top: 25px;margin-right: 25px;margin-bottom: 25px;margin-left: 25px;">&nbsp; &nbsp; Rent Pgs &nbsp;&nbsp;</button>
             </div>
         </div>
+        
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    $('.row').addClass('ch');
+    $('#upload').addClass('act');
+</script>
 {% endblock %}

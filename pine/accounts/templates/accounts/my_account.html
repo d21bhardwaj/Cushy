@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 {% block stylesheet %}
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}"> {% endcomment %}
     <link rel="stylesheet" href="{% static 'css/accounts.css' %}"> 
     <link rel="stylesheet" href="{% static 'profile/css/Customizable-Background--Overlay.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/styles.css' %}">
@@ -35,11 +35,17 @@
     </div>
 </nav>
 {% block content1 %}{% endblock %}
-
+{% endblock %}
+{% block script %}
 <script src="{% static 'about_us/js/jquery.min.js' %}"></script>
 <script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
 <script type="text/javascript">
     $('.row').addClass('ch');
     $('#prof').addClass('act');
 </script>
-{% endblock body %}
+<script>
+$(document).on('click',function(){
+$('.collapse').collapse('hide');
+})
+</script> 
+{% endblock %}
