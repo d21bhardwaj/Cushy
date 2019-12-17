@@ -1,4 +1,4 @@
-{% extends 'main/templates/base.html' %}
+{% extends 'my_account.html' %}
 {% load static %}
 
 {% load staticfiles %}
@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="{% static 'profile/css/Customizable-Background--Overlay.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/Team-Boxed.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
     <style type="text/css">
         .act{
             color: blue;
@@ -24,54 +27,25 @@
 
 
 
-{% block content %}
+{% block content1 %}
 
-<nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li><a class="nav-link" href="{%url 'my_account'%}" style="color: white;" ><span id="prof">Edit My Profile</span></a></li>
-            <li><a class="nav-link" href="{% url 'my_uploads' %}"  style="color: white;"><span id="upload">My Uploads</span></a></li>
-            <li><a class="nav-link" href="#" style="color: white;"><span id="cont">Contact PineTown</span></a></li>
-        </ul>
+
+
+
+<div class="projects-clean">
+       
+    <div class="page-header text-center">
+        {% if rooms %}<h1>Rooms Uploaded</h1> 
+        {% else %}<h2>No Room Has been Uploaded as of Now</h2>
+        {% endif %}     
     </div>
-</nav>
-
-<div class="align-items-start">
-    <div class="container-fluid" style="height: autopx;">
-        <div class="row" style="padding: 0px;">
-            <div class="col-md-12 col-lg-9 col-xl-10" style="height: 1000px;">
-                <h1 class="text-center mb-auto" style="height: 65px;">&nbsp;Profile</h1>
-                <div class="clearfix"></div>
-                <div class="row justify-content-center projects" 
+    <div class="container align-items-center align-content-center align-self-center">
+            <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
-                
-            
-            
-            {% for room in rooms %}
-                    {%  for images in room.images_set.all %}
+                {% for room in rooms %}
+                    {% for images in room.images_set.all %}
                     {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_view" room.id images.id %}'" 
-                        style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
-                            max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
-                            margin-bottom:25px;min-height:auto;">
-                        <img class="img-fluid" 
-                        style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;"
-                        src="{{ images.image.url }}"  >
-                       
-                        <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
-                        
-                        <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
-                        
-                        <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ room.number_of_rooms }} Room</p>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                {% endfor %}
-                
-                {% for room in pgs %}
-                    {%  for images in room.imagespg_set.all %}
-                    {% if forloop.counter == 1 %}
-                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_view" room.id images.id %}'" 
+                    <div class="col-sm-6 col-lg-4 item filterDiv {{room.locality}} {{room.number_of_rooms}} {{room.price}} " data-id="shop={{shop.id}}" onclick="location.href='{% url "room_view" room.id images.id %}'" 
                         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
                             max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
                             margin-bottom:25px;min-height:auto;">
@@ -90,14 +64,62 @@
                 {% endfor %}
                     
             </div>
+        </div>
+            <div class="row text-center d-flex justify-content-center">
+                <div class="row text-center d-flex justify-content-center" style="padding-bottom: 0px;padding-top: 0px;">
+                    <button        class="btn btn-primary btn-lg border rounded" onclick="location.href='{% url "RentForm" %}'" type="button"
+                    style="margin-right: 25px;background-color: rgb(255,255,255);color: rgb(87,95,193);
+                    margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">&nbsp;Rent Rooms&nbsp;</button>
+                </div>
+            </div>
+     <div class="page-header text-center">
+        {% if rooms %}<h1>PG Uploaded</h1> 
+        {% else %}<h2>No PG Has been Uploaded as of Now</h2>
+        {% endif %}
+    </div>
+        <div class="container align-items-center align-content-center align-self-center">
+            <div class="row justify-content-center projects" 
+            style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
+            
+                {% for  room in pgs %}
+                    {% for images in room.imagespg_set.all %}
+                        {% if forloop.counter == 1 %}
+                        <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_view" room.id images.id %}'" 
+                            style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+                                max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+                                margin-bottom:25px;min-height:auto;">
+                            <img class="img-fluid" 
+                            style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;"
+                            src="{{ images.image.url }}"  >
+                            
+                            <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
+                            
+                            <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
+                            
+                            {% if room.gender_preference == "Only Girls" %}
+                            <p style="font-size:18px;"><i class="fa fa-female"></i>&nbsp;{{ room.gender_preference}}</p>
+                            {% elif room.gender_preference == "Only Boys" %}
+                            <p style="font-size:18px;"><i class="fa fa-male"></i>&nbsp;{{ room.gender_preference }}</p>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
-    </div>
-</div>
-<script src="{% static 'about_us/js/jquery.min.js' %}"></script>
-<script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
+        <div class="row text-center d-flex justify-content-center">
+                <div class="row text-center d-flex justify-content-center" style="padding-bottom: 0px;padding-top: 0px;">
+                    <button
+                    class="btn btn-primary btn-lg border rounded" onclick="location.href='{% url "RentPGForm" %}'"  type="button" 
+                    style="background-color: rgb(255,255,255);color: rgb(87,95,193);
+                    margin-top: 25px;margin-right: 25px;margin-bottom: 25px;margin-left: 25px;">&nbsp; &nbsp; Rent Pgs &nbsp;&nbsp;</button>
+            </div>
+        </div>
+        
+{% endblock %}
+{% block script %}
 <script type="text/javascript">
-    // $('.row').addClass('ch');
+    $('.row').addClass('ch');
     $('#upload').addClass('act');
 </script>
 {% endblock %}

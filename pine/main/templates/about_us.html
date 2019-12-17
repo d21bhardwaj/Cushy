@@ -5,60 +5,107 @@
 {% load static %}
 {% block stylesheet %} 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="stylesheet" href="{% static 'about_us/css/Customizable-Background--Overlay.css' %}">
-    <link rel="stylesheet" href="{% static 'about_us/css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'about_us/css/Team-Boxed.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'AboutUs/css/Customizable-Background--Overlay.css' %}">
+    <link rel="stylesheet" href="{% static 'AboutUs/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'AboutUs/css/Team-Boxed.css' %}">
+    <link rel="stylesheet" href="{% static 'AboutUs/css/Team-Grid.css' %}">
+
+
 {% endblock %}
 
 <body>
 {% block body %} 
 
-<div class="team-boxed">
+<div class="team-grid">
     <div class="container">
         <div class="intro">
             <h2 class="text-center">Team </h2>
-            <p class="text-center">Pinetown is a project that is being built to easy the way some of the bussiness are done.</p>
+            <p class="text-lg-center font-weight-bold " style="height: auto;"><br>Pinetown&nbsp;is&nbsp;a&nbsp;project&nbsp;that&nbsp;is&nbsp;being&nbsp;built&nbsp;to&nbsp;ease the&nbsp;way&nbsp;some&nbsp;of&nbsp;the&nbsp;bussiness&nbsp;are&nbsp;done.<br><br></p>
+            <h3 class="text-center" stye="height: auto;">For any queries, fill the <a href=/contact_us/>Contact Us.</a>&nbsp;<br>Will get back&nbsp;Soon!</h3>
         </div>
         <div class="row people">
-            <div class="col-md-6 col-lg-4 item">
-                <div class="box"><img class="rounded-circle" src="{% static 'about_us/img/1.jpg' %}">
-                    <h3 class="name">Mayank&nbsp;</h3>
-                    <p class="title">Full Stack developer</p>
-                    <p class="description">Mayank is a pre final yearite in the department of CST.<br>He stays in CC and chills.</p>
-                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+            <div class="col-sm-8 col-md-4 col-lg-3 col-xl-3 offset-sm-2 offset-md-0 offset-lg-0 offset-xl-0 item">
+                <div class="box" style="background-image:url(/static/AboutUs/img/1.jpg)" href="https://www.linkedin.com/in/vidhi-bhati-135a2813b/">
+                    <div class="cover">
+                        <h3 class="name">Mayank Prasad</h3>
+                        <p class="title">Developer</p>
+                        <div class="social">
+                            <a href="https://www.facebook.com/mayank.prasad.35">
+                                <i class="fa fa-facebook-official"></i></a>
+                            <a href="https://www.linkedin.com/in/mayank-prasad/">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4 item">
-                <div class="box"><img class="rounded-circle" src="{% static 'about_us/img/2.jpg' %}">
-                    <h3 class="name">Vidhi</h3>
-                    <p class="title">Designer</p>
-                    <p class="description">Vidhi is in department of design.<br>She is a btech of deisign.<br>She takes a lot of work and panics</p>
-                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+            <div class="col-sm-8 col-md-4 col-lg-3 offset-sm-2 offset-md-0 offset-lg-0 offset-xl-0 item">
+                <div class="box" style="background-image:url(/static/AboutUs/img/2.jpg)">
+                    <div class="cover">
+                        <h3 class="name">Vidhi Bhati</h3>
+                        <p class="title">Designer</p>
+                        <div class="social">
+                            <a href="https://www.facebook.com/bhati.vidhi">
+                                <i class="fa fa-facebook-official"></i></a>
+                            <a href="https://www.linkedin.com/in/vidhi-bhati-135a2813b/">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4 item">
-                <div class="box"><img class="rounded-circle" src="{% static 'about_us/img/3.jpg' %}">
-                    <h3 class="name">Siddhant</h3>
-                    <p class="title">Hoster</p>
-                    <p class="description">Siddhant is MNC Under Grad.<br>He is WebOps head in Team Techniche.<br>He would not correct ssh.</p>
-                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+            <div class="col-sm-8 col-md-4 col-lg-3 offset-sm-2 offset-md-0 offset-lg-0 offset-xl-0 item">
+                <div class="box" style="background-image:url(/static/AboutUs/img/3.jpg)">
+                    <div class="cover">
+                        <h3 class="name">Siddhant Sinha</h3>
+                        <p class="title">Server Administrator</p>
+                        <div class="social">
+                            <a href="https://www.facebook.com/siddhant.sinha.568">
+                                <i class="fa fa-facebook-official"></i></a>
+                            <a href="https://www.linkedin.com/in/sid573/">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4 offset-xl-4 item">
-                <div class="box"><img class="rounded-circle" src="{% static 'about_us/img/4.jpg' %}">
-                    <h3 class="name">Devansh&nbsp;</h3>
-                    <p class="title">Freelancer</p>
-                    <p class="description">I'm a Btech in Physics&nbsp;<br>I do backchodi and chill<br>Can be found at khoka and SAC</p>
-                    <div class="social"><a href="#"><i class="fa fa-facebook-official"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-instagram"></i></a></div>
+            <div class="col-sm-8 col-md-4 col-lg-3 offset-sm-2 offset-md-4 offset-lg-0 item">
+                <div class="box" style="background-image:url(/static/AboutUs/img/4.jpg)">
+                    <div class="cover">
+                        <h3 class="name">Devansh Bhardwaj</h3>
+                        <p class="title">Developer &amp; Project Manager</p>
+                        <div class="social">
+                            <a href="https://www.facebook.com/d21bhardwaj">
+                                <i class="fa fa-facebook-official"></i></a>
+                            <a href="https://www.linkedin.com/in/d21bhardwaj/">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-4 col-lg-3 offset-sm-2 offset-md-4 offset-lg-0 item">
+                <div class="box" style="background-image:url(/static/AboutUs/img/5.jpg)">
+                    <div class="cover">
+                        <h3 class="name">Aryan Agrawal</h3>
+                        <p class="title">Developer</p>
+                        <div class="social"><a href="https://www.facebook.com/aryan.ag2305">
+                            <i class="fa fa-facebook-official"></i></a>
+                        <a href="https://www.linkedin.com/in/aryan2305/">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="{% static 'about_us/js/jquery.min.js' %}"></script>
-<script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
+
+<div class="align-items-start"></div>
+<script src="{% static 'AboutUs/bootstrap/js/jquery.min.js' %}"></script>
+<script src="{% static 'AboutUs/bootstrap/js/bootstrap.min.js' %}"></script>
+<script>
+$(document).on('click',function(){
+$('.collapse').collapse('hide');
+})
+</script> 
 {% endblock %}
-
-
-</body>
 
