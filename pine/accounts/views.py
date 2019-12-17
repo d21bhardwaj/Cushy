@@ -280,7 +280,7 @@ def room_update(request, room_id):
                             d.image = photo.image
                             d.save()
                 imageid = imageid.first()
-                return render(request, 'room_detail.html', {
+                return render(request, 'my_room_detail.html', {
                     "prof": profile,
                     "rooms": rooms,
                     "images": imageid,

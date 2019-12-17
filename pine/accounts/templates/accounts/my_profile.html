@@ -1,4 +1,4 @@
-{% extends 'main/templates/base.html' %}
+{% extends 'my_account.html' %}
 {% load static %}
 
 {% load staticfiles %}
@@ -26,17 +26,9 @@
 
 {% block title %}My account {% endblock %}
 
-{% block content %}
+{% block content1 %}
 
-<nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li><a class="nav-link" href="{%url 'my_account'%}" style="color: white;" ><span id="prof">Edit My Profile</span></a></li>
-            <li><a class="nav-link" href="{% url 'my_uploads' %}"  style="color: white;"><span id="upload">My Uploads</span></a></li>
-            <li><a class="nav-link" href="#" style="color: white;"><span id="cont">Contact PineTown</span></a></li>
-        </ul>
-    </div>
-</nav>
+
 
 <div class="container">
 
@@ -72,10 +64,5 @@
 </div>
     <div class="pt-changed"></div>
     <div class="pt-changed"></div>
-<script src="{% static 'about_us/js/jquery.min.js' %}"></script>
-<script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
-<script type="text/javascript">
-    $('.row').addClass('ch');
-    $('#prof').addClass('act');
-</script>
+
 {% endblock %}
