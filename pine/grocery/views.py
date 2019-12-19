@@ -44,7 +44,7 @@ def cart_add(request):
             quantity = 3
             add[str(product_id)] = quantity
             json.dump(add, json_file)
-    return render(request, 'groceries.html')
+    return render(request, 'cart.html')
 
 def show_savings(cart):
     total_savings = 0
@@ -114,7 +114,7 @@ def data_upload(request):
 def all_grocery(request):
     groceries = Product.objects.all()
     #print(groceries)
-    return render(request, 'grocery.html', {'groceries' : groceries})
+    return render(request, 'groceries.html', {'groceries' : groceries})
 
 def all_shops(request):
     shops = Shop.objects.all()
@@ -158,4 +158,13 @@ def all_brands(request, shop_name, brand_name):
     return render(request, 'groceries.html', {'groceries' : groceries})
 
 def cart_view(request):
-    return render(request, 'cart.html')
+    user_id = request.user.pk
+    file_path = 'static/json/user' + str(user_id) + 'cart.json'
+    try:
+        with open(file_path,'r+') as json_cart:
+            user_cart = json.loads(json_cart.read())
+            print(user_cart)
+    except:
+        pass
+
+    return render(request, 'cart.html', {'cart': user_cart})
