@@ -2,7 +2,7 @@ from django import forms
 from .models import RentingUser, RentingPGUser, Images, ImagesPG, Location
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, ButtonHolder
-
+from django.template.defaultfilters import filesizeformat
 
 class RentForm(forms.ModelForm):
 
@@ -19,7 +19,7 @@ class RentForm(forms.ModelForm):
         widgets = {
             'number_of_rooms': forms.NumberInput(attrs={'class': 'form-control',
                                                         'placeholder': 'Enter the Number of Rooms in the House'}),
-            'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
             'locality':  forms.Select(attrs={'class': 'regDropDown'}),
             'attached_bathroom': forms.Select(attrs={'class': 'regDropDown'}),
             'attached_kitchen': forms.Select(attrs={'class': 'regDropDown'}),
@@ -108,7 +108,7 @@ class RentPGForm(forms.ModelForm):
         widgets = {
             'occupants_per_room': forms.NumberInput(attrs={'class': 'form-control',
                                                         'placeholder': 'Enter the Number of Rooms in the House'}),
-            'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
             'locality':  forms.Select(attrs={'class': 'regDropDown'}),  
             'attached_bathroom': forms.Select(attrs={'class': 'regDropDown'}),
             'food_included': forms.Select(attrs={'class': 'regDropDown'}),
@@ -186,6 +186,15 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ('image', )
+    # def clean(self):
+    #     cleaned_data =super().clean()
+    #     image = self.cleaned_data.get("image")
+    #     if image.size > 2048*1024:
+    #         raise forms.ValidationError(
+    #             'File size must be under 2MB. Current file size is %.2fMB.' %  (image.size/1024/1024))
+    #     return(image)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
     
 class ImageFormPG(forms.ModelForm):
     image = forms.ImageField(label='ImagePG')
@@ -193,6 +202,14 @@ class ImageFormPG(forms.ModelForm):
     class Meta:
         model = ImagesPG
         fields = ('image', )
+    # def clean(self):
+    #     cleaned_data =super().clean()
+    #     image = self.cleaned_data.get("image")
+    #     if image.size > 2048*1024:
+    #         raise forms.ValidationError(
+    #             'File size must be under 2MB. Current file size is %.2fMB.' %  (image.size/1024/1024))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
     
 
 

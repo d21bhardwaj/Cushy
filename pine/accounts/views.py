@@ -247,7 +247,7 @@ def room_update(request, room_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     rooms = RentingUser.objects.filter(user_profile=profile,pk=room_id).first()
-    ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=5, max_num=5,can_delete=True)
+    ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=5, max_num=5)
     user_form = RentForm(instance=rooms)
     
     if request.user.is_authenticated and request.user.id == user.id:
@@ -272,6 +272,7 @@ def room_update(request, room_id):
                         elif pic.cleaned_data['image'] is False:
                             photo = Images.objects.get(id=request.POST.get('form-' + str(index) + '-id'))
                             photo.delete()
+                            
 
                         else:
                             image = pic.cleaned_data.get('image')
@@ -286,14 +287,14 @@ def room_update(request, room_id):
                     "images": imageid,
                     })
             else :
-                print(form.error and imageform.errors)
+                print(form.errors, imageform.errors)
         else :
             imageform = ImageFormSet(queryset=Images.objects.filter(user=room_id))   
-            return render(request, 'upload_edit.html', {
-                    "noodle": pk,
-                    "form": user_form,
-                    "imageform": imageform,
-                    'header':'Room Update'})
+        return render(request, 'upload_edit.html', {
+                "noodle": pk,
+                "form": user_form,
+                "imageform": imageform,
+                'header':'Room Update'})
     else:
         raise PermissionDenied
 
@@ -302,7 +303,7 @@ def pg_update(request, pg_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     rooms = RentingPGUser.objects.filter(user_profile=profile,pk=pg_id).first()
-    ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=5, max_num=5,can_delete=True)
+    ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=5, max_num=5)
     user_form = RentPGForm(instance=rooms)
     
     if request.user.is_authenticated and request.user.id == user.id:
@@ -341,14 +342,14 @@ def pg_update(request, pg_id):
                     "images": imageid,
                     })
             else :
-                print(form.error and imageform.errors)
+                print(form.errors and imageform.errors)
         else :
             imageform = ImageFormSet(queryset=ImagesPG.objects.filter(user=pg_id))   
-            return render(request, 'upload_edit.html', {
-                    "noodle": pk,
-                    "form": user_form,
-                    "imageform": imageform,
-                    'header':'Room Update'})
+        return render(request, 'upload_edit.html', {
+                "noodle": pk,
+                "form": user_form,
+                "imageform": imageform,
+                'header':'Room Update'})
     else:
         raise PermissionDenied
 

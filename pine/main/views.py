@@ -56,7 +56,7 @@ def rentdetails(request):
     if request.user.is_authenticated and request.user.id == user.id:
         if request.method == "POST":
             form = RentForm(request.POST,request.FILES, )
-            imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
+            imageform = ImageFormSet(request.POST, request.FILES)
 
             if form.is_valid() and imageform.is_valid():
                 post_form = form.save(commit=False)
