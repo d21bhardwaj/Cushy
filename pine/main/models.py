@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.utils.timezone import now
 from django.core.exceptions import ValidationError
+import time 
 y_n_choices = [
     ('yes', 'Yes'),
     ('no', 'No'),
@@ -109,6 +110,7 @@ def validate_image(fieldfile_obj):
 def user_directory_path(instance, filename):
     prof = instance.user.user_profile
     no = instance.user 
+    filename = str(time.strftime('%Y%m%d-%H%M%S'))+str(filename)
     return 'Images/user_{id}/room_{no}/{file}'.format(id=prof.id,no= no , file = filename)
     #return 'Images/user_{0}/{1}'.format(instance.user.id, filename)
 
@@ -116,6 +118,7 @@ def user_directory_path(instance, filename):
 def user_directory_path_pg(instance, filename):
     prof = instance.user.user_profile
     no = instance.user 
+    filename = str(time.strftime('%Y%m%d-%H%M%S'))+str(filename)
     return 'ImagesPg/user_{id}/room_{no}/{file}'.format(id=prof.id,no= no , file = filename)
    
 
