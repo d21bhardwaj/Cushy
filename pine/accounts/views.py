@@ -265,27 +265,20 @@ def room_update(request, room_id):
                         
                         if pic.cleaned_data['id'] is None:
                             image = pic.cleaned_data['image']
-                            
                             photo = Images(user=rooms, image=image)
-                        
                             photo.save()
                         elif pic.cleaned_data['image'] is False:
                             photo = Images.objects.get(id=request.POST.get('form-' + str(index) + '-id'))
                             photo.delete()
-                            
-
                         else:
                             image = pic.cleaned_data.get('image')
                             photo = Images(user=rooms, image=image)
                             d = Images.objects.get(id=imageid[index].id)
-                            d.image = photo.image
-                            d.save()
+                            if( d.image != photo.image):
+                                d.image = photo.image
+                                d.save()                            
                 imageid = imageid.first()
-                return render(request, 'my_room_detail.html', {
-                    "prof": profile,
-                    "rooms": rooms,
-                    "images": imageid,
-                    })
+                return redirect( room_view,rooms.id, imageid.id) 
             else :
                 print(form.errors, imageform.errors)
         else :
@@ -315,8 +308,9 @@ def pg_update(request, pg_id):
             imageform = ImageFormSet(request.POST, request.FILES)
             if form.is_valid() and imageform.is_valid():
                 form.save()
-                for index, pic in enumerate(imageform):
                 
+                for index, pic in enumerate(imageform):
+                    print(str(imageid[index])+"Image ID ")
                     if pic.cleaned_data:
                         
                         if pic.cleaned_data['id'] is None:
@@ -333,14 +327,11 @@ def pg_update(request, pg_id):
                             image = pic.cleaned_data.get('image')
                             photo = ImagesPG(user=rooms, image=image)
                             d = ImagesPG.objects.get(id=imageid[index].id)
-                            d.image = photo.image
-                            d.save()
+                            if (d.image != photo.image):
+                                d.image = photo.image
+                                d.save()                                          
                 imageid = imageid.first()
-                return render(request, 'my_pg_detail.html', {
-                    "prof": profile,
-                    "rooms": rooms,
-                    "images": imageid,
-                    })
+                return redirect( pg_view,rooms.id, imageid.id)
             else :
                 print(form.errors and imageform.errors)
         else :
