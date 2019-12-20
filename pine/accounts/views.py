@@ -252,7 +252,7 @@ def room_update(request, room_id):
     
     if request.user.is_authenticated and request.user.id == user.id:
         rooms = RentingUser.objects.filter(user_profile=profile,pk=room_id).first()
-        imageid = Images.objects.filter(user=room_id)
+        imageid = Images.objects.filter(user=room_id).order_by('id')
         if request.method =='POST':
             imageid = Images.objects.filter(user=room_id)
             form = RentForm(request.POST, instance=rooms)
@@ -282,7 +282,7 @@ def room_update(request, room_id):
             else :
                 print(form.errors, imageform.errors)
         else :
-            imageform = ImageFormSet(queryset=Images.objects.filter(user=room_id))   
+            imageform = ImageFormSet(queryset=Images.objects.filter(user=room_id).order_by('id'))   
         return render(request, 'upload_edit.html', {
                 "noodle": pk,
                 "form": user_form,
@@ -301,7 +301,8 @@ def pg_update(request, pg_id):
     
     if request.user.is_authenticated and request.user.id == user.id:
         rooms = RentingPGUser.objects.filter(user_profile=profile,pk=pg_id).first()
-        imageid = ImagesPG.objects.filter(user=pg_id)
+        imageid = ImagesPG.objects.filter(user=pg_id).order_by('id')
+        
         if request.method =='POST':
             imageid = ImagesPG.objects.filter(user=pg_id)
             form = RentPGForm(request.POST, instance=rooms)
@@ -310,7 +311,7 @@ def pg_update(request, pg_id):
                 form.save()
                 
                 for index, pic in enumerate(imageform):
-                    print(str(imageid[index])+"Image ID ")
+                    
                     if pic.cleaned_data:
                         
                         if pic.cleaned_data['id'] is None:
@@ -335,7 +336,7 @@ def pg_update(request, pg_id):
             else :
                 print(form.errors and imageform.errors)
         else :
-            imageform = ImageFormSet(queryset=ImagesPG.objects.filter(user=pg_id))   
+            imageform = ImageFormSet(queryset=ImagesPG.objects.filter(user=pg_id).order_by('id'))   
         return render(request, 'upload_edit.html', {
                 "noodle": pk,
                 "form": user_form,
