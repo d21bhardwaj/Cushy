@@ -35,8 +35,11 @@ from .token import *
 from django.template.loader import render_to_string,get_template
 # time stamp
 from django.utils import timezone
-import datetime
+import datetime, sys
 # Create your views here.
+import logging
+
+logging.basicConfig( filename="media/test.log", level=logging.INFO)
 
 def signup(request):
     if request.method == 'POST':
@@ -309,11 +312,13 @@ def pg_update(request, pg_id):
             imageform = ImageFormSet(request.POST, request.FILES)
             if form.is_valid() and imageform.is_valid():
                 form.save()
-                
+                logging.info(str(request.FILES)+' FIles')
                 for index, pic in enumerate(imageform):
-                    
+                    logging.info(str(imageid[index])+' Image Index before')
+                for index, pic in enumerate(imageform):
+                    logging.info(str(imageid[index].id)+ " Image Index")  
                     if pic.cleaned_data:
-                        
+                        logging.warning(str(pic.cleaned_data)+' Pic Cleaned Data'+ str(index))
                         if pic.cleaned_data['id'] is None:
                             image = pic.cleaned_data['image']
                             
@@ -326,11 +331,17 @@ def pg_update(request, pg_id):
 
                         else:
                             image = pic.cleaned_data.get('image')
+                            
+                            logging.info(str(image)+' image')
                             photo = ImagesPG(user=rooms, image=image)
                             d = ImagesPG.objects.get(id=imageid[index].id)
+                            logging.info(str(d)+' before d')
                             if (d.image != photo.image):
                                 d.image = photo.image
-                                d.save()                                          
+                                d.save()
+                                logging.info(str(d)+' d')  
+                for index, pic in enumerate(imageform):
+                    logging.info(str(imageid[index])+' Image Index after')           
                 imageid = imageid.first()
                 return redirect( pg_view,rooms.id, imageid.id)
             else :
