@@ -24,9 +24,9 @@
 
                 {% load crispy_forms_tags %}
                 {% crispy form %}
-                <div class="alert alert-warning" role="alert">
+                {% comment %} <div class="alert alert-warning" role="alert">
                 Size of Pic Should not exceed 2MB. 
-                </div>
+                </div> {% endcomment %}
                 {{ imageform.management_form }}
                 {% for field in imageform %}
                     {% if forloop.counter == 1 %}

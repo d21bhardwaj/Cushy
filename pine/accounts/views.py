@@ -37,9 +37,7 @@ from django.template.loader import render_to_string,get_template
 from django.utils import timezone
 import datetime, sys
 # Create your views here.
-import logging
 
-logging.basicConfig( filename="media/test.log", level=logging.INFO)
 
 def signup(request):
     if request.method == 'POST':
@@ -250,46 +248,22 @@ def room_update(request, room_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     rooms = RentingUser.objects.filter(user_profile=profile,pk=room_id).first()
-    ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=5, max_num=5)
     user_form = RentForm(instance=rooms)
-    
     if request.user.is_authenticated and request.user.id == user.id:
         rooms = RentingUser.objects.filter(user_profile=profile,pk=room_id).first()
         imageid = Images.objects.filter(user=room_id).order_by('id')
         if request.method =='POST':
             imageid = Images.objects.filter(user=room_id)
             form = RentForm(request.POST, instance=rooms)
-            imageform = ImageFormSet(request.POST, request.FILES)
-            if form.is_valid() and imageform.is_valid():
-                form.save()
-                for index, pic in enumerate(imageform):
-                
-                    if pic.cleaned_data:
-                        
-                        if pic.cleaned_data['id'] is None:
-                            image = pic.cleaned_data['image']
-                            photo = Images(user=rooms, image=image)
-                            photo.save()
-                        elif pic.cleaned_data['image'] is False:
-                            photo = Images.objects.get(id=request.POST.get('form-' + str(index) + '-id'))
-                            photo.delete()
-                        else:
-                            image = pic.cleaned_data.get('image')
-                            photo = Images(user=rooms, image=image)
-                            d = Images.objects.get(id=imageid[index].id)
-                            if( d.image != photo.image):
-                                d.image = photo.image
-                                d.save()                            
+            if form.is_valid():
+                form.save()                           
                 imageid = imageid.first()
                 return redirect( room_view,rooms.id, imageid.id) 
             else :
-                print(form.errors, imageform.errors)
-        else :
-            imageform = ImageFormSet(queryset=Images.objects.filter(user=room_id).order_by('id'))   
+                print(form.errors)
         return render(request, 'upload_edit.html', {
                 "noodle": pk,
                 "form": user_form,
-                "imageform": imageform,
                 'header':'Room Update'})
     else:
         raise PermissionDenied
@@ -299,59 +273,21 @@ def pg_update(request, pg_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     rooms = RentingPGUser.objects.filter(user_profile=profile,pk=pg_id).first()
-    ImageFormSet = modelformset_factory(ImagesPG, form=ImageFormPG, extra=5, max_num=5)
     user_form = RentPGForm(instance=rooms)
-    
     if request.user.is_authenticated and request.user.id == user.id:
-        rooms = RentingPGUser.objects.filter(user_profile=profile,pk=pg_id).first()
-        imageid = ImagesPG.objects.filter(user=pg_id).order_by('id')
-        
+        rooms = RentingPGUser.objects.filter(user_profile=profile,pk=pg_id).first() 
         if request.method =='POST':
             imageid = ImagesPG.objects.filter(user=pg_id)
             form = RentPGForm(request.POST, instance=rooms)
-            imageform = ImageFormSet(request.POST, request.FILES)
-            if form.is_valid() and imageform.is_valid():
-                form.save()
-                logging.info(str(request.FILES)+' FIles')
-                for index, pic in enumerate(imageform):
-                    logging.info(str(imageid[index])+' Image Index before')
-                for index, pic in enumerate(imageform):
-                    logging.info(str(imageid[index].id)+ " Image Index")  
-                    if pic.cleaned_data:
-                        logging.warning(str(pic.cleaned_data)+' Pic Cleaned Data'+ str(index))
-                        if pic.cleaned_data['id'] is None:
-                            image = pic.cleaned_data['image']
-                            
-                            photo = ImagesPG(user=rooms, image=image)
-                        
-                            photo.save()
-                        elif pic.cleaned_data['image'] is False:
-                            photo = ImagesPG.objects.get(id=request.POST.get('form-' + str(index) + '-id'))
-                            photo.delete()
-
-                        else:
-                            image = pic.cleaned_data.get('image')
-                            
-                            logging.info(str(image)+' image')
-                            photo = ImagesPG(user=rooms, image=image)
-                            d = ImagesPG.objects.get(id=imageid[index].id)
-                            logging.info(str(d)+' before d')
-                            if (d.image != photo.image):
-                                d.image = photo.image
-                                d.save()
-                                logging.info(str(d)+' d')  
-                for index, pic in enumerate(imageform):
-                    logging.info(str(imageid[index])+' Image Index after')           
+            if form.is_valid():
+                form.save()           
                 imageid = imageid.first()
-                return redirect( pg_view,rooms.id, imageid.id)
+                return redirect( pg_view, rooms.id, imageid.id)
             else :
-                print(form.errors and imageform.errors)
-        else :
-            imageform = ImageFormSet(queryset=ImagesPG.objects.filter(user=pg_id).order_by('id'))   
+                print(form.errors)
         return render(request, 'upload_edit.html', {
                 "noodle": pk,
                 "form": user_form,
-                "imageform": imageform,
                 'header':'Room Update'})
     else:
         raise PermissionDenied
@@ -365,7 +301,7 @@ def pg_view(request, room_id, image_id):
         pk = request.user.pk
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(user=user)
-        return render(request, 'my_pg_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile, "pg":'kyahaiyeh'})
+        return render(request, 'my_pg_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'seller': profile, "pg":'kyahaiyeh'})
     
     except ObjectDoesNotExist:
         return render(request, 'my_pg_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
@@ -379,7 +315,7 @@ def room_view(request, room_id, image_id):
         pk = request.user.pk
         user = User.objects.get(pk=pk)
         profile = Profile.objects.get(user=user)
-        return render(request, 'my_room_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'prof': profile, "body":"room"})
+        return render(request, 'my_room_detail.html', {'rooms': rooms, 'images': images, 'hide': hide, 'seller': profile, "body":"room"})
 
     except ObjectDoesNotExist:
         return render(request, 'my_room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
