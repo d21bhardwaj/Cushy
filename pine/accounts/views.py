@@ -330,6 +330,14 @@ def room_image(request, room_id):
     images = Images.objects.filter(user=rooms)    
     return render(request, 'images_update.html', {'rooms': rooms, 'images': images, "page":"room"})
 
+def pg_image(request, room_id):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    rooms = RentingPGUser.objects.get(id=room_id, user_profile=profile)
+    images = ImagesPG.objects.filter(user=rooms)    
+    return render(request, 'images_update.html', {'rooms': rooms, 'images': images, "page":"pg"})
+
 def room_image_update(request, room_id, image_id):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
@@ -342,7 +350,8 @@ def room_image_update(request, room_id, image_id):
             image_form = ImageForm(request.POST, request.FILES, instance=image_uploaded)
             if image_form.is_valid():
                 image_form.save()           
-                print(image_form)
+                
+                return redirect( room_view, rooms.id, image_id)
                 #return redirect( room_view, room.id, imageid.id)
             else :
                 print(image_form.errors)
@@ -354,7 +363,36 @@ def room_image_update(request, room_id, image_id):
                 'rooms':rooms,
                 'images':images,
                 'image_id':image_id,
+                "page":"room",
                 })
     return render(request, 'images_update.html', 
         {'rooms': rooms, 'images': images, 'seller': profile, "page":"room"})
-   
+
+def pg_image_update(request, room_id, image_id):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    rooms = RentingPGUser.objects.get(pk=room_id, user_profile=profile)
+    images = ImagesPG.objects.filter(user=rooms)    
+    image_uploaded = ImagesPG.objects.get(user=rooms, id= image_id)
+    if request.user.is_authenticated and request.user.id == user.id:
+        if request.method =='POST':
+            image_form = ImageFormPG(request.POST, request.FILES, instance=image_uploaded)
+            if image_form.is_valid():
+                image_form.save()           
+                print(image_form)
+                return redirect( pg_view, rooms.id, image_id)
+            else :
+                print(image_form.errors)
+        else:
+            image_form = ImageFormPG(instance=image_uploaded)
+        return render(request, 'images_update.html', {
+                "noodle": pk,
+                'form': image_form,
+                'rooms':rooms,
+                'images':images,
+                'image_id':image_id,
+                "page":"pg",
+                })
+    return render(request, 'images_update.html', 
+        {'rooms': rooms, 'images': images, 'seller': profile, "page":"pg"})

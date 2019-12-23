@@ -103,5 +103,10 @@ urlpatterns = [
     path('settings/account/image/room/<int:room_id>/<int:image_id>',
         accounts_views.room_image_update,
         name='room_image_update'),
-
+    path('settings/account/image/pg/<int:room_id>',
+        accounts_views.pg_image,
+        name='pg_image'),
+    path('settings/account/image/pg/<int:room_id>/<int:image_id>',
+        accounts_views.pg_image_update,
+        name='pg_image_update'),
 ]
