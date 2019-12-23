@@ -163,8 +163,15 @@ def cart_view(request):
     try:
         with open(file_path,'r+') as json_cart:
             user_cart = json.loads(json_cart.read())
-            print(user_cart)
+            dic = {}
+            for key,values in user_cart.items():
+                li = []
+                pro = Product.objects.filter(id=key).first()
+                li.append(pro.price)
+                li.append(values)
+                dic[pro.product] = li
+
     except:
         pass
 
-    return render(request, 'cart.html', {'cart': user_cart})
+    return render(request, 'cart.html', {'cart': dic})
