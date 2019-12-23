@@ -1,0 +1,81 @@
+{% extends 'my_account.html' %}
+{% load static %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block stylesheet %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/accounts.css' %}"> 
+    <link rel="stylesheet" href="{% static 'profile/css/Customizable-Background--Overlay.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/css/Team-Boxed.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+    <style type="text/css">
+        .act{
+            color: blue;
+        }
+
+    </style>
+{% endblock %}
+
+{% block title %}My Uploads {% endblock %}
+
+
+
+
+{% block content1 %}
+
+
+
+
+<div class="projects-clean">
+    <div class="alert alert-warning" role="alert">
+                Due to Technical Issues Image Edit would not be possible.
+                <a href=/contact_us/>Contact Us.</a> If you wish to update any image.
+                </div>      
+    <div class="page-header text-center">
+        {% comment %} {% if rooms %}<h1>Rooms Uploaded</h1> 
+        {% else %}<h2>No Room Has been Uploaded as of Now</h2>
+        {% endif %}      {% endcomment %}
+    </div>
+    <div class="container align-items-center align-content-center align-self-center">
+        <div class="row justify-content-center projects" 
+            style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
+        {% for image in images %}
+            <div class="col-sm-6 col-lg-4 item filterDiv"
+                style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+                    max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+                    margin-bottom:25px;min-height:auto;">
+                <img class="img-fluid" 
+                    style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;"
+                    src="{{ image.image.url }}"  >
+            {% if image.id == image_id %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form}}
+                <button type="submit">Upload</button>
+            </form>
+            {% else %}
+            <h1>{{page}}</h1>
+            <button type="button" class="btn btn-primary btn-sm" onclick="location.href='{% url 'room_image_update' rooms.id image.id %}'">
+                Edit it</button>
+            {% endif %}                   
+            </div>
+                        
+        {% endfor %}
+    </div>            
+
+            
+    
+        
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    $('.row').addClass('ch');
+    $('#upload').addClass('act');
+</script>
+{% endblock %}
