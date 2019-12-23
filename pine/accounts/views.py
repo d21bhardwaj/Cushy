@@ -37,7 +37,9 @@ from django.template.loader import render_to_string,get_template
 from django.utils import timezone
 import datetime
 # Create your views here.
+import logging
 
+logging.basicConfig( filename="media/test.log", level=logging.INFO)
 
 def signup(request):
     if request.method == 'POST':
