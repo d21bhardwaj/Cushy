@@ -181,11 +181,12 @@ class RentPGForm(forms.ModelForm):
 
 
 class ImageForm(forms.ModelForm):
-    image = forms.ImageField(label='Image')
-
+    image = forms.ImageField(label='Image',)
+    #widget=forms.FileInput add this to remove current file location
     class Meta:
         model = Images
         fields = ('image', )
+        
     # def clean(self):
     #     cleaned_data =super().clean()
     #     image = self.cleaned_data.get("image")
@@ -202,12 +203,7 @@ class ImageFormPG(forms.ModelForm):
     class Meta:
         model = ImagesPG
         fields = ('image', )
-    # def clean(self):
-    #     cleaned_data =super().clean()
-    #     image = self.cleaned_data.get("image")
-    #     if image.size > 2048*1024:
-    #         raise forms.ValidationError(
-    #             'File size must be under 2MB. Current file size is %.2fMB.' %  (image.size/1024/1024))
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     

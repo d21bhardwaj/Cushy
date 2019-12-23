@@ -35,7 +35,7 @@ from .token import *
 from django.template.loader import render_to_string,get_template
 # time stamp
 from django.utils import timezone
-import datetime, sys
+import datetime
 # Create your views here.
 
 
@@ -320,5 +320,39 @@ def room_view(request, room_id, image_id):
     except ObjectDoesNotExist:
         return render(request, 'my_room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
 
+def room_image(request, room_id):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    rooms = RentingUser.objects.get(id=room_id, user_profile=profile)
+    images = Images.objects.filter(user=rooms)    
+    return render(request, 'images_update.html', {'rooms': rooms, 'images': images, "page":"room"})
 
-
+def room_image_update(request, room_id, image_id):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    rooms = RentingUser.objects.get(pk=room_id, user_profile=profile)
+    images = Images.objects.filter(user=rooms)    
+    image_uploaded = Images.objects.get(user=rooms, id= image_id)
+    if request.user.is_authenticated and request.user.id == user.id:
+        if request.method =='POST':
+            image_form = ImageForm(request.POST, request.FILES, instance=image_uploaded)
+            if image_form.is_valid():
+                image_form.save()           
+                print(image_form)
+                #return redirect( room_view, room.id, imageid.id)
+            else :
+                print(image_form.errors)
+        else:
+            image_form = ImageForm(instance=image_uploaded)
+        return render(request, 'images_update.html', {
+                "noodle": pk,
+                'form': image_form,
+                'rooms':rooms,
+                'images':images,
+                'image_id':image_id,
+                })
+    return render(request, 'images_update.html', 
+        {'rooms': rooms, 'images': images, 'seller': profile, "page":"room"})
+   

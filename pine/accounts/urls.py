@@ -97,6 +97,11 @@ urlpatterns = [
     path('settings/account/view/pg/<int:room_id>/<int:image_id>',
         accounts_views.pg_view,
         name='pg_view'),
-
+    path('settings/account/image/room/<int:room_id>',
+        accounts_views.room_image,
+        name='room_image'),
+    path('settings/account/image/room/<int:room_id>/<int:image_id>',
+        accounts_views.room_image_update,
+        name='room_image_update'),
 
 ]
