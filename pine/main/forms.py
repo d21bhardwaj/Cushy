@@ -181,7 +181,7 @@ class RentPGForm(forms.ModelForm):
 
 
 class ImageForm(forms.ModelForm):
-    image = forms.ImageField(label='Image',)
+    image = forms.ImageField(label='Image',widget=forms.FileInput)
     #widget=forms.FileInput add this to remove current file location
     class Meta:
         model = Images
@@ -198,7 +198,7 @@ class ImageForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
     
 class ImageFormPG(forms.ModelForm):
-    image = forms.ImageField(label='ImagePG')
+    image = forms.ImageField(label='PG Image',widget=forms.FileInput)
 
     class Meta:
         model = ImagesPG

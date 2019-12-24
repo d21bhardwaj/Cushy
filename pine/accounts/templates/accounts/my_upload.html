@@ -35,7 +35,7 @@
 <div class="projects-clean">
 <div class="alert alert-warning" role="alert">
                 The website is being constantly improved.
-                If you find any difficulty or error. Just<a href=/contact_us/>Contact Us!</a> 
+                If you find any difficulty or error Just <a href=/contact_us/>Contact Us!</a> 
                 </div>      
     <div class="page-header text-center">
         {% if rooms %}<h1>Rooms Uploaded</h1> 
@@ -63,6 +63,25 @@
                         <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ room.number_of_rooms }} Room</p>
                     </div>
                     {% endif %}
+                    {% empty %}
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_image" room.id  %}'" 
+                            style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+                                max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+                                margin-bottom:25px;min-height:auto;">
+                            <h1
+                            style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;">
+                            Add Image </h1>
+                            
+                            <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
+                            
+                            <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
+                            
+                            {% if room.gender_preference == "Only Girls" %}
+                            <p style="font-size:18px;"><i class="fa fa-female"></i>&nbsp;{{ room.gender_preference}}</p>
+                            {% elif room.gender_preference == "Only Boys" %}
+                            <p style="font-size:18px;"><i class="fa fa-male"></i>&nbsp;{{ room.gender_preference }}</p>
+                            {% endif %}
+                        </div>
                     {% endfor %}
                 {% endfor %}
                     
@@ -86,6 +105,7 @@
             
                 {% for  room in pgs %}
                     {% for images in room.imagespg_set.all %}
+                    
                         {% if forloop.counter == 1 %}
                         <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_view" room.id images.id %}'" 
                             style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
@@ -106,6 +126,25 @@
                             {% endif %}
                         </div>
                         {% endif %}
+                    {% empty %}
+                    <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_image" room.id  %}'" 
+                            style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+                                max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+                                margin-bottom:25px;min-height:auto;">
+                            <h1
+                            style="height:auto;width:auto;max-height:250px;min-width:250px;min-height:250px;max-width:250px;">
+                            Add Image </h1>
+                            
+                            <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ room.price }}</strong>/month</p>
+                            
+                            <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{room.locality}}</p>
+                            
+                            {% if room.gender_preference == "Only Girls" %}
+                            <p style="font-size:18px;"><i class="fa fa-female"></i>&nbsp;{{ room.gender_preference}}</p>
+                            {% elif room.gender_preference == "Only Boys" %}
+                            <p style="font-size:18px;"><i class="fa fa-male"></i>&nbsp;{{ room.gender_preference }}</p>
+                            {% endif %}
+                        </div>
                     {% endfor %}
                 {% endfor %}
             </div>

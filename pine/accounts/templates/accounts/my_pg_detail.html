@@ -164,14 +164,13 @@
 		<div class="row justify-content-center">
 			<button 
                 class="button_edit" onclick="location.href='{% url "my_pg" rooms.id %}'" type="button"
-                >Edit</button> 
+                >Edit Information</button> 
 			<button 
 			class="button_done" onclick="location.href='{% url "my_uploads" %}'" type="button"
-			>Done</button>
+			>&nbsp;Done&nbsp;</button>
 			<button 
-                class="btn btn-primary btn-lg border rounded" onclick="location.href='{% url "pg_image" rooms.id %}'" type="button"
-                style="margin-right: 25px;background-color: rgb(247, 241, 241);color: rgb(87,95,193);
-				margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">Edit Pictures&nbsp;&nbsp;</button> 
+    			class="button_edit" onclick="location.href='{% url "pg_image" rooms.id %}'" type="button"
+                >Edit Pictures&nbsp;&nbsp;</button> 
 		</div>
 		{% if hide == 1 %}
 			<div class="row justify-content-center" style="margin-top:2px;">

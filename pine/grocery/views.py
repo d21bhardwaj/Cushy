@@ -69,8 +69,6 @@ def cart_change(request):
 def cart_empty(request):
     user_id = request.user.pk
     email_id = request.POST.get('email')
-
-
     file_path = 'static/json/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path, 'w+') as json_new:
@@ -159,6 +157,7 @@ def all_brands(request, shop_name, brand_name):
 
 def cart_view(request):
     user_id = request.user.pk
+    print(user_id)
     file_path = 'static/json/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path,'r+') as json_cart:
