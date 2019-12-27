@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import *
 #for profile linking
 from accounts.models import Profile
 from django.core.exceptions import PermissionDenied
-
+from django.contrib.auth.decorators import login_required, user_passes_test
 #adding for contact form
 
 from django.contrib.auth.models import User
@@ -14,7 +14,6 @@ from .models import Product,Brand,Shop,Category
 
 import openpyxl as xl
 
-from .models import Product,Brand,Shop,Category
 
 from django.shortcuts import render
 from django.http import Http404
@@ -22,6 +21,19 @@ from django.http import HttpResponse
 import json
 from django.conf import settings
 
+def user_verified(user):
+    try:
+        return user.profile.is_verified()
+    except ObjectDoesNotExist:
+        return False
+
+def shop_verified(user):
+    try:
+        return user.profile.is_shop_owner()
+    except ObjectDoesNotExist:
+        return False
+
+@user_passes_test(user_verified, login_url='/settings/account/')
 def cart_add(request):
     user_id = request.user.pk
     product_id = request.POST.get('product_id')
@@ -46,6 +58,7 @@ def cart_add(request):
             json.dump(add, json_file)
     return render(request, 'cart.html')
 
+@user_passes_test(user_verified, login_url='/settings/account/')
 def show_savings(cart):
     total_savings = 0
     for product in cart.keys():
@@ -78,7 +91,13 @@ def cart_empty(request):
     except:
         raise Http404("Action Cannot be executed!")
 
+@user_passes_test(shop_verified, login_url='/settings/account/')
 def data_upload(request):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    shop = Shop.objects.get(shop_user=profile)
+   
     if request.method == "POST":
         excel_file = request.FILES["excel_file"]
         wb = xl.load_workbook(excel_file)
@@ -91,14 +110,14 @@ def data_upload(request):
             if(i!=1):
                 cmpe = Company.objects.filter(id=int(sheet.cell(row=i,column= 3).value)).first()
                 cate = Category.objects.filter(id=int(sheet.cell(row=i,column= 4).value)).first()
-                sh = Shop.objects.filter(id=int(sheet.cell(row=i,column= 6).value)).first()
+                
                 dic.append(Product(
-                product=str(sheet.cell(row=i, column=1).value),  
+                name=str(sheet.cell(row=i, column=1).value),  
                 quantity=str(sheet.cell(row=i,column= 2).value), 
                 brand=cmpe, 
                 category=cate, 
                 price=str(sheet.cell(row=i,column= 5).value),
-                shop=sh,
+                shop=shop,
                 #off=str(sheet.cell(row=i,column= 7).value),
                 savings=int(sheet.cell(row=i,column= 7).value)
                 ))
@@ -155,6 +174,7 @@ def all_brands(request, shop_name, brand_name):
 
     return render(request, 'groceries.html', {'groceries' : groceries})
 
+@user_passes_test(user_verified, login_url='/settings/account/')
 def cart_view(request):
     user_id = request.user.pk
     print(user_id)

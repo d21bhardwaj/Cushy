@@ -29,7 +29,6 @@ urlpatterns = [
     path('Grocery/', include('grocery.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', RedirectView.as_view(pattern_name='index', permanent=False)),
-    
     path('', views.index, name='index'),
     path('',include('accounts.urls')),
     path('grocery/',include('grocery.urls')),

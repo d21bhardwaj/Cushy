@@ -14,15 +14,17 @@ class Profile(models.Model):
     verified = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
     session_id = models.CharField(max_length=181, blank=True)
-
+    shop_owner = models.BooleanField(default=False)
 
     def is_verified(self):
-
+        
         if self.verified:
             return True
         else:
             return False
-
+    
+    def is_shop_owner(self):
+        return self.shop_owner
 
 def create_profile(sender, **kwargs):
     user = kwargs["instance"]
@@ -30,7 +32,6 @@ def create_profile(sender, **kwargs):
         user_profile = Profile(user=user)
         user_profile.name = user.get_full_name()
         user_profile.email = user.email
-
         user_profile.save()
 
 
