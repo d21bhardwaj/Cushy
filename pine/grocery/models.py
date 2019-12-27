@@ -35,7 +35,7 @@ def product_directory_path(instance, filename):
 
 class Shop(models.Model):
     
-    shop_user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    shop_user = models.ForeignKey(Profile, on_delete=models.CASCADE, default='',null = True)
     shop = models.CharField(max_length=40, null = False, default='')
     mobile_no = models.CharField(null=True,blank=True,max_length=12)
     alternate_no = models.CharField(null=True,blank=True,max_length=12)
@@ -71,7 +71,7 @@ class Product(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null = False )
     barcode = models.IntegerField(null = True, blank= True)
     off = models.BooleanField()
-    free = models.BooleanField()
+    free = models.BooleanField(default=False)
     free_product = models.ForeignKey('self',on_delete=models.SET_NULL,null = True, blank = True)
     description = models.TextField(max_length=100, blank=True, null = True)
     savings = models.IntegerField(null = True, blank= True)
