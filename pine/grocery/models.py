@@ -67,7 +67,7 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, null = True, blank=True )
     category = models.ManyToManyField(Category, blank=True)
     price = models.IntegerField(null = False, blank= False, default='')
-    selling_price = models.IntegerField(null = False,blank= False, default='')
+    selling_price = models.IntegerField(null = False,blank= False)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null = False )
     barcode = models.IntegerField(null = True, blank= True)
     off = models.BooleanField()
