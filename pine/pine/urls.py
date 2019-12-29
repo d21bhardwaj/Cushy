@@ -22,6 +22,7 @@ from main import views
 from django.contrib.auth import logout
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.models import User
 
 urlpatterns = [
     path('dashtown/', admin.site.urls),
@@ -30,10 +31,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', RedirectView.as_view(pattern_name='index', permanent=False)),
     path('', views.index, name='index'),
-    path('',include('accounts.urls')),
-    path('grocery/',include('grocery.urls')),
-    
+    path('account/',include('accounts.urls')),
+    path('URS/',include('grocery.urls')),
+    path('Test_Shop/',include('grocery.urls')),  
 ]
-
+    
 if settings.DEBUG is True:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

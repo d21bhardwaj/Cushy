@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 urlpatterns = [    
     path('grocery/', 
         views.all_grocery, 
-        name='Grocery'),
+        name='grocery'),
     path('upload/',
         views.data_upload,
         name='Upload_data'),
@@ -23,10 +23,15 @@ urlpatterns = [
     path('usercart/',
         views.cart_view,
         name='Cart_view'),
-
+    path('product-edit',
+        views.data_upload_table,
+        name='Product_Edit'),
+        path('product-edit/<int:product_id>',
+        views.data_upload_form,
+        name='Product_Edit'),
 #--- Add whatever you want above it --#
     ## Always keep it Last in path ###
-    path('<str:shop_name>/',
+    path('',
         views.shops_grocery,
         name='Shops_Grocery'),
     #--- Don't add any thing below this -- #

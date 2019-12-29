@@ -69,14 +69,13 @@ class Product(models.Model):
     price = models.IntegerField(null = False, blank= False, default='')
     selling_price = models.IntegerField(null = False,blank= False)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null = False )
-    barcode = models.IntegerField(null = True, blank= True)
-    off = models.BooleanField()
-    free = models.BooleanField(default=False)
+    off = models.BooleanField(default=False, null=True, blank=True)
+    free = models.BooleanField(default=False,null=True, blank=True)
     free_product = models.ForeignKey('self',on_delete=models.SET_NULL,null = True, blank = True)
     description = models.TextField(max_length=100, blank=True, null = True)
     savings = models.IntegerField(null = True, blank= True)
-    barcode = models.IntegerField(null = True, blank= True)
-    
+    barcode = models.IntegerField(null = True, blank= True)        
+
     def __str__(self):
         return str(self.name)
 
@@ -90,18 +89,9 @@ class Images(models.Model):
 
 def complete_info(sender, **kwargs): 
     product = kwargs["instance"]
-    print(product)
-    print(product.off)
-    print(kwargs["update_fields"])
-    print(product.free_product)
-
-    if product.off is False:
-        print(1)
+    if product.off is False:   
         if product.price != product.selling_price:
             product.off = True
-            print(product.off)
-            print(product.price)
-            print(product.selling_price)
             product.savings = product.price - product.selling_price
     if product.free is False:
         if product.free_product is not None:
@@ -110,7 +100,9 @@ def complete_info(sender, **kwargs):
         product.free = False
     if product.price == product.selling_price:
         product.off = False
-       
-    
+    if product.price != product.selling_price:
+            product.off = True
+            product.savings = product.price - product.selling_price
+
 pre_save.connect(complete_info, sender=Product)      
 
