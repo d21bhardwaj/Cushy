@@ -152,7 +152,7 @@ AUTHENTICATION_BACKENDS = (
 )
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
-
+FILE_UPLOAD_PERMISSIONS=0o644
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE =  'Asia/Kolkata'
