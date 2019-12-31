@@ -214,7 +214,7 @@ def shops_grocery(request):
     shop_name = request_url(request)
     shop = Shop.objects.get(shop=shop_name)
     groceries = Product.objects.filter(shop=shop)
-    return render(request, 'groceries.html', {'groceries' : groceries})
+    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop_name})
 
 def all_category(request):
     category = Category.objects.all()
