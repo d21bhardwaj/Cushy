@@ -65,7 +65,7 @@ class Product(models.Model):
     name = models.CharField(max_length=40, null = False, default='')
     quantity = models.CharField(max_length=10, null = False, default='')
     brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, null = True, blank=True )
-    category = models.ManyToManyField(Category, blank=True,null=True)
+    category = models.ManyToManyField(Category, blank=True)
     price = models.IntegerField(null = False, blank= False, default='')
     selling_price = models.IntegerField(null = False,blank= False)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, null = False )
