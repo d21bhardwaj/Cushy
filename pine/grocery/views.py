@@ -20,6 +20,9 @@ from django.http import Http404
 from django.http import HttpResponse
 import json
 from django.conf import settings
+import logging
+
+logging.basicConfig( filename="media/grocery.log", level=logging.WARNING)
 
 def user_verified(user):
     try:
@@ -113,10 +116,13 @@ def data_upload(request):
                 price         = int(sheet.cell(row=i,column=4).value),  
                 selling_price = int(sheet.cell(row=i,column=5).value), 
                 description   = str(sheet.cell(row=i,column=6).value), 
-                barcode       = str(sheet.cell(row=i,column=7).value),
+                #barcode       = str(sheet.cell(row=i,column=7).value),
+                
+                off = False
                 if price != selling_price :
                     off = True
                     savings = price[0] - selling_price[0]
+                    print(savings)
                 else :
                     savings = 0             
                 dic.append(Product(
@@ -126,11 +132,12 @@ def data_upload(request):
                 price         = str(sheet.cell(row=i,column=4).value),  
                 selling_price = str(sheet.cell(row=i,column=5).value), 
                 description   = str(sheet.cell(row=i,column=6).value), 
-                barcode       = str(sheet.cell(row=i,column=7).value),
+                #barcode       = str(sheet.cell(row=i,column=7).value),
                 shop          = shop_user, 
                 off           = str(off),
                 savings       = str(savings),
-                ))        
+                ))
+                print(shop_user)        
         Product.objects.bulk_create(dic)
         return HttpResponse("Data created at server for"+" ")
 
