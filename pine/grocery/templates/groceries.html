@@ -31,6 +31,7 @@
        
    
     <p class="text-center text-secondary" style="padding-bottom:10px;"> {{groceries.count }} product{%if groceries.count > 1 %}s{% endif %} found </p>
+    <h1 align="center">You are shopping from {{shop_name}}</h1> 
     <div class="projects-clean">
         <div class="container align-items-center align-content-center align-self-center">
             <div class="row justify-content-center projects" 
@@ -50,7 +51,7 @@
                             {% if grocery.brand%}
                                 <p class="description just" style="text-align: center;">&nbsp; &nbsp;{{grocery.brand}}</p>
                             {% endif %}
-                            {% if grocery.description %}
+                            {% if grocery.description != 'None' %}
                                 <p class="card-text"; style="text-align:center;">{{ grocery.description }}</p>
                             {% endif %}
                             {% if grocery.off %}
@@ -62,7 +63,7 @@
                                 <p class="description" style="color:rgb(38,39,39);font-size:24px; text-align: center;">
                                 <strong>MRP: ₹{{ grocery.price }}</strong></p>
                             {% endif %}
-                          <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center>
+                          {% comment %} <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center> {% endcomment %}
                         </div>
                       </div>
                 {% endfor %}
