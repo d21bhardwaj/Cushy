@@ -37,14 +37,14 @@
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
                 {% for grocery in groceries %}
                     
-                    {% comment %} <!-- <div class="col-sm-6 col-lg-4 item filterDiv {{grocery.product}} {{grocery.Quantity}} {{grocery.price}} " onclick="location.href=UpdateQueryString('shop','{{shop.shop}}',null)" 
+                    {% comment %} <!-- <div class="col-sm-6 col-lg-4 item filterDiv {{grocery.product}} {{grocery.Quantity}} {{grocery.price}} " onclick="location.href=UpdateQueryString('shop','{{shop.shop}}',null)"
                         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
                             max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
                             margin-bottom:25px;min-height:auto;">
                         <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ grocery.price }}</strong></p>
-                        
+
                         <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{grocery.company}}</p>
-                        
+
                         <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ grocery.Quantity }} Packets</p>
                     <button
                     class="btn btn-primary btn-lg border rounded product"  type="button" data-p_id = "{{ grocery.product }}"
