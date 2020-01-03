@@ -24,7 +24,9 @@
 
                 {% load crispy_forms_tags %}
                 {% crispy form %}
-                
+                {% comment %} <div class="alert alert-warning" role="alert">
+                Size of Pic Should not exceed 2MB. 
+                </div> {% endcomment %}
                 {{ imageform.management_form }}
                 {% for field in imageform %}
                     {% if forloop.counter == 1 %}
@@ -36,6 +38,19 @@
                     {% if forloop.counter == 3 %}
                         <h6>Bathroom:</h6>
                     {% endif %}
+                    {% if forloop.counter == 4 %}
+                    <h6>Extra:</h6>
+                    {% endif %}
+                    {% if forloop.counter == 5 %}
+                        <h6>Extra:</h6>
+                    {% endif %} 
+                    {% if field.errors %}
+                        {% for error in field.errors.image %}
+                        <div class="alert alert-danger">
+                        <strong>{{ error }}</strong>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
                     {% for subform in field %}
                         {{ subform }}<br>
                     {% endfor %}
@@ -43,8 +58,14 @@
                 <button type="submit" class="btn btn-primary">Update</button>
                 
             </form>
-        </div>
-    </div>
+            </div>
+            </div>
+             <div class="alert alert-warning" role="alert">
+                If you have difficulties uploading or filling this form.
+                <a href=/contact_us/>Contact Us.</a> We will help you out.
+                </div>
+        
+    
 </div>
     <div class="pt-changed"></div>
     <div class="pt-changed"></div>

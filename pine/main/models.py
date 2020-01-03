@@ -3,6 +3,8 @@ from accounts.models import Profile
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.utils.timezone import now
+from django.core.exceptions import ValidationError
+import time 
 y_n_choices = [
     ('yes', 'Yes'),
     ('no', 'No'),
@@ -98,12 +100,17 @@ class RentingPGUser(models.Model):
 
 
 
-
+def validate_image(fieldfile_obj):
+    filesize = fieldfile_obj.file.size
+    megabyte_limit = 2.0
+    if filesize > megabyte_limit*1024*1024:
+        raise ValidationError('File size must be under 2MB. Current file size is %.2fMB.' %  (filesize/1024/1024))
 
 
 def user_directory_path(instance, filename):
     prof = instance.user.user_profile
     no = instance.user 
+    filename = str(time.strftime('%Y%m%d-%H%M%S'))+str(filename)
     return 'Images/user_{id}/room_{no}/{file}'.format(id=prof.id,no= no , file = filename)
     #return 'Images/user_{0}/{1}'.format(instance.user.id, filename)
 
@@ -111,13 +118,14 @@ def user_directory_path(instance, filename):
 def user_directory_path_pg(instance, filename):
     prof = instance.user.user_profile
     no = instance.user 
+    filename = str(time.strftime('%Y%m%d-%H%M%S'))+str(filename)
     return 'ImagesPg/user_{id}/room_{no}/{file}'.format(id=prof.id,no= no , file = filename)
    
 
 
 class Images(models.Model):
     user = models.ForeignKey(RentingUser, default=None, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=user_directory_path, verbose_name='Image')
+    image = models.ImageField(upload_to=user_directory_path, validators=[validate_image],verbose_name='Image')
 
     def __str__(self):
         return str(self.image)
@@ -126,7 +134,7 @@ class Images(models.Model):
 class ImagesPG(models.Model):
     # user = models.ForeignKey(RentingUser, default=None, on_delete=models.CASCADE)
     user = models.ForeignKey(RentingPGUser, default=None, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=user_directory_path_pg, verbose_name='ImagePG')
+    image = models.ImageField(upload_to=user_directory_path_pg,validators=[validate_image], verbose_name='ImagePG')
 
     def __str__(self):
         return str(self.image)

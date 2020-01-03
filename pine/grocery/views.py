@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import *
 #for profile linking
 from accounts.models import Profile
 from django.core.exceptions import PermissionDenied
-
+from django.contrib.auth.decorators import login_required, user_passes_test
 #adding for contact form
 
 from django.contrib.auth.models import User
@@ -11,17 +11,32 @@ from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import FileResponse
 from .models import Product,Brand,Shop,Category
-
+from .forms import *
 import openpyxl as xl
 
-from .models import Product,Brand,Shop,Category
 
 from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponse
 import json
 from django.conf import settings
+import logging
 
+logging.basicConfig( filename="media/grocery.log", level=logging.WARNING)
+
+def user_verified(user):
+    try:
+        return user.profile.is_verified()
+    except ObjectDoesNotExist:
+        return False
+
+def shop_verified(user):
+    try:
+        return user.profile.is_shop_owner()
+    except ObjectDoesNotExist:
+        return False
+
+@user_passes_test(user_verified, login_url='/settings/account/')
 def cart_add(request):
     user_id = request.user.pk
     product_id = request.POST.get('product_id')
@@ -46,6 +61,7 @@ def cart_add(request):
             json.dump(add, json_file)
     return render(request, 'cart.html')
 
+@user_passes_test(user_verified, login_url='/settings/account/')
 def show_savings(cart):
     total_savings = 0
     for product in cart.keys():
@@ -69,8 +85,6 @@ def cart_change(request):
 def cart_empty(request):
     user_id = request.user.pk
     email_id = request.POST.get('email')
-
-
     file_path = 'static/json/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path, 'w+') as json_new:
@@ -80,7 +94,13 @@ def cart_empty(request):
     except:
         raise Http404("Action Cannot be executed!")
 
+@user_passes_test(shop_verified, login_url='/settings/account/')
 def data_upload(request):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    shop_user = Shop.objects.get(shop_user=profile)
+   
     if request.method == "POST":
         excel_file = request.FILES["excel_file"]
         wb = xl.load_workbook(excel_file)
@@ -88,22 +108,39 @@ def data_upload(request):
         # print(sheet)
         max_r = sheet.max_row
         dic = []
+    
         for i in range(1,max_r+1): 
-
-            if(i!=1):
-                cmpe = Company.objects.filter(id=int(sheet.cell(row=i,column= 3).value)).first()
-                cate = Category.objects.filter(id=int(sheet.cell(row=i,column= 4).value)).first()
-                sh = Shop.objects.filter(id=int(sheet.cell(row=i,column= 6).value)).first()
+            if(i!=1): 
+                name          = str(sheet.cell(row=i,column=2).value),
+                quantity      = str(sheet.cell(row=i,column=3).value),
+                price         = int(sheet.cell(row=i,column=4).value),  
+                selling_price = int(sheet.cell(row=i,column=5).value), 
+                description   = str(sheet.cell(row=i,column=6).value), 
+                #barcode       = str(sheet.cell(row=i,column=7).value),
+                
+                off = False
+                if price != selling_price :
+                    off = True
+                    savings = price[0] - selling_price[0]
+                    print(savings)
+                else :
+                    savings = 0             
                 dic.append(Product(
-                product=str(sheet.cell(row=i, column=1).value),  
-                quantity=str(sheet.cell(row=i,column= 2).value), 
-                brand=cmpe, 
-                category=cate, 
-                price=str(sheet.cell(row=i,column= 5).value),
-                shop=sh,
-                #off=str(sheet.cell(row=i,column= 7).value),
-                savings=int(sheet.cell(row=i,column= 7).value)
+                #id            = str(sheet.cell(row=i,column=1).value),      
+                name          = str(sheet.cell(row=i,column=2).value),
+                quantity      = str(sheet.cell(row=i,column=3).value),
+                price         = str(sheet.cell(row=i,column=4).value),  
+                selling_price = str(sheet.cell(row=i,column=5).value), 
+                description   = str(sheet.cell(row=i,column=6).value), 
+                #barcode       = str(sheet.cell(row=i,column=7).value),
+                shop          = shop_user, 
+                off           = str(off),
+                savings       = str(savings),
                 ))
+                print(shop_user)        
+        Product.objects.bulk_create(dic)
+        return HttpResponse("Data created at server for"+" ")
+
 
         Product.objects.bulk_create(dic)
         return HttpResponse("Data created at server for"+" ")
@@ -111,30 +148,78 @@ def data_upload(request):
     else:
 	    return render(request,"upload_data.html")
 
+@user_passes_test(shop_verified, login_url='/settings/account/')
+def data_upload_table(request):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    shop = Shop.objects.get(shop_user=profile)
+    groceries = Product.objects.filter(shop=shop)
+    
+    return render(request, 'grocery_list_edit.html', {'groceries' : groceries, 'form':'form'})
+    
+        
+
+@user_passes_test(shop_verified, login_url='/settings/account/')
+def data_upload_form(request, product_id):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    shop = Shop.objects.get(shop_user=profile)
+    groceries = Product.objects.filter(shop=shop)
+    items = Product.objects.get(id=product_id)
+    form_class = ProductForm(shop,instance=items)
+    images = Images.objects.filter(product_image=product_id).first()
+    imageform = ImageForm(instance=images)
+    if request.method == 'POST': 
+        form = ProductForm(shop, request.POST,instance=items)
+        # if images is not None :
+        #     imageform = ImageForm(request.POST, request.FILES, instance=images)
+        # else :
+        imageform = ImageForm(request.POST, request.FILES)
+        if form.is_valid() and imageform.is_valid():
+            post_form = form.save(commit=False)
+            post_form.shop = shop
+            post_form.instance = items
+
+            post_form.save()
+            if images is not None :
+                photo = Images(id= images.id, product_image=post_form, image= imageform.instance.image)
+            else :
+                photo = Images(product_image=post_form, image= imageform.instance.image)
+            photo.save()
+            return redirect('Product_Edit')
+        else:
+            print(form.errors, imageform.errors)
+    else :
+        form = form_class   
+    return render(request, 'grocery_list_edit.html', {'product_id':product_id,'groceries':groceries, 'form':form,'imageform':imageform})
+
+
+
 def all_grocery(request):
     groceries = Product.objects.all()
-    #print(groceries)
     return render(request, 'groceries.html', {'groceries' : groceries})
 
 def all_shops(request):
     shops = Shop.objects.all()
     return render(request, 'shops.html',{'shops':shops})
 
-def shops_grocery(request, shop_name):
+def request_url(request):
+    S = request.path 
+    S = ((S.split('/'))[1].split('/')[0])
+    return str(S)
+
+def shops_grocery(request):
+    shop_name = request_url(request)
     shop = Shop.objects.get(shop=shop_name)
     groceries = Product.objects.filter(shop=shop)
-
-    return render(request, 'groceries.html', {'groceries' : groceries})
+    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop_name})
 
 def all_category(request):
     category = Category.objects.all()
-    
     shop_id = request.GET.get('shop',None)
-    category_id = request.GET.get('category',None)
-    # if shop_name is None:
-    #     groceries = Products.objects.all()
-    # else:
-    #     groceries = Products.objects.filter(shop=shop_name)        
+    category_id = request.GET.get('category',None)  
 
     return render(request, '#',{'category':category})
 
@@ -157,14 +242,21 @@ def all_brands(request, shop_name, brand_name):
 
     return render(request, 'groceries.html', {'groceries' : groceries})
 
+@user_passes_test(user_verified, login_url='/settings/account/')
 def cart_view(request):
     user_id = request.user.pk
+    
     file_path = 'static/json/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path,'r+') as json_cart:
             user_cart = json.loads(json_cart.read())
-            print(user_cart)
+            dic = {}
+            for key,values in user_cart.items():
+                li = []
+                pro = Product.objects.filter(id=key).first()
+                li.append(pro.price)
+                li.append(values)
+                dic[pro.product] = li
     except:
         pass
-
-    return render(request, 'cart.html', {'cart': user_cart})
+    return render(request, 'cart.html', {'cart': dic})

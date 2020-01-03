@@ -81,7 +81,10 @@
 			{% endif %}
 		{% endif %}
 			</div>
-	<div class="col-auto" data-toggle="modal" data-target="#myModal"><a class="btn btn-primary btn-lg d-block" role="button"  href="#" style="margin-left:10px; background-color:rgb(68,73,154);border-color: rgb(68,73,154)">Contact Seller</a></div>
+	<div class="col-auto" data-toggle="modal" data-target="#myModal">
+	<a class="btn btn-primary btn-lg d-block" role="button"  href="#" 
+	style="margin-left:10px; background-color:rgb(68,73,154);border-color: rgb(68,73,154)">
+	Your Information</a></div>
 
 	{% include 'contact_detail.html' %}
 </div>
@@ -161,10 +164,13 @@
 		<div class="row justify-content-center">
 			<button 
                 class="button_edit" onclick="location.href='{% url "my_pg" rooms.id %}'" type="button"
-                >Edit</button> 
+                >Edit Information</button> 
 			<button 
 			class="button_done" onclick="location.href='{% url "my_uploads" %}'" type="button"
-			>Done</button>
+			>&nbsp;Done&nbsp;</button>
+			<button 
+    			class="button_edit" onclick="location.href='{% url "pg_image" rooms.id %}'" type="button"
+                >Edit Pictures&nbsp;&nbsp;</button> 
 		</div>
 		{% if hide == 1 %}
 			<div class="row justify-content-center" style="margin-top:2px;">

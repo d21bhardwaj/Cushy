@@ -56,18 +56,18 @@ def rentdetails(request):
     if request.user.is_authenticated and request.user.id == user.id:
         if request.method == "POST":
             form = RentForm(request.POST,request.FILES, )
-            imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
+            imageform = ImageFormSet(request.POST, request.FILES)
 
             if form.is_valid() and imageform.is_valid():
                 post_form = form.save(commit=False)
                 post_form.user_profile = profile
                 post_form.save()
+                
                 for pic in imageform.cleaned_data:
                     if pic:
                         image = pic['image']
                         photo = Images(user=post_form, image=image)
                         photo.save()
-
 
                 template = get_template('alert_room.txt')
                 context = {
@@ -113,17 +113,11 @@ def rentpgdetails(request):
                 post_form.save()
                 
                 for pic in imageform.cleaned_data:
-                    print(pic)
+                    
                     if pic:
                         image = pic['image']
-                        print(image, "Image")
-                        print(pic, "pic")
-                        photo = ImagesPG(user=profile, room_pg=post_form, image=image)
-                       # print(image.cleaned_data)
-                        
-                        photo.save()
-                        print(photo)
-                print(ImagesPg)
+                        photo = ImagesPG(user=post_form, image=image)                                            
+                        photo.save()                       
                 
                 template = get_template('alert_room.txt')
                 context = {
@@ -132,7 +126,7 @@ def rentpgdetails(request):
                 content = template.render(context)
         
                 email = EmailMessage(
-                    "New Room submission",
+                    "New PG submission",
                     content,
                     "CushyRooms Room Approval" +'',
                     ['project.pinetown@gmail.com'],

@@ -1,6 +1,6 @@
-{% extends 'base.html' %}
-{% block title %} All Room Available {% endblock %}
-<body>
+{% extends 'main/templates/base.html' %}
+{% block title %} Item Edit {% endblock %}
+
 {% load static %}
 {% block stylesheet %} 
 	<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
@@ -10,7 +10,9 @@
      {% endcomment %}
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+    
 
+    
 
 {% endblock %}
 
@@ -31,21 +33,20 @@
             <th scope="col">Free Product</th>
             <th scope="col">Description</th>
             <th scope="col">Barcode</th>
-           
+            <th scope="col">Image</th>
             </tr>
         </thead>
         <tbody>
             {% for grocery in groceries %}
-                
+                  
                 {% comment %} <div class="col-auto" data-toggle="modal" 
                 data-target="#myModal">
                 <a href="#" > {% endcomment %}
         
                 {% if grocery.id == product_id %}
-                <form id="{{grocery.id}}" method="post" validate> 
+                <form id="{{grocery.id}}" method="post" enctype='multipart/form-data'> 
                 {% csrf_token %}
-                <tr data-toggle="modal" data-id="{{forloop.counter}}" 
-                    data-target="#{{forloop.counter}}">
+                <tr>
                 <th scope="row">{{ grocery.id }}</th>
                 <td>{{ form.name }}</td>
                 <td>{{ form.quantity }}</td>
@@ -56,11 +57,11 @@
                 <td>{{ form.free_product }}</td>
                 <td>{{ form.description }}</td>
                 <td>{{ form.barcode }}</td>
+                <td>{{ imageform.image }}</td>
                 <td><button type="submit" name="visitor" value="{{grocery.id}}">Submit</button></td>
                 </form>
                 {% else %}
-                <tr data-toggle="modal" data-id="{{forloop.counter}}" 
-                    data-target="#{{forloop.counter}}">
+                <tr data-toggle="modal" data-id="{{forloop.counter}}" data-target="#myModal{{forloop.counter}}">
                 <th scope="row">{{ grocery.id }}</th>
                 <td>{{ grocery.name }}</td>
                 <td>{{ grocery.quantity }}</td>
@@ -71,6 +72,7 @@
                 <td>{{ grocery.free_product }}</td>
                 <td>{{ grocery.description }}</td>
                 <td>{{ grocery.barcode }}</td>
+                <td>{{ grocery.images_set.first.image.url }}</td>
                 <td><button 
                     onclick="location.href='{% url "Product_Edit"  grocery.id %}'" type="button">
                     Edit It!</button></td>
@@ -84,4 +86,54 @@
     </table>
 
 {% endblock %}
-
+{% block script %}
+    <script>
+    function UpdateQueryString(key, value, url) {
+        if (!url) url = window.location.href;
+        var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
+            hash;
+        if (re.test(url)) {
+            if (typeof value !== 'undefined' && value !== null) {
+                return url.replace(re, '$1' + key + "=" + value + '$2$3');
+            } 
+            else {
+                hash = url.split('#');
+                url = hash[0].replace(re, '$1$3').replace(/(&|\?)$/, '');
+                if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
+                    url += '#' + hash[1];
+                }
+                return url;
+            }
+        }
+        else {
+            if (typeof value !== 'undefined' && value !== null) {
+                var separator = url.indexOf('?') !== -1 ? '&' : '?';
+                hash = url.split('#');
+                url = hash[0] + separator + key + '=' + value;
+                if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
+                    url += '#' + hash[1];
+                }
+                return url;
+            }
+            else {
+                return url;
+            }
+        }
+    }
+$(document).ready(function(){
+    $(".product").on("click", function(evt) {
+        var p_id = $(this).data("p_id");
+     $.ajax({
+      type: "POST",
+      url: "{% url 'Cart_add' %}",
+      data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+      success: function(result){
+      },
+      error: function(result){
+      }
+    });
+   });
+  });
+</script
+{% endblock %}
+</body>
