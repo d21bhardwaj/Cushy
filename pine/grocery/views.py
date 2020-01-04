@@ -199,7 +199,22 @@ def data_upload_form(request, product_id):
 
 def all_grocery(request):
     groceries = Product.objects.all()
-    return render(request, 'groceries.html', {'groceries' : groceries})
+    dic = {}
+
+    if request.user.is_authenticated:
+        file_path = 'static/json/user' + str(user_id) + 'cart.json'
+        try:
+            with open(file_path,'r+') as json_cart:
+                user_cart = json.loads(json_cart.read())
+                for key,values in user_cart.items():
+                    dic[key] = values
+                print(file_path)
+        except:
+            print("fuck")
+    else:
+        print("no")
+    print(dic)
+    return render(request, 'groceries.html', {'groceries' : groceries , 'dic': dic})
 
 def all_shops(request):
     shops = Shop.objects.all()
@@ -214,7 +229,24 @@ def shops_grocery(request):
     shop_name = request_url(request)
     shop = Shop.objects.get(shop=shop_name)
     groceries = Product.objects.filter(shop=shop)
-    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop_name})
+    user_id = request.user.pk
+    dic = []
+
+    if request.user.is_authenticated:
+        file_path = 'static/json/user' + str(user_id) + 'cart.json'
+        try:
+            with open(file_path,'r+') as json_cart:
+                user_cart = json.loads(json_cart.read())
+                for key,values in user_cart.items():
+                    dic.append(int(key))
+                print(file_path)
+        except:
+            print("fuck")
+    else:
+        print("no")
+    print(dic)
+
+    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop_name , 'dic':dic})
 
 def all_category(request):
     category = Category.objects.all()
@@ -254,9 +286,17 @@ def cart_view(request):
             for key,values in user_cart.items():
                 li = []
                 pro = Product.objects.filter(id=key).first()
+                try:
+                    im = Images.objects.filter(product_image=key).first()
+                    imn = im.image.url
+                except:
+                    imn = "/static/assets/img/no-image.png" 
                 li.append(pro.price)
                 li.append(values)
-                dic[pro.product] = li
+                li.append(pro.name)
+                li.append(imn)
+                dic[key] = li
     except:
         pass
+    print(dic)
     return render(request, 'cart.html', {'cart': dic})
