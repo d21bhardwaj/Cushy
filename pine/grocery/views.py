@@ -40,8 +40,7 @@ def shop_verified(user):
 def cart_add(request):
     user_id = request.user.pk
     product_id = request.POST.get('product_id')
-    # quantity = request.POST.get('quantity')
-    quantity = 2
+    quantity = 1
     file_path = settings.BASE_DIR + '/static/json/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path, 'r') as json_read:
@@ -56,7 +55,7 @@ def cart_add(request):
     except:
         with open(file_path, 'w+') as json_file:
             add = {}
-            quantity = 3
+            quantity = 1
             add[str(product_id)] = quantity
             json.dump(add, json_file)
     return render(request, 'cart.html')
@@ -146,7 +145,7 @@ def data_upload(request):
         return HttpResponse("Data created at server for"+" ")
 
     else:
-	    return render(request,"upload_data.html")
+        return render(request,"upload_data.html")
 
 @user_passes_test(shop_verified, login_url='/settings/account/')
 def data_upload_table(request):
@@ -256,7 +255,7 @@ def cart_view(request):
                 pro = Product.objects.filter(id=key).first()
                 li.append(pro.price)
                 li.append(values)
-                dic[pro.product] = li
+                dic[pro.name] = li
     except:
         pass
     return render(request, 'cart.html', {'cart': dic})
