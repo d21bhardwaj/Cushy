@@ -63,7 +63,11 @@
                                 <p class="description" style="color:rgb(38,39,39);font-size:24px; text-align: center;">
                                 <strong>MRP: ₹{{ grocery.price }}</strong></p>
                             {% endif %}
-                           <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center>
+                            {% if grocery.id in dic %}
+                                <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}"><a href="/URS/usercart" style="color: white;">Goto cart</a></button></center>
+                            {%else%}
+                                <center><button  class="btn btn-primary btn-lg border rounded product ref" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center>
+                            {%endif%}
                         </div>
                       </div>
                 {% endfor %}
@@ -118,6 +122,9 @@ $(document).ready(function(){
       error: function(result){
       }
     });
+   });
+    $(".ref").on("click", function(evt) {
+     location.reload();
    });
   });
 </script>
