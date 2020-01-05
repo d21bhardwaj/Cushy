@@ -33,11 +33,11 @@
         </div>
         <div class="price">{{value.0}}</div>
         <div class="quantity">
-          <input type="number" value="{{value.1}}" min="1" class="quantity-field">
+          <input type="number" value="{{value.1}}" min="1" class="quantity-field" data-p_id = "{{ key }}">
         </div>
         <div class="subtotal">104.00</div>
         <div class="remove">
-          <button>Remove</button>
+          <button type="button" data-p_id = "{{ key }}">Remove</button>
         </div>
       </div>
       {%endfor%}
@@ -58,7 +58,7 @@
           <div class="total-value final-value" id="basket-total"></div>
         </div>
         <div class="summary-checkout">
-          <button class="checkout-cta">Go to Secure Checkout</button>
+          <button class="checkout-cta" onclick="location.href='{% url "Checkout" %}'" type="button">Go to Secure Checkout</button>
         </div>
       </div>
     </aside>
@@ -75,6 +75,7 @@
 
     $('.quantity input').each(function() {
         updateQuantity(this);
+
     });
 
     updateSumItems();
@@ -83,10 +84,31 @@
     /* Assign actions */
     $('.quantity input').change(function() {
       updateQuantity(this);
+      var quantity = $(this).val();
+        var p_id = $(this).data("p_id");
+        $.ajax({
+          type: "POST",
+          url: "{%url 'updateCart'%}",
+          data: {'product_id': p_id,'quantity': quantity, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+          success: function(result){
+          },
+          error: function(result){
+          }
+        });
     });
 
     $('.remove button').click(function() {
       removeItem(this);
+      var p_id = $(this).data("p_id");
+        $.ajax({
+          type: "POST",
+          url: "{%url 'removeItem'%}",
+          data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+          success: function(result){
+          },
+          error: function(result){
+          }
+        });
     });
 
     $(document).ready(function() {
@@ -177,7 +199,6 @@
           $(this).fadeIn(fadeTime);
         });
       });
-
       productRow.find('.item-quantity').text(quantity);
       updateSumItems();
     }

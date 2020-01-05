@@ -14,13 +14,15 @@ from .models import Product,Brand,Shop,Category
 from .forms import *
 import openpyxl as xl
 
-
 from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponse
 import json
 from django.conf import settings
 import logging
+import os
+import time
+import shutil
 
 logging.basicConfig( filename="media/grocery.log", level=logging.WARNING)
 
@@ -41,7 +43,7 @@ def cart_add(request):
     user_id = request.user.pk
     product_id = request.POST.get('product_id')
     quantity = 1
-    file_path = settings.BASE_DIR + '/static/json/user' + str(user_id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/media/json/active/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path, 'r') as json_read:
             data = json.loads(json_read.read())
@@ -68,23 +70,23 @@ def show_savings(cart):
         total_savings = total_savings + cart[product]*(prod_obj.off)
     return total_savings
 
-def cart_change(request):
+def updateCart(request):
     user_id = request.user.pk
-    product_id = request.POST.get['product_id']
-    # quantity = request.POST.get['quantity']
-    quantity = 1
-    file_path = 'static/json/user' + str(user_id) + 'cart.json'
+    product_id = request.POST.get('product_id')
+    quantity = request.POST.get('quantity')
+    print(product_id,quantity)
+    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
     with open(file_path, 'r+') as json_read:
         data = json.loads(json_read.read())
     data[str(product_id)] = quantity
     with open(file_path, 'w+') as f:
         json.dump(data, f)
-    return render(request, 'page3.html')
+    return render(request, 'cart.html', {'cart': data})
 
 def cart_empty(request):
     user_id = request.user.pk
     email_id = request.POST.get('email')
-    file_path = 'static/json/user' + str(user_id) + 'cart.json'
+    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path, 'w+') as json_new:
             d = {}
@@ -199,9 +201,9 @@ def data_upload_form(request, product_id):
 def all_grocery(request):
     groceries = Product.objects.all()
     dic = {}
-
+    user_id = request.user.pk
     if request.user.is_authenticated:
-        file_path = 'static/json/user' + str(user_id) + 'cart.json'
+        file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
         try:
             with open(file_path,'r+') as json_cart:
                 user_cart = json.loads(json_cart.read())
@@ -213,7 +215,7 @@ def all_grocery(request):
     else:
         print("no")
     print(dic)
-    return render(request, 'groceries.html', {'groceries' : groceries , 'dic': dic})
+    return render(request, 'groceries.html', {'groceries': groceries, 'dic': dic})
 
 def all_shops(request):
     shops = Shop.objects.all()
@@ -232,7 +234,7 @@ def shops_grocery(request):
     dic = []
 
     if request.user.is_authenticated:
-        file_path = 'static/json/user' + str(user_id) + 'cart.json'
+        file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
         try:
             with open(file_path,'r+') as json_cart:
                 user_cart = json.loads(json_cart.read())
@@ -277,7 +279,7 @@ def all_brands(request, shop_name, brand_name):
 def cart_view(request):
     user_id = request.user.pk
     
-    file_path = 'static/json/user' + str(user_id) + 'cart.json'
+    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
     try:
         with open(file_path,'r+') as json_cart:
             user_cart = json.loads(json_cart.read())
@@ -289,13 +291,95 @@ def cart_view(request):
                     im = Images.objects.filter(product_image=key).first()
                     imn = im.image.url
                 except:
-                    imn = "/static/assets/img/no-image.png" 
+                    imn = "/static/assets/img/no-image.png"
                 li.append(pro.price)
                 li.append(values)
                 li.append(pro.name)
                 li.append(imn)
                 dic[key] = li
     except:
-        pass
-    print(dic)
+        return render(request, 'cart.html', {'cart': {}})
+
     return render(request, 'cart.html', {'cart': dic})
+
+
+def removeItem(request):
+    user_id = request.user.pk
+    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+    product_id = request.POST.get('product_id')
+    print(request.POST.get)
+    with open(file_path, 'r') as json_cart:
+        user_cart = json.loads(json_cart.read())
+    del user_cart[str(product_id)]
+    with open(file_path, 'w+') as json_cart:
+        json.dump(user_cart, json_cart)
+    print(user_cart)
+    return render(request, 'cart.html', {'cart': user_cart})
+
+
+def checkout(request):
+    user_id = request.user.pk
+    profile = Profile.objects.get(user = user_id)
+    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+    dic2 = {}
+    try:
+        with open(file_path, 'r+') as json_cart:
+            dic = {}
+            user_cart = json.loads(json_cart.read())
+            for key, value in user_cart.items():
+                li = []
+                pro = Product.objects.filter(id=key).first()
+                try:
+                    im = Images.objects.filter(product_image=key).first()
+                    imn = im.image.url
+                except:
+                    imn = "/static/assets/img/no-image.png"
+                li.append(pro.name)
+                li.append(pro.price)
+                li.append(pro.selling_price)
+                li.append(value)
+                li.append(imn)
+                li.append(pro.shop.shop)
+                dic[key] = li
+            shopName = pro.shop.id
+
+    except:
+        return Http404('Error!!')
+
+    try:
+        user_name = profile.title + profile.name
+        details = []
+        details.append(dic)
+        details.append(profile.mobile_no)
+        details.append(profile.email)
+        dic2[user_name] = details
+    except:
+        return Http404('User has not entered their details!')
+
+    file_path1 = 'media/json/user_' + str(user_id) + '/' + 'shop_' + str(time.strftime('%Y-%m-%d--%H-%M-%S')) + '_' + str(shopName) + 'Cart.json'
+    file_path2 = 'media/json/shop_' + str(shopName) + '/' + 'user_' + str(time.strftime('%Y-%m-%d--%H-%M-%S')) + '_' + str(profile.id) + 'Cart.json'
+
+    try:
+        os.mkdir('media/json/shop_' + str(shopName))
+        os.mkdir('media/json/user_' + str(user_id))
+    except:
+        pass
+
+    try:
+        with open(file_path1, 'a+') as json_file:
+            json.dump(dic,json_file)
+    except:
+        pass
+
+    try:
+        with open(file_path2, 'a+') as json_file:
+            json.dump(dic2,json_file)
+    except:
+        pass
+
+    open(file_path, 'w').close()
+
+    return redirect('/')
+
+
+
