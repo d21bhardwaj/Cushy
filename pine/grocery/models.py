@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.db.models.signals import pre_save
-
+from django.utils.timezone import now
+import time
 # Create your models here.
 def shop_directory_path(instance, filename):
     seller = instance.shop_user
@@ -75,6 +76,8 @@ class Product(models.Model):
     description = models.TextField(max_length=100, blank=True, null = True)
     savings = models.IntegerField(null = True, blank= True)
     barcode = models.IntegerField(null = True, blank= True)        
+    show_product = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
 
     def __str__(self):
         return str(self.name)

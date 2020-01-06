@@ -187,13 +187,14 @@ def data_upload_form(request, product_id):
             post_form = form.save(commit=False)
             post_form.shop = shop
             post_form.instance = items
-
+            
             post_form.save()
             if images is not None :
                 photo = Images(id= images.id, product_image=post_form, image= imageform.instance.image)
             else :
                 photo = Images(product_image=post_form, image= imageform.instance.image)
-            photo.save()
+            if imageform.cleaned_data['image']:
+                photo.save()
             return redirect('Product_Edit')
         else:
             print(form.errors, imageform.errors)
@@ -235,7 +236,7 @@ def request_url(request):
 def shops_grocery(request):
     shop_name = request_url(request)
     shop = Shop.objects.get(shop=shop_name)
-    groceries = Product.objects.filter(shop=shop)
+    groceries = Product.objects.filter(shop=shop,show_product=True)
     user_id = request.user.pk
     profile = Profile.objects.get(user = user_id)
     dic = []
