@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path 
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
-from grocery import views
+from grocery import views 
 #Login
 from accounts import views as accounts_views
 from django.contrib.auth import logout
@@ -23,6 +23,15 @@ urlpatterns = [
     path('usercart/',
         views.cart_view,
         name='Cart_view'),
+    path('checkout/<int:location_id>',
+         views.checkout,
+         name='Checkout'),
+    path('update/',
+         views.updateCart,
+         name='updateCart'),
+    path('remove/',
+         views.removeItem,
+         name='removeItem'),
     path('product-edit',
         views.data_upload_table,
         name='Product_Edit'),

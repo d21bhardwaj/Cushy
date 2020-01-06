@@ -38,11 +38,11 @@
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
                 {% for grocery in groceries %}
                     <div class="card" style="width: 15rem; margin:5%;">
-                        {% if grocery.images_set.first %}<img class="img-fluid" 
+                        {% if grocery.images_set.first %}<img class="img-fluid"
                         style="height:auto;width:auto;"
                         src="{{grocery.images_set.first.image.url}}"  >
                         {% else %}
-                        <img class="img-fluid" 
+                        <img class="img-fluid"
                         style="height:auto;width:auto;"
                         src="{% static '/assets/img/no-image.png'%}"  >
                         {% endif %}
@@ -63,7 +63,11 @@
                                 <p class="description" style="color:rgb(38,39,39);font-size:24px; text-align: center;">
                                 <strong>MRP: ₹{{ grocery.price }}</strong></p>
                             {% endif %}
-                          {% comment %} <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center> {% endcomment %}
+                            {% if grocery.id in dic %}
+                                <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}"><a href="/URS/usercart" style="color: white;">Goto cart</a></button></center>
+                            {%else%}
+                                <center><button  class="btn btn-primary btn-lg border rounded product ref" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center>
+                            {%endif%}
                         </div>
                       </div>
                 {% endfor %}
@@ -78,7 +82,6 @@
         if (!url) url = window.location.href;
         var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi"),
             hash;
-
         if (re.test(url)) {
             if (typeof value !== 'undefined' && value !== null) {
                 return url.replace(re, '$1' + key + "=" + value + '$2$3');
@@ -119,6 +122,9 @@ $(document).ready(function(){
       error: function(result){
       }
     });
+   });
+    $(".ref").on("click", function(evt) {
+     location.reload();
    });
   });
 </script>
