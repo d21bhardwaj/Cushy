@@ -13,7 +13,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'category')
     
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'brand', 'price','name','quantity','shop','off','free','savings')
+    list_display = ('id', 'brand', 'price','name','quantity','shop','off','free','savings','show_product','updated_at')
 
 class ImagesAdmin(admin.ModelAdmin):
     list_display = ('id', 'product_image', 'image')
