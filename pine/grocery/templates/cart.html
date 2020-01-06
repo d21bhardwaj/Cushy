@@ -8,7 +8,10 @@
 
 {% load static %}
 {% block body %}
-
+  {% if profile.verified %}
+  {% include 'location_form.html' %}
+  {% endif %}
+  
   <main>
     <div class="basket">
       <div class="basket-labels">
@@ -27,11 +30,11 @@
           </div>
           <div class="product-details">
             <h1><strong><span class="item-quantity">{{value.1}}</span> x {{value.2}}</strong></h1>
-            <p><strong>Navy, Size 18</strong></p>
-            <p>Product Code - 232321939</p>
+            <p><strong>Mrp: {{value.0}}</strong></p>
+            {% if value.5 %}<p>Savings: {{ value.5 }}</p>{% endif %}
           </div>
         </div>
-        <div class="price">{{value.0}}</div>
+        <div class="price">{{value.4}}</div>
         <div class="quantity">
           <input type="number" value="{{value.1}}" min="1" class="quantity-field" data-p_id = "{{ key }}">
         </div>
@@ -49,7 +52,7 @@
           <div class="subtotal-title">Subtotal</div>
           <div class="subtotal-value final-value" id="basket-subtotal"> </div>
           <div class="summary-promo hide">
-            <div class="promo-title">Promotion</div>
+            <div class="promo-title">Savings</div>
             <div class="promo-value final-value" id="basket-promo"></div>
           </div>
         </div>
@@ -58,7 +61,11 @@
           <div class="total-value final-value" id="basket-total"></div>
         </div>
         <div class="summary-checkout">
-          <button class="checkout-cta" onclick="location.href='{% url "Checkout" %}'" type="button">Go to Secure Checkout</button>
+        {% if profile.verified == True %}
+          <button class="checkout-cta" data-toggle="modal" data-target="#myModal" type="button">Place Your Order</button>
+        {% else %}
+          <button class="btn btn-info" onclick="location.href='{% url 'my_account' %}'" type="button">Please Verify Your Profile</button>
+        {% endif %}
         </div>
       </div>
     </aside>

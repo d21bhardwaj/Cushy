@@ -5,7 +5,7 @@ from accounts.models import Profile
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required, user_passes_test
 #adding for contact form
-
+from main.models import Location
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,7 +13,7 @@ from django.http import FileResponse
 from .models import Product,Brand,Shop,Category
 from .forms import *
 import openpyxl as xl
-
+from .email import *
 from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponse
@@ -41,9 +41,10 @@ def shop_verified(user):
 @user_passes_test(user_verified, login_url='/settings/account/')
 def cart_add(request):
     user_id = request.user.pk
+    profile = Profile.objects.get(user = user_id)
     product_id = request.POST.get('product_id')
     quantity = 1
-    file_path = settings.BASE_DIR + '/media/json/active/user' + str(user_id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/media/json/active/user' + str(profile.id) + 'cart.json'
     try:
         with open(file_path, 'r') as json_read:
             data = json.loads(json_read.read())
@@ -70,12 +71,14 @@ def show_savings(cart):
         total_savings = total_savings + cart[product]*(prod_obj.off)
     return total_savings
 
+@user_passes_test(user_verified, login_url='/settings/account/')
 def updateCart(request):
     user_id = request.user.pk
+    profile = Profile.objects.get(user = user_id)
     product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity')
     print(product_id,quantity)
-    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
     with open(file_path, 'r+') as json_read:
         data = json.loads(json_read.read())
     data[str(product_id)] = quantity
@@ -83,17 +86,20 @@ def updateCart(request):
         json.dump(data, f)
     return render(request, 'cart.html', {'cart': data})
 
+@user_passes_test(user_verified, login_url='/settings/account/')
 def cart_empty(request):
     user_id = request.user.pk
+    profile = Profile.objects.get(user = user_id)
     email_id = request.POST.get('email')
-    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
     try:
         with open(file_path, 'w+') as json_new:
             d = {}
             json.dump(d, json_new)
             return render(request, 'page2.html')
     except:
-        raise Http404("Action Cannot be executed!")
+        #raise Http404("Action Cannot be executed!")
+        pass
 
 @user_passes_test(shop_verified, login_url='/settings/account/')
 def data_upload(request):
@@ -109,7 +115,6 @@ def data_upload(request):
         # print(sheet)
         max_r = sheet.max_row
         dic = []
-    
         for i in range(1,max_r+1): 
             if(i!=1): 
                 name          = str(sheet.cell(row=i,column=2).value),
@@ -202,8 +207,9 @@ def all_grocery(request):
     groceries = Product.objects.all()
     dic = {}
     user_id = request.user.pk
+    profile = Profile.objects.get(user = user_id)
     if request.user.is_authenticated:
-        file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+        file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
         try:
             with open(file_path,'r+') as json_cart:
                 user_cart = json.loads(json_cart.read())
@@ -231,20 +237,19 @@ def shops_grocery(request):
     shop = Shop.objects.get(shop=shop_name)
     groceries = Product.objects.filter(shop=shop)
     user_id = request.user.pk
+    profile = Profile.objects.get(user = user_id)
     dic = []
-
     if request.user.is_authenticated:
-        file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+        file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
         try:
             with open(file_path,'r+') as json_cart:
                 user_cart = json.loads(json_cart.read())
                 for key,values in user_cart.items():
                     dic.append(int(key))
-                print(file_path)
         except:
-            print("fuck")
+            print("Error1")
     else:
-        print("no")
+        print("Error2")
     print(dic)
 
     return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop_name , 'dic':dic})
@@ -278,8 +283,13 @@ def all_brands(request, shop_name, brand_name):
 @user_passes_test(user_verified, login_url='/settings/account/')
 def cart_view(request):
     user_id = request.user.pk
+    profile = Profile.objects.get(user=user_id)
     
-    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
+    location_id =request.POST.get('location')
+    if(request.POST):
+        print(location_id)
+        return redirect('Checkout', location_id)
     try:
         with open(file_path,'r+') as json_cart:
             user_cart = json.loads(json_cart.read())
@@ -296,16 +306,19 @@ def cart_view(request):
                 li.append(values)
                 li.append(pro.name)
                 li.append(imn)
+                li.append(pro.selling_price)
+                li.append(pro.savings)
                 dic[key] = li
     except:
         return render(request, 'cart.html', {'cart': {}})
+    form = DeliveryLocationForm()
+    return render(request, 'cart.html', {'cart': dic,'profile':profile,'form':form})
 
-    return render(request, 'cart.html', {'cart': dic})
-
-
+@user_passes_test(user_verified, login_url='/settings/account/')
 def removeItem(request):
     user_id = request.user.pk
-    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+    profile = Profile.objects.get(user = user_id)
+    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
     product_id = request.POST.get('product_id')
     print(request.POST.get)
     with open(file_path, 'r') as json_cart:
@@ -316,12 +329,14 @@ def removeItem(request):
     print(user_cart)
     return render(request, 'cart.html', {'cart': user_cart})
 
-
-def checkout(request):
+@user_passes_test(user_verified, login_url='/settings/account/')
+def checkout(request,location_id):
     user_id = request.user.pk
     profile = Profile.objects.get(user = user_id)
-    file_path = 'media/json/active/user' + str(user_id) + 'cart.json'
+    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
     dic2 = {}
+    print(request.POST)
+    location = Location.objects.get(id=location_id)
     try:
         with open(file_path, 'r+') as json_cart:
             dic = {}
@@ -334,18 +349,16 @@ def checkout(request):
                     imn = im.image.url
                 except:
                     imn = "/static/assets/img/no-image.png"
-                li.append(pro.name)
-                li.append(pro.price)
-                li.append(pro.selling_price)
-                li.append(value)
-                li.append(imn)
-                li.append(pro.shop.shop)
-                dic[key] = li
+                li.append(pro.name) #0            
+                li.append(pro.price) #1
+                li.append(pro.selling_price) #2
+                li.append(value) #3 ----"Quantity order" ----- #
+                li.append(imn)   #4
+                li.append(pro.shop.shop)  #5
+                dic[key] = li  #6
             shopName = pro.shop.id
-
     except:
-        return Http404('Error!!')
-
+        return Http404
     try:
         user_name = profile.title + profile.name
         details = []
@@ -353,15 +366,18 @@ def checkout(request):
         details.append(profile.mobile_no)
         details.append(profile.email)
         dic2[user_name] = details
+        local = []
+        local.append(location.location)
+        dic2['locality'] = local
     except:
-        return Http404('User has not entered their details!')
-
-    file_path1 = 'media/json/user_' + str(user_id) + '/' + 'shop_' + str(time.strftime('%Y-%m-%d--%H-%M-%S')) + '_' + str(shopName) + 'Cart.json'
+        pass
+    # function to send mail
+    file_path1 = 'media/json/user_' + str(profile.id) + '/' + 'shop_' + str(time.strftime('%Y-%m-%d--%H-%M-%S')) + '_' + str(shopName) + 'Cart.json'
     file_path2 = 'media/json/shop_' + str(shopName) + '/' + 'user_' + str(time.strftime('%Y-%m-%d--%H-%M-%S')) + '_' + str(profile.id) + 'Cart.json'
 
     try:
         os.mkdir('media/json/shop_' + str(shopName))
-        os.mkdir('media/json/user_' + str(user_id))
+        os.mkdir('media/json/user_' + str(profile.id))
     except:
         pass
 
@@ -376,7 +392,8 @@ def checkout(request):
             json.dump(dic2,json_file)
     except:
         pass
-
+    send_mail_order(profile.id,shopName,dic,dic2)
+    
     open(file_path, 'w').close()
 
     return redirect('/')

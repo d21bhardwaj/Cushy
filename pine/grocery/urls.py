@@ -23,7 +23,7 @@ urlpatterns = [
     path('usercart/',
         views.cart_view,
         name='Cart_view'),
-    path('checkout/',
+    path('checkout/<int:location_id>',
          views.checkout,
          name='Checkout'),
     path('update/',
