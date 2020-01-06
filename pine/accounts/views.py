@@ -97,7 +97,7 @@ def profileupdate(request):
                         headers = {'Reply-To': 'project.pinetown@gmail.com' }
                     )
                     email.send()
-                    return redirect('/otp/')
+                    return redirect('vm')
                 else:
  
                     return render(request, 'my_profile.html', {
