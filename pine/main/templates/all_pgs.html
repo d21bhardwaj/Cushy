@@ -15,6 +15,12 @@
 
 {% load static %}
 {% block body %}
+    <form method="POST">
+        {% csrf_token %}
+        {{form1}}
+        {{form2}}
+        <button type="go">Apply Filter</button>
+    </form>
     <br>
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
@@ -26,8 +32,7 @@
                     {{form2}}
                     <button type="go">Apply Filter</button>
                 </form>
-                </ul>
-                
+                </ul>                
             </div>
     <p class="text-center text-secondary" style="padding-bottom:10px;"> {{rooms.count }} room{%if rooms.count > 1 %}s{% endif %} found </p>
     <div class="projects-clean">

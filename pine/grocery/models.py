@@ -37,7 +37,7 @@ def product_directory_path(instance, filename):
 class Shop(models.Model):
     
     shop_user = models.ForeignKey(Profile, on_delete=models.CASCADE, default='',null = True)
-    shop = models.CharField(max_length=40, null = False, default='')
+    shop = models.SlugField(max_length=40, null = False, default='')
     mobile_no = models.CharField(null=True,blank=True,max_length=12)
     alternate_no = models.CharField(null=True,blank=True,max_length=12)
     email = models.EmailField(max_length=70, null=True, blank=True)
