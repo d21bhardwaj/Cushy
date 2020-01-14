@@ -43,15 +43,12 @@ def logout_view(request):
 def about_us(request):
     return render(request, 'about_us.html')
 
-
 @login_required
 @user_passes_test(user_verified, login_url='/settings/account/')
 def rentdetails(request):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
-   
-  
     ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
     if request.user.is_authenticated and request.user.id == user.id:
         if request.method == "POST":
@@ -143,10 +140,8 @@ def rentpgdetails(request):
     else:
         raise PermissionDenied      
 
-
 def renttype(request):
     return render(request, 'choice.html' ,{'header': 'Choose Type of Renting'})
-
 
 #For contact form
 # our view
@@ -196,7 +191,6 @@ def contact(request):
     })
 
 #To view all the rooms
-
 def allrooms(request):
     rooms = RentingUser.objects.filter(approved=True, deleted=False, hidden=False)
     location = Location.objects.all()
@@ -215,7 +209,7 @@ def allrooms(request):
                 temp2 = 0
                 for p in prices:
                     if(temp==-1):
-                        temp = p
+                        temp = int(p)
                     if(temp2<=int(p)):
                         temp2 = (int(p)+2000)
                 room_filter = room_filter.filter(price__range=(temp,temp2))
@@ -235,7 +229,6 @@ def allrooms(request):
     return render(request, 'all_rooms.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location})
 
 #To view all the PGs
-
 def allpgs(request):
     rooms = RentingPGUser.objects.filter(approved=True, deleted=False, hidden=False)
     location = Location.objects.all()
@@ -255,11 +248,16 @@ def allpgs(request):
                 temp2 = 0
                 for p in prices:
                     if(temp==-1):
-                        temp = p
+                        temp = int(p)
                     if(temp2<=int(p)):
                         temp2 = (int(p)+2000)
+                temp+=1
+                print(temp)
+                
+                temp2=999
+                print(temp2)
                 room_filter = room_filter.filter(price__range=(temp,temp2))
-            
+                print(room_filter)
             return render(request, 'filter_pg.html', {
                 'form1': form1,'form2':form2, 'rooms': room_filter
             })
@@ -274,7 +272,6 @@ def allpgs(request):
     return render(request, 'all_pgs.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location})
 
 #Detail of the room selected
-
 def detailroom(request, room_id, image_id):
     rooms = RentingUser.objects.get(pk=room_id)
     images = Images.objects.get(pk=image_id)
@@ -287,7 +284,6 @@ def detailroom(request, room_id, image_id):
     except ObjectDoesNotExist:
         return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
        
-
 def detailpg(request, room_id, image_id):
     rooms = RentingPGUser.objects.get(pk=room_id)
     images = ImagesPG.objects.get(pk=image_id)
