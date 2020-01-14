@@ -38,13 +38,15 @@ def shop_verified(user):
     except ObjectDoesNotExist:
         return False
 
-@user_passes_test(user_verified, login_url='/settings/account/')
-def cart_add(request):
+@user_passes_test(user_verified, login_url='/account/settings/')
+def cart_add(request,shopname):
     user_id = request.user.pk
+    shop_name = shopname
+    shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user = user_id)
     product_id = request.POST.get('product_id')
     quantity = 1
-    file_path = settings.BASE_DIR + '/media/json/active/user' + str(profile.id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     try:
         with open(file_path, 'r') as json_read:
             data = json.loads(json_read.read())
@@ -63,7 +65,7 @@ def cart_add(request):
             json.dump(add, json_file)
     return render(request, 'cart.html')
 
-@user_passes_test(user_verified, login_url='/settings/account/')
+@user_passes_test(user_verified, login_url='/account/settings/')
 def show_savings(cart):
     total_savings = 0
     for product in cart.keys():
@@ -71,14 +73,16 @@ def show_savings(cart):
         total_savings = total_savings + cart[product]*(prod_obj.off)
     return total_savings
 
-@user_passes_test(user_verified, login_url='/settings/account/')
-def updateCart(request):
+@user_passes_test(user_verified, login_url='/account/settings/')
+def updateCart(request,shopname):
+    shop_name = shopname
+    shop = Shop.objects.get(shop=shop_name)
     user_id = request.user.pk
     profile = Profile.objects.get(user = user_id)
     product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity')
     print(product_id,quantity)
-    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     with open(file_path, 'r+') as json_read:
         data = json.loads(json_read.read())
     data[str(product_id)] = quantity
@@ -86,12 +90,14 @@ def updateCart(request):
         json.dump(data, f)
     return render(request, 'cart.html', {'cart': data})
 
-@user_passes_test(user_verified, login_url='/settings/account/')
-def cart_empty(request):
+@user_passes_test(user_verified, login_url='/account/settings/')
+def cart_empty(request, shopname):
     user_id = request.user.pk
+    shop_name = shopname
+    shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user = user_id)
     email_id = request.POST.get('email')
-    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     try:
         with open(file_path, 'w+') as json_new:
             d = {}
@@ -101,13 +107,13 @@ def cart_empty(request):
         #raise Http404("Action Cannot be executed!")
         pass
 
-@user_passes_test(shop_verified, login_url='/settings/account/')
+@user_passes_test(shop_verified, login_url='/account/settings/')
 def data_upload(request):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     shop_user = Shop.objects.get(shop_user=profile)
-   
+    
     if request.method == "POST":
         excel_file = request.FILES["excel_file"]
         wb = xl.load_workbook(excel_file)
@@ -154,7 +160,7 @@ def data_upload(request):
     else:
         return render(request,"upload_data.html")
 
-@user_passes_test(shop_verified, login_url='/settings/account/')
+@user_passes_test(shop_verified, login_url='/account/settings/')
 def data_upload_table(request):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
@@ -166,7 +172,7 @@ def data_upload_table(request):
     
         
 
-@user_passes_test(shop_verified, login_url='/settings/account/')
+@user_passes_test(shop_verified, login_url='/account/settings/')
 def data_upload_form(request, product_id):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
@@ -204,51 +210,57 @@ def data_upload_form(request, product_id):
 
 
 
-def all_grocery(request):
-    groceries = Product.objects.all()
-    dic = {}
-    user_id = request.user.pk
-    profile = Profile.objects.get(user = user_id)
-    if request.user.is_authenticated:
-        file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
-        try:
-            with open(file_path,'r+') as json_cart:
-                user_cart = json.loads(json_cart.read())
-                for key,values in user_cart.items():
-                    dic[key] = values
-                print(file_path)
-        except:
-            print("fuck")
-    else:
-        print("no")
-    print(dic)
-    return render(request, 'groceries.html', {'groceries': groceries, 'dic': dic})
+# def all_grocery(request):
+#     groceries = Product.objects.all()
+#     dic = {}
+#     user_id = request.user.pk
+#     profile = Profile.objects.get(user = user_id)
+#     if request.user.is_authenticated:
+#         file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
+#         try:
+#             with open(file_path,'r+') as json_cart:
+#                 user_cart = json.loads(json_cart.read())
+#                 for key,values in user_cart.items():
+#                     dic[key] = values
+#                 print(file_path)
+#         except:
+#             print("fuck")
+#     else:
+#         print("no")
+#     print(dic)
+#     return render(request, 'groceries.html', {'groceries': groceries, 'dic': dic})
 
 def all_shops(request):
     shops = Shop.objects.all()
     return render(request, 'shops.html',{'shops':shops})
-
+def all_carts(request):
+    shops = Shop.objects.all()
+    print(shops)
+    return render(request, 'all_carts.html',{'shops':shops})
 def request_url(request):
     S = request.path 
     S = ((S.split('/'))[1].split('/')[0])
     return str(S)
 
-def shops_grocery(request):
-    shop_name = request_url(request)
+def shops_grocery(request,shopname):
+    shop_name = shopname
     shop = Shop.objects.get(shop=shop_name)
     groceries = Product.objects.filter(shop=shop,show_product=True)
     user_id = request.user.pk
     profile = Profile.objects.get(user = user_id)
     dic = []
     if request.user.is_authenticated:
-        file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
+        file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
         try:
             with open(file_path,'r+') as json_cart:
                 user_cart = json.loads(json_cart.read())
                 for key,values in user_cart.items():
                     dic.append(int(key))
         except:
-            print("Error1")
+            try:
+                os.mkdir('media/json/active/user_' + str(profile.id))
+            except:
+                pass
     else:
         print("Error2")
     print(dic)
@@ -281,16 +293,17 @@ def all_brands(request, shop_name, brand_name):
 
     return render(request, 'groceries.html', {'groceries' : groceries})
 
-@user_passes_test(user_verified, login_url='/settings/account/')
-def cart_view(request):
+@user_passes_test(user_verified, login_url='/account/settings/')
+def cart_view(request,shopname):
     user_id = request.user.pk
+    shop_name = shopname
+    shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user=user_id)
-    
-    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     location_id =request.POST.get('location')
     if(request.POST):
         print(location_id)
-        return redirect('Checkout', location_id)
+        return redirect('Checkout',shopname, location_id)
     try:
         with open(file_path,'r+') as json_cart:
             user_cart = json.loads(json_cart.read())
@@ -311,15 +324,17 @@ def cart_view(request):
                 li.append(pro.savings)
                 dic[key] = li
     except:
-        return render(request, 'cart.html', {'cart': {}})
+        return render(request, 'cart.html', {'cart': {},'shop_name':shop_name,'profile':profile})
     form = DeliveryLocationForm()
-    return render(request, 'cart.html', {'cart': dic,'profile':profile,'form':form})
+    return render(request, 'cart.html', {'cart': dic,'profile':profile,'form':form,'shop_name':shop_name})
 
-@user_passes_test(user_verified, login_url='/settings/account/')
-def removeItem(request):
+@user_passes_test(user_verified, login_url='/account/settings/')
+def removeItem(request,shopname):
     user_id = request.user.pk
+    shop_name = shopname
+    shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user = user_id)
-    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     product_id = request.POST.get('product_id')
     print(request.POST.get)
     with open(file_path, 'r') as json_cart:
@@ -328,13 +343,15 @@ def removeItem(request):
     with open(file_path, 'w+') as json_cart:
         json.dump(user_cart, json_cart)
     print(user_cart)
-    return render(request, 'cart.html', {'cart': user_cart})
+    return render(request, 'cart.html', {'cart': user_cart,'shop_name':shop_name})
 
-@user_passes_test(user_verified, login_url='/settings/account/')
-def checkout(request,location_id):
+@user_passes_test(user_verified, login_url='/account/settings/')
+def checkout(request,shopname,location_id):
     user_id = request.user.pk
+    shop_name = shopname
+    shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user = user_id)
-    file_path = 'media/json/active/user' + str(profile.id) + 'cart.json'
+    file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     dic2 = {}
     print(request.POST)
     location = Location.objects.get(id=location_id)
@@ -394,7 +411,7 @@ def checkout(request,location_id):
     except:
         pass
     send_mail_order(profile.id,shopName,dic,dic2)
-    
+    send_mail_receipt(profile.id,shopName,dic,dic2)
     open(file_path, 'w').close()
 
     return redirect('/')

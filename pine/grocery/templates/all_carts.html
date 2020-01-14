@@ -1,26 +1,28 @@
-{% extends './base.html' %}
-{% block title %} All Room Available {% endblock %}
+{% extends 'base.html' %}
+{% block title %} Groceries in Solan{% endblock %}
 <body>
 {% load static %}
 {% block stylesheet %} 
 	<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
-	
+	<!link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
     
-    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
+    
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
-
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
 
 {% endblock %}
 
 {% load static %}
-{% block body %}    
-   
-    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{shops.count }} shops{% if shops.count > 1 %}s{% endif %} found </p>
+{% block body %}
+
+    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{groceries.count }} product{% if groceries.count > 1 %}s{% endif %} found </p>
+    <h1 align="center">Please select the Cart from the corresponding vendor {{shop_name}}</h1> 
     <div class="projects-clean">
         <div class="container align-items-center align-content-center align-self-center">
             <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
-                {% for shop in shops %}<div class="card" style="width: 15rem; margin:5%;">
+                {% for shop in shops %}
+                    <div class="card" style="width: 15rem; margin:5%;">
                         {% if shop.image %}<img class="img-fluid"
                         style="height:auto;width:auto;"
                         src="{{shop.image.url}}"  >
@@ -41,8 +43,10 @@
                             {% else %}
                                 <p class="card-text"; style="text-align:center;">&nbsp;         </p>
                             {% endif %}
-                           <center><button  class="btn btn-primary btn-lg border rounded product" type="button"><a href="/{{shop.shop}}" style="color: white;">View Shop</a></button></center>
-                           </div>
+                           
+                            <center><button  class="btn btn-primary btn-lg border rounded product" type="button"><a href="/{{shop.shop}}/usercart" style="color: white;">Goto cart</a></button></center>
+                           
+                        </div>
                       </div>
                 {% endfor %}
             </div>
@@ -50,3 +54,5 @@
     </div>
 
 {% endblock %}
+
+</body>
