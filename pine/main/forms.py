@@ -175,8 +175,6 @@ class RentPGForm(forms.ModelForm):
                 css_class='form-row'
             ),
             'any_other',
-            
-        
         )
 
 
@@ -186,14 +184,6 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ('image', )
-        
-    # def clean(self):
-    #     cleaned_data =super().clean()
-    #     image = self.cleaned_data.get("image")
-    #     if image.size > 2048*1024:
-    #         raise forms.ValidationError(
-    #             'File size must be under 2MB. Current file size is %.2fMB.' %  (image.size/1024/1024))
-    #     return(image)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
@@ -211,7 +201,7 @@ class ImageFormPG(forms.ModelForm):
 
 class FilterFormLocation(forms.ModelForm):
     LOCATION = ((x.id, x) for x in Location.objects.all())
-    #print(LOCATION)
+    print(LOCATION)
     Locations = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                           choices=LOCATION)
     class Meta: 
@@ -292,5 +282,4 @@ class ContactForm(forms.Form):
             
             css_class='form-row centered'
             ),
-         
         )

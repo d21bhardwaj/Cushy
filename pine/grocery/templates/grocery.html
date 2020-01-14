@@ -31,6 +31,8 @@
             <th scope="col">Free Product</th>
             <th scope="col">Description</th>
             <th scope="col">Barcode</th>
+            <th scope="col">Show Product</th>
+            <th scope="col">Updated At</th>
            
             </tr>
         </thead>
@@ -56,6 +58,8 @@
                 <td>{{ form.free_product }}</td>
                 <td>{{ form.description }}</td>
                 <td>{{ form.barcode }}</td>
+                <td>{{ grocery.updated_at }}</td>
+                <td>{{ form.show_product }}</td>
                 <td><button type="submit" name="visitor" value="{{grocery.id}}">Submit</button></td>
                 </form>
                 {% else %}
@@ -71,6 +75,8 @@
                 <td>{{ grocery.free_product }}</td>
                 <td>{{ grocery.description }}</td>
                 <td>{{ grocery.barcode }}</td>
+                <td>{{ grocery.updated_at }}</td>
+                <td>{{ grocery.show_product }}</td>
                 <td><button 
                     onclick="location.href='{% url "Product_Edit"  grocery.id %}'" type="button">
                     Edit It!</button></td>

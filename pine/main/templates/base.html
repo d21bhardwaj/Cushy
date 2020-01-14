@@ -55,7 +55,9 @@
                           <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}" style="color: rgba(255,255,255,0.9)"><i class="fa fa-user-circle-o" aria-hidden="true" ></i><strong> Logout </strong></a>
 
-                      </div>
+                    </div>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'carts' %}" style="color:rgba(255,255,255,0.9);" >Your Cart</a></li>
+
                     {% else %}
                       <a class="nav-link" href="{% url 'login' %}" style="color: rgba(255,255,255,0.9)"><i class="fa fa-user-circle-o" aria-hidden="true"></i><strong>LogIn/Signup</strong></a>
                       <!--<a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-user-circle-o" aria-hidden="true"> </i><strong>Login</strong></a>-->

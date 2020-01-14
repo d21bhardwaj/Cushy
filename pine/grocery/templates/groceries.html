@@ -30,7 +30,7 @@
         </div>
        
    
-    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{groceries.count }} product{%if groceries.count > 1 %}s{% endif %} found </p>
+    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{groceries.count }} product{% if groceries.count > 1 %}s{% endif %} found </p>
     <h1 align="center">You are shopping from {{shop_name}}</h1> 
     <div class="projects-clean">
         <div class="container align-items-center align-content-center align-self-center">
@@ -64,7 +64,7 @@
                                 <strong>MRP: ₹{{ grocery.price }}</strong></p>
                             {% endif %}
                             {% if grocery.id in dic %}
-                                <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}"><a href="/URS/usercart" style="color: white;">Goto cart</a></button></center>
+                                <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}"><a href="usercart" style="color: white;">Goto cart</a></button></center>
                             {%else%}
                                 <center><button  class="btn btn-primary btn-lg border rounded product ref" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center>
                             {%endif%}
@@ -115,7 +115,7 @@ $(document).ready(function(){
         var p_id = $(this).data("p_id");
      $.ajax({
       type: "POST",
-      url: "{%url 'Cart_add'%}",
+      url: "{% url 'Cart_add' shop_name %}",
       data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
       success: function(result){
       },
