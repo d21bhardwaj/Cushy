@@ -32,8 +32,8 @@ urlpatterns = [
     path('accounts/profile/', RedirectView.as_view(pattern_name='index', permanent=False)),
     path('', views.index, name='index'),
     path('account/',include('accounts.urls')),
-    path('URS/',include('grocery.urls')),
-    path('Test_Shop/',include('grocery.urls')),  
+    path('<shopname>/',include('grocery.shop_urls')),
+    # path('Test_Shop/',include('grocery.shop_urls')),  
 ]
     
 if settings.DEBUG is True:
