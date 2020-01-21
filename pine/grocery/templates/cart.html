@@ -76,6 +76,8 @@
 
 
 {% block script %}
+  {% if user.is_authenticated %}
+
 <script type="text/javascript">
     /* Set values + misc */
     var promoCode;
@@ -231,4 +233,5 @@
       });
     }
 </script>
+{% endif %}
 {% endblock %}
