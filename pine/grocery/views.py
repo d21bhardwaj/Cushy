@@ -38,7 +38,7 @@ def shop_verified(user):
     except ObjectDoesNotExist:
         return False
 
-@user_passes_test(user_verified, login_url='/account/settings/')
+@login_required
 def cart_add(request,shopname):
     user_id = request.user.pk
     shop_name = shopname
@@ -63,9 +63,9 @@ def cart_add(request,shopname):
             quantity = 1
             add[str(product_id)] = quantity
             json.dump(add, json_file)
-    return render(request, 'cart.html')
+    return render(request, 'cart.html',{'cart': data,'shop_name':shop_name})
 
-@user_passes_test(user_verified, login_url='/account/settings/')
+@login_required
 def show_savings(cart):
     total_savings = 0
     for product in cart.keys():
@@ -73,7 +73,7 @@ def show_savings(cart):
         total_savings = total_savings + cart[product]*(prod_obj.off)
     return total_savings
 
-@user_passes_test(user_verified, login_url='/account/settings/')
+@login_required
 def updateCart(request,shopname):
     shop_name = shopname
     shop = Shop.objects.get(shop=shop_name)
@@ -88,9 +88,10 @@ def updateCart(request,shopname):
     data[str(product_id)] = quantity
     with open(file_path, 'w+') as f:
         json.dump(data, f)
-    return render(request, 'cart.html', {'cart': data})
+    return render(request, 'cart.html', {'cart': data,'shop_name':shop_name})
+ 
 
-@user_passes_test(user_verified, login_url='/account/settings/')
+@login_required
 def cart_empty(request, shopname):
     user_id = request.user.pk
     shop_name = shopname
@@ -247,23 +248,27 @@ def shops_grocery(request,shopname):
     shop = Shop.objects.get(shop=shop_name)
     groceries = Product.objects.filter(shop=shop,show_product=True)
     user_id = request.user.pk
-    profile = Profile.objects.get(user = user_id)
     dic = []
-    if request.user.is_authenticated:
-        file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
-        try:
-            with open(file_path,'r+') as json_cart:
-                user_cart = json.loads(json_cart.read())
-                for key,values in user_cart.items():
-                    dic.append(int(key))
-        except:
+    try: 
+        profile = Profile.objects.get(user = user_id)
+        
+        if request.user.is_authenticated:
+            file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
             try:
-                os.mkdir('media/json/active/user_' + str(profile.id))
+                with open(file_path,'r+') as json_cart:
+                    user_cart = json.loads(json_cart.read())
+                    for key,values in user_cart.items():
+                        dic.append(int(key))
             except:
-                pass
-    else:
-        print("Error2")
-    print(dic)
+                try:
+                    os.mkdir('media/json/active/user_' + str(profile.id))
+                except:
+                    pass
+        else:
+            print("Error2")
+        print(dic)
+    except: 
+        pass
 
     return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop_name , 'dic':dic})
 
@@ -293,7 +298,7 @@ def all_brands(request, shop_name, brand_name):
 
     return render(request, 'groceries.html', {'groceries' : groceries})
 
-@user_passes_test(user_verified, login_url='/account/settings/')
+@login_required
 def cart_view(request,shopname):
     user_id = request.user.pk
     shop_name = shopname
@@ -328,7 +333,7 @@ def cart_view(request,shopname):
     form = DeliveryLocationForm()
     return render(request, 'cart.html', {'cart': dic,'profile':profile,'form':form,'shop_name':shop_name})
 
-@user_passes_test(user_verified, login_url='/account/settings/')
+@login_required
 def removeItem(request,shopname):
     user_id = request.user.pk
     shop_name = shopname

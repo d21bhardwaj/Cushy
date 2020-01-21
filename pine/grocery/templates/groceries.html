@@ -63,11 +63,16 @@
                                 <p class="description" style="color:rgb(38,39,39);font-size:24px; text-align: center;">
                                 <strong>MRP: ₹{{ grocery.price }}</strong></p>
                             {% endif %}
-                            {% if grocery.id in dic %}
-                                <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}"><a href="usercart" style="color: white;">Goto cart</a></button></center>
-                            {%else%}
-                                <center><button  class="btn btn-primary btn-lg border rounded product ref" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center>
-                            {%endif%}
+                            {% if user.is_authenticated %}
+                            
+                                {% if grocery.id in dic %}
+                                    <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ grocery.id }}"><a href="usercart" style="color: white;">Goto cart</a></button></center>
+                                {% else %}
+                                    <center><button  class="btn btn-primary btn-lg border rounded product ref" type="button" data-p_id = "{{ grocery.id }}">Add to cart</button></center>
+                                {% endif %}
+                            {% else %}
+                                    <center><button  class="btn btn-primary btn-lg border rounded product ref" type="button" onclick="location.href='{% url "my_account" %}'">Please Login </button></center>
+                            {% endif %}
                         </div>
                       </div>
                 {% endfor %}
@@ -77,6 +82,7 @@
 
 {% endblock %}
 {% block script %}
+    {% if user.is_authenticated %}
     <script>
     function UpdateQueryString(key, value, url) {
         if (!url) url = window.location.href;
@@ -110,23 +116,24 @@
             }
         }
     }
-$(document).ready(function(){
-    $(".product").on("click", function(evt) {
-        var p_id = $(this).data("p_id");
-     $.ajax({
-      type: "POST",
-      url: "{% url 'Cart_add' shop_name %}",
-      data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
-      success: function(result){
-      },
-      error: function(result){
-      }
+    $(document).ready(function(){
+        $(".product").on("click", function(evt) {
+            var p_id = $(this).data("p_id");
+        $.ajax({
+        type: "POST",
+        url: "{% url 'Cart_add' shop_name %}",
+        data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+        success: function(result){
+        },
+        error: function(result){
+        }
+        });
     });
-   });
-    $(".ref").on("click", function(evt) {
-     location.reload();
-   });
-  });
-</script>
+        $(".ref").on("click", function(evt) {
+        location.reload();
+    });
+    });
+    </script>
+{% endif %}
 {% endblock %}
 </body>
