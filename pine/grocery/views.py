@@ -251,7 +251,7 @@ def shops_grocery(request,shopname):
     except: 
         pass
 
-    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop_name , 'dic':dic})
+    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.name , 'dic':dic})
 
 def all_category(request):
     category = Category.objects.all()
