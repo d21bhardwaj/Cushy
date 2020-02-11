@@ -30,7 +30,7 @@
                         src="{% static '/assets/img/no-image.png'%}"  >
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="description" style="text-align: center; color:rgb(38,39,39);font-size:24px;"><strong>{{ shop.shop }}</strong></h5>
+                            <h5 class="description" style="text-align: center; color:rgb(38,39,39);font-size:24px;"><strong>{{ shop.name }}</strong></h5>
                             {% if shop.mobile_no %}
                                 <p class="description just" style="text-align: center;">&nbsp; &nbsp;{{shop.mobile_no}}</p>
                             {% else %}
@@ -41,7 +41,7 @@
                             {% else %}
                                 <p class="card-text"; style="text-align:center;">&nbsp;         </p>
                             {% endif %}
-                           <center><button  class="btn btn-primary btn-lg border rounded product" type="button"><a href="/{{shop.shop}}" style="color: white;">View Shop</a></button></center>
+                           <center><button  class="btn btn-primary btn-lg border rounded product" type="button"><a href="/{{shop.name}}" style="color: white;">View Shop</a></button></center>
                            </div>
                       </div>
                 {% endfor %}

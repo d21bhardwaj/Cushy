@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import Shop, Brand, Category, Product, Images
 
 class ShopAdmin(admin.ModelAdmin):
-    list_display = ('id', 'shop')
+    list_display = ('id','shop_user', 'shop','name')
 
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('id', 'brand')

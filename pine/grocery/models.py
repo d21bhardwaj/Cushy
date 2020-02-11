@@ -4,10 +4,11 @@ from accounts.models import Profile
 from django.db.models.signals import pre_save
 from django.utils.timezone import now
 import time
+from django.template.defaultfilters import slugify
+
 # Create your models here.
 def shop_directory_path(instance, filename):
     seller = instance.shop_user
-    
     return 'Grocery/{id}/{file}'.format(id=seller, file = filename)
     #return 'Images/user_{0}/{1}'.format(instance.user.id, filename)
 
@@ -37,14 +38,18 @@ def product_directory_path(instance, filename):
 class Shop(models.Model):
     
     shop_user = models.ForeignKey(Profile, on_delete=models.CASCADE, default='',null = True)
-    shop = models.SlugField(max_length=40, null = False, default='')
+    shop = models.SlugField(max_length=40,  default='')
     mobile_no = models.CharField(null=True,blank=True,max_length=12)
     alternate_no = models.CharField(null=True,blank=True,max_length=12)
     email = models.EmailField(max_length=70, null=True, blank=True)
     image = models.ImageField(upload_to=shop_directory_path, validators=[validate_image],verbose_name='Shop Image',null=True)
+    name = models.CharField(max_length=40, unique=True) 
+    description = models.CharField(null=True,blank=True,max_length=200) 
     
-    def __str__(self):
-        return str(self.shop)    
+    def save(self, *args, **kwargs):
+        self.shop = slugify(self.name)
+
+        super(Shop, self).save(*args, **kwargs)   
 
 class Brand(models.Model):
     brand  = models.CharField(max_length=40, null = False, default='') 
