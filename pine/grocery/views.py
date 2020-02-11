@@ -23,6 +23,7 @@ import logging
 import os
 import time
 import shutil
+from django.template.defaultfilters import slugify
 
 logging.basicConfig( filename="media/grocery.log", level=logging.WARNING)
 
@@ -209,30 +210,10 @@ def data_upload_form(request, product_id):
         form = form_class   
     return render(request, 'grocery_list_edit.html', {'product_id':product_id,'groceries':groceries, 'form':form,'imageform':imageform})
 
-
-
-# def all_grocery(request):
-#     groceries = Product.objects.all()
-#     dic = {}
-#     user_id = request.user.pk
-#     profile = Profile.objects.get(user = user_id)
-#     if request.user.is_authenticated:
-#         file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
-#         try:
-#             with open(file_path,'r+') as json_cart:
-#                 user_cart = json.loads(json_cart.read())
-#                 for key,values in user_cart.items():
-#                     dic[key] = values
-#                 print(file_path)
-#         except:
-#             print("fuck")
-#     else:
-#         print("no")
-#     print(dic)
-#     return render(request, 'groceries.html', {'groceries': groceries, 'dic': dic})
-
 def all_shops(request):
     shops = Shop.objects.all()
+    for shop in shops:
+        print(shop.shop, shop.shop_user)
     return render(request, 'shops.html',{'shops':shops})
 def all_carts(request):
     shops = Shop.objects.all()
@@ -244,7 +225,7 @@ def request_url(request):
     return str(S)
 
 def shops_grocery(request,shopname):
-    shop_name = shopname
+    shop_name = slugify(shopname)
     shop = Shop.objects.get(shop=shop_name)
     groceries = Product.objects.filter(shop=shop,show_product=True)
     user_id = request.user.pk
