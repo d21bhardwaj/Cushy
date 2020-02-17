@@ -64,7 +64,7 @@ def cart_add(request,shopname):
             quantity = 1
             add[str(product_id)] = quantity
             json.dump(add, json_file)
-    return render(request, 'cart.html',{'cart': data,'shop_name':shop_name})
+    return render(request, 'cart.html',{'shop_name':shop_name})
 
 @login_required
 def show_savings(cart):
@@ -251,7 +251,7 @@ def shops_grocery(request,shopname):
     except: 
         pass
 
-    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.name , 'dic':dic,'shop':shop})
+    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.shop, 'dic':dic,'shop':shop})
 
 def all_category(request):
     category = Category.objects.all()
