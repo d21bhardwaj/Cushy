@@ -42,7 +42,7 @@ def shop_verified(user):
 @login_required
 def cart_add(request,shopname):
     user_id = request.user.pk
-    shop_name = shopname
+    shop_name = slugify(shopname)
     shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user = user_id)
     product_id = request.POST.get('product_id')
@@ -76,7 +76,7 @@ def show_savings(cart):
 
 @login_required
 def updateCart(request,shopname):
-    shop_name = shopname
+    shop_name = slugify(shopname)
     shop = Shop.objects.get(shop=shop_name)
     user_id = request.user.pk
     profile = Profile.objects.get(user = user_id)
@@ -95,7 +95,7 @@ def updateCart(request,shopname):
 @login_required
 def cart_empty(request, shopname):
     user_id = request.user.pk
-    shop_name = shopname
+    shop_name = slugify(shopname)
     shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user = user_id)
     email_id = request.POST.get('email')
@@ -317,7 +317,7 @@ def cart_view(request,shopname):
 @login_required
 def removeItem(request,shopname):
     user_id = request.user.pk
-    shop_name = shopname
+    shop_name = slugify(shopname)
     shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user = user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
@@ -334,7 +334,7 @@ def removeItem(request,shopname):
 @user_passes_test(user_verified, login_url='/account/settings/')
 def checkout(request,shopname,location_id):
     user_id = request.user.pk
-    shop_name = shopname
+    shop_name = slugify(shopname)
     shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user = user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
