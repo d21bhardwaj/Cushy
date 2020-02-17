@@ -8,9 +8,6 @@ from accounts import views as accounts_views
 from django.contrib.auth import logout
 
 urlpatterns = [
-    path('upload/',
-        views.data_upload,
-        name='Upload_data'),
     path('cart/',
         views.cart_add,
         name='Cart_add'),
