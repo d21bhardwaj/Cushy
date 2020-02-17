@@ -251,7 +251,7 @@ def shops_grocery(request,shopname):
     except: 
         pass
 
-    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.name , 'dic':dic})
+    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.name , 'dic':dic,'shop':shop})
 
 def all_category(request):
     category = Category.objects.all()
@@ -282,7 +282,7 @@ def all_brands(request, shop_name, brand_name):
 @login_required
 def cart_view(request,shopname):
     user_id = request.user.pk
-    shop_name = shopname
+    shop_name = slugify(shopname)
     shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user=user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
@@ -310,9 +310,9 @@ def cart_view(request,shopname):
                 li.append(pro.savings)
                 dic[key] = li
     except:
-        return render(request, 'cart.html', {'cart': {},'shop_name':shop_name,'profile':profile})
+        return render(request, 'cart.html', {'cart': {},'shop_name':shop_name,'shop':shop,'profile':profile})
     form = DeliveryLocationForm()
-    return render(request, 'cart.html', {'cart': dic,'profile':profile,'form':form,'shop_name':shop_name})
+    return render(request, 'cart.html', {'cart': dic,'profile':profile,'form':form,'shop_name':shop_name,'shop':shop,})
 
 @login_required
 def removeItem(request,shopname):

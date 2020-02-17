@@ -45,7 +45,7 @@ class Shop(models.Model):
     image = models.ImageField(upload_to=shop_directory_path, validators=[validate_image],verbose_name='Shop Image',null=True)
     name = models.CharField(max_length=40, unique=True) 
     description = models.CharField(null=True,blank=True,max_length=200) 
-    
+    cart_message = models.CharField(null=True,blank=True,max_length=200)
     def save(self, *args, **kwargs):
         self.shop = slugify(self.name)
 
