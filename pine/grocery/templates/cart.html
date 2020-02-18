@@ -13,8 +13,10 @@
   {% endif %}
   
   <main>
-  <center><h3>{{shop_name}}</h3>
-  
+  <center><h2 class="display-4" align="center" >{{shop.name}}</h2>
+  {% if shop.cart_message %}
+  <h2 align="center">{{shop.cart_message }}</h2> 
+  {% endif %} 
     <div class="basket">
       <div class="basket-labels">
         <ul>
@@ -48,6 +50,7 @@
       {%endfor%}
     </div>
     <aside>
+    <br><br>
       <div class="summary">
         <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
         <div class="summary-subtotal">

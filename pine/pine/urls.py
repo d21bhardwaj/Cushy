@@ -23,6 +23,13 @@ from django.contrib.auth import logout
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.models import User
+from accounts import rest_views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'users', rest_views.UserViewSet)
+router.register(r'groups', rest_views.GroupViewSet)
+
 
 urlpatterns = [
     path('dashtown/', admin.site.urls),
@@ -32,7 +39,10 @@ urlpatterns = [
     path('accounts/profile/', RedirectView.as_view(pattern_name='index', permanent=False)),
     path('', views.index, name='index'),
     path('account/',include('accounts.urls')),
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('<shopname>/',include('grocery.shop_urls')),
+
     # path('Test_Shop/',include('grocery.shop_urls')),  
 ]
     

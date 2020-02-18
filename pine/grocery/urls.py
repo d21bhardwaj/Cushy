@@ -20,6 +20,9 @@ urlpatterns = [
         path('product-edit/<int:product_id>',
         views.data_upload_form,
         name='Product_Edit'),
+    path('upload/',
+        views.data_upload,
+        name='Upload_data'),
 #--- Add whatever you want above it --#
     ## Always keep it Last in path ###
     # path('',
