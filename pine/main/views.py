@@ -140,6 +140,8 @@ def rentpgdetails(request):
     else:
         raise PermissionDenied      
 
+def property_type(request):
+    return render(request,'property_type.html')
 def renttype(request):
     return render(request, 'choice.html' ,{'header': 'Choose Type of Renting'})
 
