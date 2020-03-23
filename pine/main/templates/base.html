@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="width: 100%; overflow-x: hidden;">
 
 <head>
   
@@ -16,12 +16,29 @@
   <title>{% block title %} {% endblock %} </title>        
   <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
 
+  <style type="text/css">
+    .main-footer{
+      position: absolute; 
+      bottom: 0px;
+      height: 100px;
+      width: 100%;
+
+    }
+    .main-footer > .footer{
+      height: 100px;
+    }
+
+    .separator{
+            height: 30px;
+        }
+  </style>
+
   {% block stylesheet %}
   {% endblock %}
 </head>
 
 <body>
-  <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white m-0">
+  <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white m-0" style="z-index: 0;">
     <div class="container-fluid">
       <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'base/logo.svg' %}" /></a>
         <button class="navbar-toggler border-0 pr-5 pb-4" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,9 +80,9 @@
       {% endblock %}
       {% block form %}
       {% endblock %}
-      {% comment %} <footer>
-			<div class="footer"></div>
-		  </footer> {% endcomment %}
+      <div class="main-footer">
+			 <div class="footer"></div>
+		  </div>  
 
     
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
