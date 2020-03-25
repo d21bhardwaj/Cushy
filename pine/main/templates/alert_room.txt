@@ -1,5 +1,0 @@
-Congrats new {{value}} has been added and asked for approval!!!
-
-
-LINK TO APPROVE : https://pinetown.in/dashtown
-
