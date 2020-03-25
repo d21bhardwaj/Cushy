@@ -1,5 +1,6 @@
 media/
 static/json
+**/migrations/
 # Created by https://www.gitignore.io
 
 ### OSX ###
