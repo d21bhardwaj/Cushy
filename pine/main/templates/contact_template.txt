@@ -1,0 +1,12 @@
+
+Contact Name:
+{{ contact_name }}
+
+Email:
+{{ contact_email }}
+
+Number:
+{{ contact_number }}
+
+Content:
+{{ form_content|safe|striptags }}

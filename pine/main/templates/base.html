@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style="width: 100%; overflow-x: hidden;">
+
+<head>
+  
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+  <!-- for copyright>? check! -->
+  <meta name="copyrighted-site-verification" content="09a084fc0be90527">
+      <!-- Bootstrap CSS for styling and layout-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+          <!--CSS for styling and layout-->
+  <link rel="stylesheet" href="{% static 'base/style.css' %}" type="text/css">
+  <script type="text/javascript" src="css3-mediaqueries.js"></script>
+  <title>{% block title %} {% endblock %} </title>        
+  <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+
+  <style type="text/css">
+    .main-footer{
+      position: absolute; 
+      bottom: 0px;
+      height: 100px;
+      width: 100%;
+
+    }
+    .main-footer > .footer{
+      height: 100px;
+    }
+
+    .separator{
+            height: 30px;
+        }
+  </style>
+
+  {% block stylesheet %}
+  {% endblock %}
+</head>
+
+<body>
+  <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white m-0" style="z-index: 0;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'base/logo.svg' %}" /></a>
+        <button class="navbar-toggler border-0 pr-5 pb-4" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav float-left ml-auto pb-5 pb-md-3">
+            <li class="nav-item dropdown">
+            {% if user.is_authenticated %}
+              <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-family: 'Century Gothic'; color: #06106E;">Hi {{ user.profile.name }}
+              </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu" style="background-color: #44499a" >
+              <a class="dropdown-item" href="{% url 'my_account' %}" style="color:rgba(255,255,255,0.9);">My account</a>
+              <!--for now My account just changes the name-->
+              <a class="dropdown-item" href="{% url 'password_change' %}" style="color: rgba(255,255,255,0.9)">Change password</a>
+                <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'logout' %}" style="color: rgba(255,255,255,0.9)"><i class="fa fa-user-circle-o" aria-hidden="true" ></i><strong> Logout </strong></a>
+            </div>
+              {% else %}
+            <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'carts' %}" style="color:rgba(255,255,255,0.9);" >Your Cart</a></li>
+              <li class="nav-item active px-2">
+                  <a class="nav-link" href="{% url 'login' %}" style="font-family: 'Century Gothic'; color: #06106E;"><strong>Login/Sign Up</strong><span class="sr-only">(current)</span></a>
+              </li>
+              {% endif %}
+            <li class="nav-item px-2">
+                <a class="nav-link" href="{% url 'about_us' %}" style="font-family: 'Century Gothic'; color: #06106E;">About Us</a>
+            </li>
+            <li class="nav-item px-2 mr-5">
+                <a class="nav-link" href="{% url 'contact_us'%}" style="font-family: 'Century Gothic'; color: #06106E;">Contact Us</a>
+            </li>
+              </ul>
+      </div>
+    </div>
+  </nav>
+    
+      {% block body %} 
+      {% endblock %}
+      {% block content %}
+      {% endblock %}
+      {% block form %}
+      {% endblock %}
+      <div class="main-footer">
+			 <div class="footer"></div>
+		  </div>  
+
+    
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+          
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-143816468-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-143816468-1');
+  </script>
+
+    
+    {% block script %}
+    {% endblock %}
+</body>
+
+</html>

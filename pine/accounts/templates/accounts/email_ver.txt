@@ -1,0 +1,6 @@
+
+Name:
+{{ name }}
+
+Email Verification Link:
+{{ link }}

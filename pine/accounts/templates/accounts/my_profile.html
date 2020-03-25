@@ -1,0 +1,68 @@
+{% extends 'my_account.html' %}
+{% load static %}
+
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block stylesheet %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/accounts.css' %}"> 
+    <link rel="stylesheet" href="{% static 'profile/css/Customizable-Background--Overlay.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/css/Team-Boxed.css'%}">
+
+    <style type="text/css">
+        .ch{
+            padding-top: 20px;
+        }
+
+        .act{
+            color: blue;
+        }
+
+    </style>
+{% endblock %}
+
+{% block title %}My account {% endblock %}
+
+{% block content1 %}
+
+
+
+<div class="container">
+
+    <div class="pt-changed"></div>
+    <div class="page-header">
+        <h1>Profile</h1>      
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <form method="post" enctype="multipart/form-data"  id="post_form" action="">
+                {% csrf_token %}
+                
+
+              
+                {% crispy formset formset.form.helper %}
+                {% if user.profile.verified == False %}
+                <div style="width: auto;height: auto;margin-top: 15px;margin-bottom: 15px;">
+                    <div class="row text-center justify-content-center" style="width: auto;height: auto;margin-right: 0px;margin-left: 0px;">
+                        <div class="col-auto" style="padding-left: 0px;padding-right: 0px;height: auto;width: auto;">
+                            <p class="text-center" style="width: auto;height: auto;margin-bottom: 0px;">We will send you an OTP to veify your mobile and email.</p>
+                        </div>
+                    </div>
+                </div>
+                    
+                <button type="submit" class="btn btn-primary">Verify Details</button>
+                {% else %}
+                <button type="submit" class="btn btn-primary">Update</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+    <div class="pt-changed"></div>
+    <div class="pt-changed"></div>
+
+{% endblock %}

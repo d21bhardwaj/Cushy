@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}PineTown | Home{% block subtitle %}{% endblock %} {% endblock %}
+
+{% block body %}
+
+    <div id="pics">
+			<img id="lightblue" src="{% static 'base/lightblue.svg' %}" />
+			<img id="darkblue" src="{% static 'base/darkblue.svg' %}" />
+			<img id="besidehome" src="{% static 'base/besidehome.svg' %}" />
+			<img id="besidegroceries" src="{% static 'base/besidegroceries.svg' %}" />
+			<img id="whitebghome" src="{% static 'base/White_Background_for_home.svg'%}" />
+			<img id="whitebggroceries" src="{% static 'base/White_background_for_groceries.svg'%}" />
+			<img id="groceriesillustration" src="{% static 'base/Home_Illustration.svg'%}" onclick="location.href='{% url "shops" %}'" />
+			<img id="homeillustration" src="{% static 'base/Groceries_Illustration.svg'%}" />
+			<img id="groceries" src="{% static 'base/Buy_Groceries.svg'%}" onclick="location.href='{% url "shops" %}'"/>
+			<img id="rooms" src="{% static 'base/See_Rooms.svg'%}" onclick="location.href='{% url 'RentType' %}'" />
+    </div>
+
+
+{% endblock %}

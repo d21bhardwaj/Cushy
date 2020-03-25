@@ -1,0 +1,13 @@
+
+<p>Order by {{profile.title}} {{ profile.name}} Contact Number :<a> {{profile.mobile_no}}</a>
+<p>Delivery asked for <strong>Location: {{location}}</strong>
+<table>
+  <tr>
+    <td>Id</td> <td>Name</td> <td>MRP</td> <td>Selling_Price</td> <td>Quantity orderd</td> <td>Image link</td>
+  </tr>
+  {% for key, value in cart.items %} 
+  <tr>
+   <td>{{key}}</td> <td>{{value.0}}</td> <td>{{value.1}}</td> <td>{{value.2}}</td> <td>{{value.3}}</td> <td>{{value.4}}</td>
+  </tr>
+  {% endfor %}
+</table>
