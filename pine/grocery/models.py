@@ -46,6 +46,7 @@ class Shop(models.Model):
     name = models.CharField(max_length=40, unique=True) 
     description = models.CharField(null=True,blank=True,max_length=200) 
     cart_message = models.CharField(null=True,blank=True,max_length=200)
+    location = models.ForeignKey('main.Location',on_delete=models.SET_NULL,null=True)
     def save(self, *args, **kwargs):
         self.shop = slugify(self.name)
 

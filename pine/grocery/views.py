@@ -211,10 +211,22 @@ def data_upload_form(request, product_id):
     return render(request, 'grocery_list_edit.html', {'product_id':product_id,'groceries':groceries, 'form':form,'imageform':imageform})
 
 def all_shops(request):
-    shops = Shop.objects.all()
-    for shop in shops:
-        print(shop.shop, shop.shop_user)
-    return render(request, 'shops.html',{'shops':shops})
+    
+    if request.method=="POST":
+        form = ShopLocationForm(request.POST)
+        if form.is_valid():
+            city = form.cleaned_data['city']
+            print(city)
+            shops = Shop.objects.filter(location__city=city) 
+            for shop in shops:
+              print(shop.shop, shop.shop_user,shop.location.city)
+          
+    else:
+        shops = Shop.objects.all() 
+        for shop in shops:
+            print(shop.shop, shop.shop_user,shop.location.city)
+        form = ShopLocationForm()
+    return render(request, 'shops.html',{'shops':shops, 'form':form})
 def all_carts(request):
     shops = Shop.objects.all()
     print(shops)

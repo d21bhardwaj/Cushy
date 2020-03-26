@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from django.http import HttpResponse, JsonResponse
 #from django.contrib.auth.forms import UserCreationForm Not needed now
-from .forms import SignUpForm, ProfileForm
+from .forms import *
 # Now adding for Account View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -26,7 +26,7 @@ from django.core.mail import EmailMessage
 from django.core.exceptions import ObjectDoesNotExist
 
 #for all the uploads done by an user
-from main.models import RentingUser, RentingPGUser, ImagesPG, Images
+from main.models import *
 from main.forms import RentForm, RentPGForm, ImageFormPG, ImageForm
 #for mobile verification
 from .mobile_verification import *
@@ -97,7 +97,7 @@ def profileupdate(request):
                         headers = {'Reply-To': 'project.pinetown@gmail.com' }
                     )
                     email.send()
-                    return redirect('vm')
+                    return redirect('/otp/')
                 else:
  
                     return render(request, 'my_profile.html', {
@@ -444,3 +444,37 @@ def pg_image_update(request, room_id, image_id):
                 })
     return render(request, 'images_update.html', 
         {'rooms': rooms, 'images': images, 'seller': profile, "page":"pg", 'extra_form':extra_form})
+
+
+@login_required
+def location_update(request):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+    if request.method=="POST":
+        form = LocationForm(request.POST,instance=profile)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            
+    else:
+        form = LocationForm()
+    states = State.objects.all()
+    return render(request,'location.html',{'states':states})
+
+
+def all_cities(request):
+    if request.method=="POST":
+        state_id = request.POST.get('state')
+        state = State.objects.filter(id=int(state_id)).first()
+        cities = City.objects.filter(state=state).order_by('name')
+        data = [city.as_dict() for city in cities]
+        return JsonResponse(data,safe=False)
+
+def all_locations(request):
+    if request.method=="POST":
+        city_id = request.POST.get('city')
+        city = City.objects.filter(id=int(city_id)).first()
+        locations = Location.objects.filter(city=city).order_by('location')
+        data = [location.as_dict() for location in locations]
+        return JsonResponse(data,safe=False)

@@ -14,11 +14,44 @@ s_i_choices = [
     ('in', 'Individual'),
 ]
 
-class Location(models.Model):
-    location = models.CharField(max_length=30, null = True, default='')
+
+class State(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return str(self.location)
+        return self.name 
+
+    def as_dict(self):
+        return {
+            "name":self.name,
+            "id":self.id
+        }
+
+class City(models.Model):
+    name = models.CharField(max_length=100)
+    state = models.ForeignKey(State,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name + ", " + self.state.name
+
+    def as_dict(self):
+        return {
+            "name":self.name,
+            "id":self.id
+        }
+
+class Location(models.Model):
+    location = models.CharField(max_length=100)
+    city = models.ForeignKey(City,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.location + ", " + self.city.name
+    
+    def as_dict(self):
+        return {
+            "name":self.location,
+            "id":self.id
+        }
 
 class RentingUser(models.Model):
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE, null=False)

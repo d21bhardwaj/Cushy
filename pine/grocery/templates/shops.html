@@ -17,6 +17,7 @@
    
     <p class="text-center text-secondary" style="padding-bottom:10px;"> {{shops.count }} shops{% if shops.count > 1 %}s{% endif %} found </p>
     <div class="projects-clean">
+    
         <div class="container align-items-center align-content-center align-self-center">
             <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
@@ -46,7 +47,14 @@
                            </div>
                       </div>
                 {% endfor %}
+
             </div>
+            {% load crispy_forms_tags %} 
+            <form  method="post" class="uniForm">
+            {{ form|crispy}}
+            {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
         </div>
     </div>
 

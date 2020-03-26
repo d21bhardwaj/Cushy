@@ -109,4 +109,15 @@ urlpatterns = [
     path('settings/image/pg/<int:room_id>/<int:image_id>',
         accounts_views.pg_image_update,
         name='pg_image_update'),
+
+    path('location_update/', 
+        accounts_views.location_update, 
+        name='location_update'),
+
+    path('api_cities/', 
+        accounts_views.all_cities, 
+        name='api_cities'),
+    path('api_locations/', 
+        accounts_views.all_locations, 
+        name='api_locations'),
 ]

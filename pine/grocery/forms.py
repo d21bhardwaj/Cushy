@@ -1,7 +1,7 @@
 from django import forms 
 from django.contrib.auth.models import User
 from .models import Product, Shop, Images
-from main.models import Location
+from main.models import Location, City
 # (Use this link to https://stackoverflow.com/questions/5119994/get-current-user-in-django-form)
 class ProductForm(forms.ModelForm): 
     
@@ -42,3 +42,11 @@ class DeliveryLocationForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['location'].queryset = Location.objects.all()
+
+class ShopLocationForm(forms.Form):
+    
+    city = forms.ModelChoiceField(queryset=City.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['city'].queryset = City.objects.all()

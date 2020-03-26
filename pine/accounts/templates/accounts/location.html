@@ -1,8 +1,8 @@
-{%extends 'my_account.html'%}
-{%load static%}
-{%block title%}Location Update{%endblock%}
+{% extends 'my_account.html' %}
+{% load static %}
+{% block title %}Location Update{% endblock %}
 {% load staticfiles %}
-{%block content1%}
+{% block content1 %}
 <div class="margin-auto text-center">
 	<img src="{% static 'images/logow.png'%}" style="width:140px" alt="Pinetown Logo"/>
 </div>
@@ -26,9 +26,9 @@
 						<div class="col-12 col-md-9">
 							<select name="state" id="id_state" class="form-control" required>
 								<option value="">Select State</option>
-								{%for state in states%}
+								{% for state in states %}
 								<option value="{{state.id}}">{{state.name}}</option>
-								{%endfor%}      
+								{% endfor %}      
 							</select>
 						</div>
 					</div>
@@ -53,7 +53,7 @@
 					<div class="row">
 					<div class="col-xs-3 col-sm-3"></div>
 					<div class="col-xs-6 col-sm-6 text-center">
-						<button type="submit" name="submit" class="btn btn-success" onclick="extraval();">Submit</button>
+						<button type="submit" name="submit" class="btn btn-success" >Submit</button>
 					</div>
 					<div class="col-xs-3 col-sm-3"></div>
 					</div>
@@ -63,9 +63,10 @@
 	</div>
 	<div class="col-md-3"></div>
 </div>
-{%endblock%}
+{% endblock %}
 
-{%block script%}
+{% block script %}
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
 <script type="text/javascript">
 	$("#id_city").prop('disabled',true);
 
@@ -82,11 +83,11 @@
                 type: "POST",
                 url: "{%url 'api_cities'%}",
                 data: {'state':text1,csrfmiddlewaretoken:'{{ csrf_token }}'},
-                success: function(states){
+                success: function(cities){
                     $("#id_city").prop('disabled',false);
                     $("#id_city").empty()
                     $("#id_city").append('<option value="">Select City</option>');
-                    for(state in states){
+                    for(city in cities){
                         $("#id_city").append('<option value="'+cities[city]['id']+'">'+cities[city]['name']+'</option>');
                     }
                 }
@@ -105,14 +106,14 @@
         else{
             $.ajax({
                 type: "POST",
-                url: "{%url 'api_locations'%}",
+                url: "{% url 'api_locations' %}",
                 data: {'city':text,csrfmiddlewaretoken:'{{ csrf_token }}'},
-                success: function(cities){
+                success: function(locas){
                     $("#id_location").prop('disabled',false);
                     $("#id_location").empty()
                     $("#id_location").append('<option value="">Select Location</option>');
-                    for(city in cities){
-                        $("#id_location").append('<option value="'+locations[location]['id']+'">'+locations[location]['name']+'</option>');
+                    for(loca in locas){
+                        $("#id_location").append('<option value="'+locas[loca]['id']+'">'+locas[loca]['name']+'</option>');
                     }
                 }
             });
