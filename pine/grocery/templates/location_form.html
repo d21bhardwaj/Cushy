@@ -15,6 +15,7 @@
         <h5>Please Note following Information will be forwared for Contacting You</h5>
         Contact Number: {{ profile.mobile_no }}<br>
         E-Mail: {{ profile.email }}<br>
+        Location: {{ profile.location }}<br>
         <form  method="post" class="uniForm">
             {{ form|crispy}}
             {% csrf_token %}

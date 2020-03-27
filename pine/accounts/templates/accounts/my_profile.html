@@ -58,7 +58,12 @@
                 {% else %}
                 <button type="submit" class="btn btn-primary">Update</button>
                 {% endif %}
+                    <div class="col-auto" style="padding-left: 0px;padding-right: 0px;height: auto;width: auto;">
+                            <p class="text-center" style="width: auto;height: auto;margin-bottom: 0px;">Location : {{ profile.location }}</p>
+                    </div>
             </form>
+                            <button type="submit" class="btn btn-primary" onclick="location.href='{% url 'location_update' %}'">Update Location</button>
+
         </div>
     </div>
 </div>

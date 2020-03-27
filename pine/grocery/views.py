@@ -5,7 +5,7 @@ from accounts.models import Profile
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required, user_passes_test
 #adding for contact form
-from main.models import Location
+from main.models import Location, City
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -211,21 +211,37 @@ def data_upload_form(request, product_id):
     return render(request, 'grocery_list_edit.html', {'product_id':product_id,'groceries':groceries, 'form':form,'imageform':imageform})
 
 def all_shops(request):
-    
-    if request.method=="POST":
-        form = ShopLocationForm(request.POST)
-        if form.is_valid():
-            city = form.cleaned_data['city']
-            print(city)
+    if request.user.is_authenticated and request.method !="POST":
+        pk = request.user.pk
+        user = User.objects.get(pk=pk)
+        profile = Profile.objects.get(user=user)
+        
+        if(profile.location):
+            location = profile.location
+            city = City.objects.get(id=location.city.id)
             shops = Shop.objects.filter(location__city=city) 
+            form = ShopLocationForm(initial={'city':city})
+        else:
+            shops = Shop.objects.all() 
             for shop in shops:
-              print(shop.shop, shop.shop_user,shop.location.city)
-          
-    else:
-        shops = Shop.objects.all() 
-        for shop in shops:
-            print(shop.shop, shop.shop_user,shop.location.city)
-        form = ShopLocationForm()
+                print(shop.shop, shop.shop_user,shop.location.city)
+            form = ShopLocationForm()
+
+    else :
+        if request.method=="POST":
+            form = ShopLocationForm(request.POST)
+            if form.is_valid():
+                city = form.cleaned_data['city']
+                print(city)
+                shops = Shop.objects.filter(location__city=city) 
+                for shop in shops:
+                    print(shop.shop, shop.shop_user,shop.location.city)
+            
+        else:
+            shops = Shop.objects.all() 
+            for shop in shops:
+                print(shop.shop, shop.shop_user,shop.location.city)
+            form = ShopLocationForm()
     return render(request, 'shops.html',{'shops':shops, 'form':form})
 def all_carts(request):
     shops = Shop.objects.all()
@@ -298,7 +314,8 @@ def cart_view(request,shopname):
     shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user=user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
-    location_id =request.POST.get('location')
+    location_id =profile.location.id
+    print(location_id)
     if(request.POST):
         print(location_id)
         return redirect('Checkout',shopname, location_id)
@@ -323,8 +340,8 @@ def cart_view(request,shopname):
                 dic[key] = li
     except:
         return render(request, 'cart.html', {'cart': {},'shop_name':shop_name,'shop':shop,'profile':profile})
-    form = DeliveryLocationForm()
-    return render(request, 'cart.html', {'cart': dic,'profile':profile,'form':form,'shop_name':shop_name,'shop':shop,})
+    #form = DeliveryLocationForm()
+    return render(request, 'cart.html', {'cart': dic,'profile':profile,'shop_name':shop_name,'shop':shop,})
 
 @login_required
 def removeItem(request,shopname):

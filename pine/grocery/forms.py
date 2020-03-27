@@ -41,7 +41,8 @@ class DeliveryLocationForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['location'].queryset = Location.objects.all()
+        print(kwargs)
+        self.fields['location'].queryset = Location.objects.get()
 
 class ShopLocationForm(forms.Form):
     

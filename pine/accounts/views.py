@@ -61,7 +61,7 @@ def profileupdate(request):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     user_form = ProfileForm(instance=user)
- 
+    profile = Profile.objects.get(user=user)
     ProfileInlineFormset = inlineformset_factory( User, model=Profile, form=ProfileForm, can_delete=False)
     formset = ProfileInlineFormset(instance=user)
  
@@ -96,11 +96,12 @@ def profileupdate(request):
                         [mail],
                         headers = {'Reply-To': 'project.pinetown@gmail.com' }
                     )
-                    email.send()
-                    return redirect('/otp/')
+                    #email.send()
+                    return redirect('vm')
                 else:
  
                     return render(request, 'my_profile.html', {
+                        "profile":profile,
                         "noodle": pk,
                         "noodle_form": user_form,
                         "formset": formset,
@@ -108,6 +109,7 @@ def profileupdate(request):
             else:
  
                 return render(request, 'my_profile.html', {
+                    "profile":profile,
                     "noodle": pk,
                     "noodle_form": user_form,
                     "formset": formset,
@@ -115,6 +117,7 @@ def profileupdate(request):
         else:
  
             return render(request, 'my_profile.html', {
+                "profile":profile,
                 "noodle": pk,
                 "noodle_form": user_form,
                 "formset": formset,
