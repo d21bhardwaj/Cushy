@@ -244,17 +244,50 @@ def all_shops(request):
             form = ShopLocationForm()
     return render(request, 'shops.html',{'shops':shops, 'form':form})
 def all_carts(request):
-    shops = Shop.objects.all()
-    print(shops)
-    return render(request, 'all_carts.html',{'shops':shops})
+    if request.user.is_authenticated and request.method !="POST":
+        pk = request.user.pk
+        user = User.objects.get(pk=pk)
+        profile = Profile.objects.get(user=user)
+        
+        if(profile.location):
+            location = profile.location
+            city = City.objects.get(id=location.city.id)
+            shops = Shop.objects.filter(location__city=city) 
+            form = ShopLocationForm(initial={'city':city})
+        else:
+            shops = Shop.objects.all() 
+            for shop in shops:
+                print(shop.shop, shop.shop_user,shop.location.city)
+            form = ShopLocationForm()
+
+    else :
+        if request.method=="POST":
+            form = ShopLocationForm(request.POST)
+            if form.is_valid():
+                city = form.cleaned_data['city']
+                print(city)
+                shops = Shop.objects.filter(location__city=city) 
+                for shop in shops:
+                    print(shop.shop, shop.shop_user,shop.location.city)
+            
+        else:
+            shops = Shop.objects.all() 
+            for shop in shops:
+                print(shop.shop, shop.shop_user,shop.location.city)
+            form = ShopLocationForm()
+    return render(request, 'all_carts.html',{'shops':shops, 'form':form})
+    
 def request_url(request):
     S = request.path 
     S = ((S.split('/'))[1].split('/')[0])
     return str(S)
 
 def shops_grocery(request,shopname):
-    shop_name = slugify(shopname)
-    shop = Shop.objects.get(shop=shop_name)
+    shopname = slugify(shopname)
+    try:
+        shop = Shop.objects.get(shop=shopname)
+    except:
+        pass
     groceries = Product.objects.filter(shop=shop,show_product=True)
     user_id = request.user.pk
     dic = []
