@@ -52,7 +52,7 @@ class Shop(models.Model):
     taking_orders = models.BooleanField(default=False)
     opening_time = models.DateTimeField(null=True, blank=True)
     closing_time = models.DateTimeField(null=True, blank=True)
-
+    minimum_order = models.IntegerField(null=True, blank=True)
     def save(self, *args, **kwargs):
         self.shop = slugify(self.name)
 
@@ -90,7 +90,7 @@ class Product(models.Model):
     barcode = models.IntegerField(null = True, blank= True)        
     show_product = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
-
+    maximum_cap = models.IntegerField(null=True,blank=True)
     def __str__(self):
         return str(self.name)
 
@@ -125,12 +125,18 @@ class Order(models.Model):
     order_no = models.CharField(unique=True,max_length=100)
     shop = models.ForeignKey(Shop, on_delete=models.DO_NOTHING)
     user = models.ForeignKey('accounts.Profile', on_delete=models.DO_NOTHING)
-    cart = models.FilePathField(path='media/',recursive=True)
+    cart = models.FilePathField(path='media/json',match='/*.json$',recursive=True)
     processed = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
-    created_at = models.DateTimeField(default=now, blank=True)
+    ordered_at = models.DateTimeField(default=now, blank=True)
+    completed_at = models.DateTimeField(default=now, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['user','ordered_at']),
+            models.Index(fields=['shop', 'ordered_at',]),
+        ]
     def save(self, *args, **kwargs):
         super(Order, self).save(*args, **kwargs)
         shop = self.shop

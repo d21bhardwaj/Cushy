@@ -25,7 +25,7 @@ import time
 import shutil
 from django.template.defaultfilters import slugify
 
-logging.basicConfig( filename="media/grocery.log", level=logging.WARNING)
+logging.basicConfig(filename="media/grocery.log", level=logging.WARNING)
 
 def user_verified(user):
     try:
@@ -40,10 +40,10 @@ def shop_verified(user):
         return False
 
 @login_required
-def cart_add(request,shopname):
+def cart_add(request,shopname,shop_location):
     user_id = request.user.pk
     shop_name = slugify(shopname)
-    shop = Shop.objects.get(shop=shop_name)
+    shop = Shop.objects.get(shop=shop_name,location=shop_location)
     profile = Profile.objects.get(user = user_id)
     product_id = request.POST.get('product_id')
     quantity = 1
@@ -75,9 +75,9 @@ def show_savings(cart):
     return total_savings
 
 @login_required
-def updateCart(request,shopname):
+def updateCart(request,shopname,shop_location):
     shop_name = slugify(shopname)
-    shop = Shop.objects.get(shop=shop_name)
+    shop = Shop.objects.get(shop=shop_name,location=shop_location)
     user_id = request.user.pk
     profile = Profile.objects.get(user = user_id)
     product_id = request.POST.get('product_id')
@@ -89,7 +89,7 @@ def updateCart(request,shopname):
     data[str(product_id)] = quantity
     with open(file_path, 'w+') as f:
         json.dump(data, f)
-    return render(request, 'cart.html', {'cart': data,'shop_name':shop_name})
+    return render(request, 'cart.html', {'cart': data,'shop_name':shop_name,'shop_location':shop_location})
  
 
 @login_required
@@ -282,10 +282,10 @@ def request_url(request):
     S = ((S.split('/'))[1].split('/')[0])
     return str(S)
 
-def shops_grocery(request,shopname):
+def shops_grocery(request,shopname,shop_location):
     shopname = slugify(shopname)
     try:
-        shop = Shop.objects.get(shop=shopname)
+        shop = Shop.objects.get(shop=shopname,location=shop_location)
     except:
         pass
     groceries = Product.objects.filter(shop=shop,show_product=True)
@@ -312,7 +312,7 @@ def shops_grocery(request,shopname):
     except: 
         pass
 
-    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.shop, 'dic':dic,'shop':shop})
+    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.shop,'shop_location':shop_location, 'dic':dic,'shop':shop})
 
 def all_category(request):
     category = Category.objects.all()
@@ -341,10 +341,10 @@ def all_brands(request, shop_name, brand_name):
     return render(request, 'groceries.html', {'groceries' : groceries})
 
 @login_required
-def cart_view(request,shopname):
+def cart_view(request,shopname,shop_location):
     user_id = request.user.pk
     shop_name = slugify(shopname)
-    shop = Shop.objects.get(shop=shop_name)
+    shop = Shop.objects.get(shop=shop_name,location=shop_location)
     profile = Profile.objects.get(user=user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     
@@ -352,7 +352,7 @@ def cart_view(request,shopname):
     if(request.POST):
         location_id =profile.location.id
         
-        return redirect('Checkout',shopname, location_id)
+        return redirect('Checkout',shop_name,shop_location, location_id)
     try:
         with open(file_path,'r+') as json_cart:
             user_cart = json.loads(json_cart.read())
@@ -373,15 +373,15 @@ def cart_view(request,shopname):
                 li.append(pro.savings)
                 dic[key] = li
     except:
-        return render(request, 'cart.html', {'cart': {},'shop_name':shop_name,'shop':shop,'profile':profile})
+        return render(request, 'cart.html', {'cart': {},'shop_name':shop_name,'shop':shop,'shop_location':shop_location,'profile':profile})
     #form = DeliveryLocationForm()
-    return render(request, 'cart.html', {'cart': dic,'profile':profile,'shop_name':shop_name,'shop':shop,})
+    return render(request, 'cart.html', {'cart': dic,'profile':profile,'shop_name':shop_name,'shop_location':shop_location,'shop':shop,})
 
 @login_required
-def removeItem(request,shopname):
+def removeItem(request,shopname,shop_location):
     user_id = request.user.pk
     shop_name = slugify(shopname)
-    shop = Shop.objects.get(shop=shop_name)
+    shop = Shop.objects.get(shop=shop_name,location=shop_location)
     profile = Profile.objects.get(user = user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     product_id = request.POST.get('product_id')
@@ -392,13 +392,13 @@ def removeItem(request,shopname):
     with open(file_path, 'w+') as json_cart:
         json.dump(user_cart, json_cart)
     print(user_cart)
-    return render(request, 'cart.html', {'cart': user_cart,'shop_name':shop_name})
+    return render(request, 'cart.html', {'cart': user_cart,'shop_name':shop_name, 'shop_location':shop_location})
 
 @user_passes_test(user_verified, login_url='/account/settings/')
-def checkout(request,shopname,location_id):
+def checkout(request,shopname,location_id,shop_location):
     user_id = request.user.pk
     shop_name = slugify(shopname)
-    shop = Shop.objects.get(shop=shop_name)
+    shop = Shop.objects.get(shop=shop_name,location=shop_location)
     profile = Profile.objects.get(user = user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     dic2 = {}
@@ -459,8 +459,8 @@ def checkout(request,shopname,location_id):
             json.dump(dic2,json_file)
     except:
         pass
-    send_mail_order(profile.id,shopName,dic,dic2)
-    send_mail_receipt(profile.id,shopName,dic,dic2)
+    #send_mail_order(profile.id,shopName,dic,dic2)
+    #send_mail_receipt(profile.id,shopName,dic,dic2)
     open(file_path, 'w').close()
 
     return redirect('/')

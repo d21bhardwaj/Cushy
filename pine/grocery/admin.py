@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import Shop, Brand, Category, Product, Images, Order
 
 class ShopAdmin(admin.ModelAdmin):
-    list_display = ('id','shop_user', 'shop','name')
+    list_display = ('id','shop_user', 'shop','name','minimum_order')
 
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('id', 'brand')
@@ -13,13 +13,13 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'category')
     
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'brand', 'price','name','quantity','shop','off','free','savings','show_product','updated_at')
+    list_display = ('id', 'brand', 'price','name','quantity','shop','maximum_cap','off','free','savings','show_product','updated_at')
 
 class ImagesAdmin(admin.ModelAdmin):
     list_display = ('id', 'product_image', 'image')
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id','shop', 'user','cart','processed','completed','created_at','updated_at')
+    list_display = ('id','shop', 'user','cart','processed','completed','ordered_at','completed_at','updated_at')
 
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(Brand, BrandAdmin)

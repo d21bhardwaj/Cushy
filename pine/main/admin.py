@@ -12,11 +12,18 @@ class ImagesUserAdmin(admin.ModelAdmin):
 
 class ImagesPGUserAdmin(admin.ModelAdmin):
     list_display = ('id', 'user','image')
-    
+
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'location')
+class CityAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name',)
+class StateAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
 admin.site.register(RentingUser, RentingUserAdmin)
 admin.site.register(RentingPGUser, RentingPGUserAdmin)
 admin.site.register(Images, ImagesUserAdmin)
 admin.site.register(ImagesPG, ImagesPGUserAdmin)
-admin.site.register(Location)
-admin.site.register(City)
-admin.site.register(State)
+admin.site.register(Location,LocationAdmin )
+admin.site.register(City,CityAdmin )
+admin.site.register(State,StateAdmin )

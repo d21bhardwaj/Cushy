@@ -102,7 +102,7 @@
         var p_id = $(this).data("p_id");
         $.ajax({
           type: "POST",
-          url: "{% url 'updateCart' shop_name %}",
+          url: "{% url 'updateCart' shop_name shop_location %}",
           data: {'product_id': p_id,'quantity': quantity, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
           success: function(result){
           },
@@ -116,7 +116,7 @@
       var p_id = $(this).data("p_id");
         $.ajax({
           type: "POST",
-          url: "{% url 'removeItem' shop_name %}",
+          url: "{% url 'removeItem' shop_name shop_location %}",
           data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
           success: function(result){
           },
