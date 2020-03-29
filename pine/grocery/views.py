@@ -347,10 +347,11 @@ def cart_view(request,shopname):
     shop = Shop.objects.get(shop=shop_name)
     profile = Profile.objects.get(user=user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
-    location_id =profile.location.id
-    print(location_id)
+    
+    
     if(request.POST):
-        print(location_id)
+        location_id =profile.location.id
+        
         return redirect('Checkout',shopname, location_id)
     try:
         with open(file_path,'r+') as json_cart:

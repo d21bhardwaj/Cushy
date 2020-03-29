@@ -47,6 +47,12 @@ class Shop(models.Model):
     description = models.CharField(null=True,blank=True,max_length=200) 
     cart_message = models.CharField(null=True,blank=True,max_length=200)
     location = models.ForeignKey('main.Location',on_delete=models.SET_NULL,null=True)
+    delivery = models.BooleanField(default=False)
+    delivery_at = models.ManyToManyField('main.Location',related_name='delivery_available_at', blank=True)
+    taking_orders = models.BooleanField(default=False)
+    opening_time = models.DateTimeField(null=True, blank=True)
+    closing_time = models.DateTimeField(null=True, blank=True)
+
     def save(self, *args, **kwargs):
         self.shop = slugify(self.name)
 
@@ -115,3 +121,21 @@ def complete_info(sender, **kwargs):
 
 pre_save.connect(complete_info, sender=Product)      
 
+class Order(models.Model):
+    order_no = models.CharField(unique=True,max_length=100)
+    shop = models.ForeignKey(Shop, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('accounts.Profile', on_delete=models.DO_NOTHING)
+    cart = models.FilePathField(path='media/',recursive=True)
+    processed = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=now, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        super(Order, self).save(*args, **kwargs)
+        shop = self.shop
+        user = self.user
+        print(self.id)
+        self.order_no = str(shop.location.city.id)+'/'+ str(shop.location.id)+'/'+str(user.id)+'/'+ str(shop.id)+'/'+str(self.id)
+        super(Order, self).save(*args, **kwargs)
+                    
