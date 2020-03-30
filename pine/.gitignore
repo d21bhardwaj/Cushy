@@ -1,5 +1,10 @@
 media/
 static/json
+static/json
+**/migrations/
+**/old_migrations/
+**/__pycache__
+.idea/
 # Created by https://www.gitignore.io
 
 ### OSX ###
