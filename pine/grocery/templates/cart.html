@@ -66,10 +66,16 @@
           <div class="total-value final-value" id="basket-total"></div>
         </div>
         <div class="summary-checkout">
-        {% if profile.verified == True %}
+        {% if profile.verified == True and profile.location %}
           <button class="checkout-cta" data-toggle="modal" data-target="#myModal" type="button">Place Your Order</button>
         {% else %}
-          <button class="btn btn-info" onclick="location.href='{% url 'my_account' %}'" type="button">Please Verify Your Profile</button>
+          <button class="btn btn-info" onclick="location.href='{% url 'my_account' %}'" type="button">
+          {% if  profile.location %}
+          Please Verify Your Contact Number
+          {% else %}
+          Update Your location
+          {% endif %}
+          </button>
         {% endif %}
         </div>
       </div>

@@ -24,7 +24,6 @@ import os
 import time
 import shutil
 from django.template.defaultfilters import slugify
-from grocery.models import Order
 logging.basicConfig(filename="media/grocery.log", level=logging.WARNING)
 import random
 def user_verified(user):
@@ -314,6 +313,27 @@ def shops_grocery(request,shopname,shop_location):
 
     return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.shop,'shop_location':shop_location, 'dic':dic,'shop':shop})
 
+def shops_by_name(request,shopname):
+    shopname = slugify(shopname)
+    try:
+        shop = Shop.objects.filter(shop=shopname)
+        if shop.count() == 1:
+            shop = Shop.objects.get(shop=shopname)
+            location_id = shop.location.id
+            return redirect ('Shops_Grocery',shopname,location_id )
+    except:
+       return redirect('shops')
+
+    if request.method=="POST":
+        form = ShopLocationForm(request.POST)
+        if form.is_valid():
+            city = form.cleaned_data['city']
+            shops = Shop.objects.filter(location__city=city)   
+    else:
+        shops = Shop.objects.all() 
+        form = ShopLocationForm()
+    return render(request, 'shops.html',{'shops':shops, 'form':form})
+
 def all_category(request):
     category = Category.objects.all()
     shop_id = request.GET.get('shop',None)
@@ -491,10 +511,10 @@ def checkout(request,shopname,location_id,shop_location):
     
     order = Order.objects.create(cart=file_path3,shop_id=shop.id,user_id=profile.id)
     order.save()
-    
-    #send_mail_order(profile.id,shopName,dic,dic2)
-    #send_mail_receipt(profile.id,shopName,dic,dic2)
     open(file_path, 'w').close()
+    send_mail_order(profile.id,shopName,dic,dic2)
+    send_mail_receipt(profile.id,shopName,dic,dic2)
+    
 
     return redirect('/')
 

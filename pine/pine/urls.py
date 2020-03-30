@@ -18,6 +18,7 @@ from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
 from main import views
+from grocery import views as grocery_view
 #Login
 from django.contrib.auth import logout
 from django.conf import settings
@@ -42,7 +43,7 @@ urlpatterns = [
 #    path('', include(router.urls)),
 #    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('<shopname>/<int:shop_location>/',include('grocery.shop_urls')),
-    
+    path('<shopname>/', grocery_view.shops_by_name),
     # path('Test_Shop/',include('grocery.shop_urls')),  
 ]
     

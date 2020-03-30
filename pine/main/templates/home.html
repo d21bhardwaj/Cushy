@@ -25,28 +25,39 @@
     <div class="row" style="padding-top: 167px;padding-bottom: 45px;height: auto;width: auto;">
      
         <div class="col text-center d-xl-flex justify-content-xl-center">
-            <p style="padding-bottom: 0px;color: rgb(255,255,255);font-size: 35px;width: 100%;letter-spacing: 0px;float: left"><strong>Looking to rent out your place or find one for yourself in Solan?<br> We're trying to get you covered!</strong></p>
+            <p style="padding-bottom: 0px;color: rgb(255,255,255);font-size: 35px;width: 100%;letter-spacing: 0px;float: left">
+            <strong>Stay home, make your order from this website, from your local store.<br>Spread the word!</strong></p>
         </div>
     </div>
   
     <div class="row text-center d-flex justify-content-center" style="padding-bottom: 154px;padding-top: 0px;">
             <div class="col" style="padding-top: 0px;">
-                <a href="{% url 'all_rooms' %}" class="buy">
-                        <img src="{% static 'img/button1-rooms.png' %}" style="width: 300px;height: 139px" class="findbutton">
-                    </a>&nbsp;
-                &nbsp; &nbsp;
-                <a href="{% url 'all_pgs' %}" class="buy"> 
-                    <img src="{% static 'img/button2-pgs.png' %}" style="width: 300px;height: 139px" class="findbutton">
-                    </a> &nbsp;&nbsp;
+                
                 <div class="row text-center d-flex justify-content-center" style="padding-bottom: 154px;padding-top: 0px;">
-                 <button 
+                 {% comment %} <button 
                 class="btn btn-primary btn-lg border rounded" onclick="location.href='{% url "RentType" %}'" type="button"
                 style="margin-right: 25px;background-color: rgb(255,255,255);color: rgb(87,95,193);
-                margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">Give on Rent!&nbsp;&nbsp;</button> 
+                margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">Give on Rent!&nbsp;&nbsp;</button>  {% endcomment %}
                  <button 
                 class="btn btn-primary btn-lg border rounded" onclick="location.href='{% url "shops" %}'" type="button"
                 style="margin-right: 25px;background-color: rgb(255,255,255);color: rgb(87,95,193);
-                margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">Demo Shop!&nbsp;&nbsp;</button>   
+                margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">See Shop Around</button> 
+                </div>
+                <p style="padding-bottom: 0px;color: rgb(255,255,255);font-size: 35px;width: 100%;letter-spacing: 0px;float: left">
+                Room Renting Available only for Solan</p>
+        
+                <a href="{% url 'all_rooms' %}" class="buy">
+                        <img src="{% static 'img/button1-rooms.png' %}" style="width: 300px;height: 139px" class="findbutton">
+                    </a>
+        
+                <a href="{% url 'all_pgs' %}" class="buy"> 
+                    <img src="{% static 'img/button2-pgs.png' %}" style="width: 300px;height: 139px" class="findbutton">
+                    </a> &nbsp;&nbsp; 
+                <button 
+                class="btn btn-primary btn-lg border rounded" onclick="location.href='{% url "RentType" %}'" type="button"
+                style="margin-right: 25px;background-color: rgb(255,255,255);color: rgb(87,95,193);
+                margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">Give on Rent!&nbsp;&nbsp;</button>
+                 
             </div>
             </div>
     </div>
