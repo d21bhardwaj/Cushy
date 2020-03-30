@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+{% block title %} Contact Us {% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="pt-changed"></div>
+      <div class="page-header">
+        <h1>Contact Us</h1>      
+      </div>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-md-2"></div>  
+        <div class="col-md-10">
+        <form method="post" style="text-align: center">
+            {% csrf_token %}
+            <div class="col-md-12 text-left" style="padding-top: 20px;padding-bottom: 20px;text-align: left">
+            <!--using crispy tag on forms for now-->
+
+            {% crispy form %}<br>
+            
+            </div>
+        <div class="row text-center">
+            <div class="col-md-1"></div>
+            <div class="col-md-2"><button type="submit" class="btn btn-primary">Submit</button></div>
+            <div class="col-md-4">
+            
+            </div>
+            <div class="col-md-4"></div>
+        </div>  
+        </form>
+    </div>
+    
+    </div>
+{% endblock %}
+
+

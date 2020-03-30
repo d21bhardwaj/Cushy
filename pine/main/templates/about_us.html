@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} About Us {% endblock %}
+{% load static %}
+{% block stylesheet %} 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="{% static 'AboutUs/css/Customizable-Background--Overlay.css' %}">
+    <link rel="stylesheet" href="{% static 'AboutUs/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'AboutUs/css/Team-Boxed.css' %}">
+    <link rel="stylesheet" href="{% static 'AboutUs/css/Team-Grid.css' %}">
+
+
+{% endblock %}
+
+<body>
+{% block body %} 
+
+<div class="team-grid">
+    <div class="container">
+        <div class="intro">
+            <h2 class="text-center">Team </h2>
+            <p class="text-center" style="height: auto;"><br>Pinetown&nbsp;is&nbsp;a&nbsp;project&nbsp;that&nbsp;is&nbsp;being&nbsp;built&nbsp;to&nbsp;ease the&nbsp;way&nbsp;some&nbsp;of&nbsp;the&nbsp;bussiness&nbsp;are&nbsp;done.<br><br></p>
+        </div>
+        <div class="row people">
+            <div class="col-sm-8 col-md-4 col-lg-3 col-xl-3 offset-sm-2 offset-md-0 offset-lg-0 offset-xl-0 item">
+                <div class="box" style="background-image:url({% static 'AboutUs/img/1.jpg' %})">
+                    <div class="cover">
+                        <h3 class="name">Mayank Prasad</h3>
+                        <p class="title">Developer</p>
+                        <div class="social"><a href="https://www.facebook.com/mayank.prasad.35"><i class="fa fa-facebook-official"></i></a><a href="#"></a><a href="#"></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-4 col-lg-3 offset-sm-2 offset-md-0 offset-lg-0 offset-xl-0 item">
+                <div class="box" style="background-image:url({% static 'AboutUs/img/2.jpg' %})">
+                    <div class="cover">
+                        <h3 class="name">Vidhi Bhati</h3>
+                        <p class="title">Designer</p>
+                        <div class="social"><a href="https://www.facebook.com/bhati.vidhi"><i class="fa fa-facebook-official"></i></a><a href="#"></a><a href="#"></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-4 col-lg-3 offset-sm-2 offset-md-0 offset-lg-0 offset-xl-0 item">
+                <div class="box" style="background-image:url({% static 'AboutUs/img/3.jpg' %})">
+                    <div class="cover">
+                        <h3 class="name">Siddhant Sinha</h3>
+                        <p class="title">Server Administrator</p>
+                        <div class="social"><a href="https://www.facebook.com/siddhant.sinha.568"><i class="fa fa-facebook-official"></i></a><a href="#"></a><a href="#"></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-4 col-lg-3 offset-sm-2 offset-md-4 offset-lg-0 item">
+                <div class="box" style="background-image:url({% static 'AboutUs/img/4.jpg' %})">
+                    <div class="cover">
+                        <h3 class="name">Devansh Bhardwaj</h3>
+                        <p class="title">Developer &amp; Project Manager</p>
+                        <div class="social"><a href="https://www.facebook.com/d21bhardwaj"><i class="fa fa-facebook-official"></i></a><a href="#"></a><a href="#"></a></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="align-items-start"></div>
+<script src="{% static 'AboutUs/js/jquery.min.js' %}"></script>
+<script src="{% static 'AboutUs/bootstrap/js/bootstrap.min.js' %}"></script>
+
+{% endblock %}
+
+
+</body>
+
