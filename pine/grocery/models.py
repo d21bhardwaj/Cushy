@@ -122,14 +122,14 @@ def complete_info(sender, **kwargs):
 pre_save.connect(complete_info, sender=Product)      
 
 class Order(models.Model):
-    order_no = models.CharField(unique=True,max_length=100)
+    order_no = models.CharField(max_length=100,null=True)
     shop = models.ForeignKey(Shop, on_delete=models.DO_NOTHING)
     user = models.ForeignKey('accounts.Profile', on_delete=models.DO_NOTHING)
     cart = models.FilePathField(path='media/json',match='/*.json$',recursive=True)
     processed = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
     ordered_at = models.DateTimeField(default=now, blank=True)
-    completed_at = models.DateTimeField(default=now, blank=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
     
     class Meta:
@@ -138,7 +138,6 @@ class Order(models.Model):
             models.Index(fields=['shop', 'ordered_at',]),
         ]
     def save(self, *args, **kwargs):
-        super(Order, self).save(*args, **kwargs)
         shop = self.shop
         user = self.user
         print(self.id)

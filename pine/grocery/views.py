@@ -24,9 +24,9 @@ import os
 import time
 import shutil
 from django.template.defaultfilters import slugify
-
+from grocery.models import Order
 logging.basicConfig(filename="media/grocery.log", level=logging.WARNING)
-
+import random
 def user_verified(user):
     try:
         return user.profile.is_verified()
@@ -64,7 +64,7 @@ def cart_add(request,shopname,shop_location):
             quantity = 1
             add[str(product_id)] = quantity
             json.dump(add, json_file)
-    return render(request, 'cart.html',{'shop_name':shop_name})
+    return render(request, 'cart.html',{'shop_name':shop_name,'shop_location':shop_location})
 
 @login_required
 def show_savings(cart):
@@ -401,14 +401,19 @@ def checkout(request,shopname,location_id,shop_location):
     shop = Shop.objects.get(shop=shop_name,location=shop_location)
     profile = Profile.objects.get(user = user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
+    dic3 = {}
     dic2 = {}
+    prod_dic = {}
     print(request.POST)
     location = Location.objects.get(id=location_id)
     try:
         with open(file_path, 'r+') as json_cart:
+
             dic = {}
             user_cart = json.loads(json_cart.read())
             for key, value in user_cart.items():
+                prod_details_dic = {}
+               
                 li = []
                 pro = Product.objects.filter(id=key).first()
                 try:
@@ -416,18 +421,29 @@ def checkout(request,shopname,location_id,shop_location):
                     imn = im.image.url
                 except:
                     imn = "/static/assets/img/no-image.png"
-                li.append(pro.name) #0            
-                li.append(pro.price) #1
-                li.append(pro.selling_price) #2
-                li.append(value) #3 ----"Quantity order" ----- #
-                li.append(imn)   #4
-                li.append(pro.shop.shop)  #5
-                dic[key] = li  #6
+
+                li.append(pro.name)  # 0
+                li.append(pro.price)  # 1
+                li.append(pro.selling_price)  # 2
+                li.append(value)  # 3 ----"Quantity order" ----- #
+                li.append(imn)  # 4
+                li.append(pro.shop.shop)  # 5
+                dic[key] = li  # 6
+                prod_details_dic["Product_Name"] = pro.name
+                prod_details_dic["MRP"] = pro.price
+                prod_details_dic["SP"] = pro.selling_price
+                prod_details_dic["Quantity"] = value
+                prod_details_dic["delivered"] = ""
+                id_key = str(key)
+                prod_dic[id_key] = prod_details_dic
             shopName = pro.shop.id
     except:
+        print("hi")
         return Http404
+
     try:
         user_name = profile.title + profile.name
+        # make the name compulsory for every user
         details = []
         details.append(dic)
         details.append(profile.mobile_no)
@@ -436,29 +452,46 @@ def checkout(request,shopname,location_id,shop_location):
         local = []
         local.append(location.location)
         dic2['locality'] = local
+        dic3["name"] = profile.name
+        dic3["location"] = location.location
+        dic3["mobile_no"] = profile.mobile_no
+        dic3["orders"] = prod_dic
+        dic3["email"] = profile.email
+
     except:
+        print('hi2')
         pass
     # function to send mail
-    file_path1 = 'media/json/user_' + str(profile.id) + '/' + 'shop_' + str(time.strftime('%Y-%m-%d--%H-%M-%S')) + '_' + str(shopName) + 'Cart.json'
-    file_path2 = 'media/json/shop_' + str(shopName) + '/' + 'user_' + str(time.strftime('%Y-%m-%d--%H-%M-%S')) + '_' + str(profile.id) + 'Cart.json'
+    file_path2 = 'media/json/shops/shop_' + str(shop.id) + '/' +   str(
+        time.strftime('%Y-%m-%d--%H-%M-%S')) + '_' +'user_' +str(profile.id) + '.json'
+    file_path3 = 'media/json/orders/user_' + str(profile.id) + "/"+str(
+        time.strftime('%Y-%m-%d--%H-%M-%S')) + "_shop_" + str(shop.id) + '.json'
 
     try:
-        os.mkdir('media/json/shop_' + str(shopName))
-        os.mkdir('media/json/user_' + str(profile.id))
+        os.mkdir('media/json/shops/shop_' + str(shop.id))
+        os.mkdir('media/json/orders/user_'+ str(profile.id))
     except:
+        print('h3')
         pass
 
-    try:
-        with open(file_path1, 'a+') as json_file:
-            json.dump(dic,json_file)
-    except:
-        pass
 
     try:
         with open(file_path2, 'a+') as json_file:
-            json.dump(dic2,json_file)
+            json.dump(dic2, json_file)
     except:
+        print('h4')
         pass
+
+    try:
+        with open(file_path3, 'a+') as json_file:
+            json.dump(dic3, json_file)
+    except:
+        print('h5')
+        pass
+    
+    order = Order.objects.create(cart=file_path3,shop_id=shop.id,user_id=profile.id)
+    order.save()
+    
     #send_mail_order(profile.id,shopName,dic,dic2)
     #send_mail_receipt(profile.id,shopName,dic,dic2)
     open(file_path, 'w').close()
