@@ -1,16 +1,12 @@
 {% extends 'main/templates/base.html' %}
 {% load static %}
-{% load staticfiles %}
+
 {% load crispy_forms_tags %}
 {% block stylesheet %}
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    {% comment %} <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}"> {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/accounts.css' %}"> 
-    <link rel="stylesheet" href="{% static 'profile/css/Customizable-Background--Overlay.css' %}">
-    <link rel="stylesheet" href="{% static 'profile/css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'profile/css/Team-Boxed.css'%}">
-
-    <style type="text/css">
+    
+    
+    {% comment %} <style type="text/css">
         .ch{
             padding-top: 20px;
         }
@@ -18,14 +14,38 @@
         .act{
             color: blue;
         }
-    </style>
+    </style> {% endcomment %}
+    {% block stylesheet1 %}{% endblock %}
 {% endblock %}
 
 {% block title %}My account {% endblock %}
 
 {% block body %}
-
-<nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
+        <div class="navbar container-fluid bg-transparent" style="position: auto; top:auto; height: 20%; z-index: 9999;">
+            {% comment %} <div class="row mt-0" style="position: absolute; width: 100%; height: 100%; background-color: transparent;">
+                <div class="col" style="align-content: center;">
+                    <h2 style="font-family:'Segoe UI';"><span>My Profile</span></h2>
+                </div>
+            </div> {% endcomment %}
+			<div class="row mt-5" style="position: absolute; width: 100%;">
+				<div class="col-4 px-0">
+					<button type="button" class="btn" onclick="location.href='{% url "my_account" %}'" style="width:100%; border-radius: 66px; background-color:{% if my_profile %}#B8DDF4;{% else %}white;border: 1px solid #B8DDF4;{% endif %}">
+					<span style="font-weight: bold; font-family: 'Century Gothic'; color:#06106E;">Edit Profile</span>
+					</button>
+				</div>
+				<div class="col-4 px-0">
+					<button type="button" class="btn" onclick="location.href='{% url "my_uploads" %}'" style="width:100%;  border-radius: 66px; background-color:{% if my_uploads %}#B8DDF4;{% else %}white;border: 1px solid #B8DDF4;{% endif %}">
+					<span style="font-weight: bold; font-family: 'Century Gothic'; color:#06106E;">My Uploads</span>
+					</button>
+				</div>
+				<div class="col-4 px-0">
+					<button type="button" class="btn" onclick="location.href='{% url "contact_us" %}'" style="width:100%; border: 1px solid #B8DDF4; border-radius: 66px; background-color: white;">
+					<span style="font-weight: bold; font-family: 'Century Gothic'; color:#06106E;">Contact Us</span>
+					</button>
+				</div>
+			</div>
+        </div>
+{% comment %} <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
             <li><a class="nav-link" href="{% url 'my_account'%}" style="color: white;" ><span id="prof">Edit My Profile</span></a></li>
@@ -33,7 +53,7 @@
             <li><a class="nav-link" href="{% url 'contact_us' %}" style="color: white;"><span id="cont">Contact PineTown</span></a></li>
         </ul>
     </div>
-</nav>
+</nav> {% endcomment %}
 {% block content1 %}{% endblock %}
 {% endblock %}
 {% block script %}

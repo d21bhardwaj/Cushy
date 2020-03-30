@@ -3,9 +3,9 @@
 {% block title %}Location Update{% endblock %}
 {% load staticfiles %}
 {% block content1 %}
-<div class="margin-auto text-center">
+{% comment %} <div class="margin-auto text-center">
 	<img src="{% static 'images/logow.png'%}" style="width:140px" alt="Pinetown Logo"/>
-</div>
+</div> {% endcomment %}
 <br>
 <div class="row" style="margin-left:0px; margin-right: 0px;">
 	<div class="col-md-3"></div>
@@ -15,7 +15,7 @@
 			<div class="card-body card-block">
 				<form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
 
-					{%csrf_token%}
+					{% csrf_token %}
 					<div class="text-center" style="color: blue;">
 						<div><label for="label" class=" form-control-label"><h4><b> Location Update </b></h4></label></div>
 					</div>					

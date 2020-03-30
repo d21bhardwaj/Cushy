@@ -64,7 +64,7 @@ def profileupdate(request):
     profile = Profile.objects.get(user=user)
     ProfileInlineFormset = inlineformset_factory( User, model=Profile, form=ProfileForm, can_delete=False)
     formset = ProfileInlineFormset(instance=user)
- 
+    my_profile = True
     if request.user.is_authenticated and request.user.id == user.id:
         if request.method == "POST":
             user_form = ProfileForm(request.POST, request.FILES, instance=user)
@@ -102,6 +102,7 @@ def profileupdate(request):
  
                     return render(request, 'my_profile.html', {
                         "profile":profile,
+                        "my_profile":my_profile,
                         "noodle": pk,
                         "noodle_form": user_form,
                         "formset": formset,
@@ -110,6 +111,7 @@ def profileupdate(request):
  
                 return render(request, 'my_profile.html', {
                     "profile":profile,
+                    "my_profile":my_profile,
                     "noodle": pk,
                     "noodle_form": user_form,
                     "formset": formset,
@@ -118,6 +120,7 @@ def profileupdate(request):
  
             return render(request, 'my_profile.html', {
                 "profile":profile,
+                "my_profile":my_profile,
                 "noodle": pk,
                 "noodle_form": user_form,
                 "formset": formset,
@@ -179,8 +182,8 @@ def uploads(request):
     rooms = room.filter(deleted=False)
     pg = RentingPGUser.objects.filter(user_profile=profile)
     pgs = pg.filter(deleted=False)
-
-    return render(request, 'my_upload.html',{'rooms':rooms,'pgs':pgs})
+    my_uploads =True
+    return render(request, 'my_upload.html',{'rooms':rooms,'pgs':pgs,'my_uploads':my_uploads})
 
 def delete_room(request, room_id):
     #Note: This works, but will always pass the result irrespective of the fact that the objects exsist or not.-Devansh Bhardwaj
@@ -459,7 +462,7 @@ def location_update(request):
         if form.is_valid():
             print(form.cleaned_data)
             form.save()
-            
+        return redirect(profileupdate)
     else:
         form = LocationForm()
     states = State.objects.all()
