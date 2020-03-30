@@ -1,5 +1,5 @@
 <!-- The Modal -->
-<div class="modal fade" id="{{forloop.counter}}">
+<div class="modal fade" id="myModal{{forloop.counter}}">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
   
@@ -9,28 +9,30 @@
             <h4 class="modal-title">{{ grocery.product }}- ₹{{ grocery.price }}<br>
             Savings Worth: ₹{{ grocery.savings }}</h4><br>
           {% else %}
-            <h4 class="modal-title">{{ grocery.product }}- ₹{{ grocery.price }}
+            <h4 class="modal-title">{{ grocery.name }}- ₹{{ grocery.price }}
           {% endif %}<br>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
   
         <!-- Modal body -->
         <div class="modal-body">
-          <h5>Brand: {{ grocery.brand }}<br></h5>
+          <h5>OFF: {{ grocery.off }}<br></h5>
           <br>
-          <h5>Quantity: {{ grocery.quantity }} </h5>
+          <h5>Savings: {{ grocery.savings }} </h5>
           <br>
-          {% if grocery.description != Blank  %}
-          More Information: {{ grocery.description }}<br>
-          {% endif %}
-          
+          <h5>Free: {{ grocery.free }}</h5><br>
+          <h5>Free_Product: {{ grocery.free_product }}</h5><br>
+          <img class="img-fluid" 
+            style="height:auto;width:auto;"
+            src="{{grocery.images_set.first.image.url}}" > 
+
         </div>
   
         <!-- Modal footer -->
         <div class="modal-footer">
           <center><button class="btn btn-primary btn-sm border rounded product" 
             type="button" 
-            data-p_id = "{{ grocery.product }}">
+            data-p_id = "{{ grocery.name }}">
             Add to cart</button></center>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         </div>

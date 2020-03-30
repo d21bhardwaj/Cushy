@@ -4,7 +4,7 @@
 {% load static %}
 {% block stylesheet %} 
 	<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+	
     
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
@@ -13,57 +13,48 @@
 {% endblock %}
 
 {% load static %}
-{% block body %}
-    <br>
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
-            <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-            <form method="POST">
-                {% csrf_token %}
-                {{form1}}
-                {{form2}}
-                 <button type="go">Apply Filter</button>
-             </form>
-            </ul>
-            
-        </div>
-       
+{% block body %}    
    
-    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{shops.count }} shops{%if shops.count > 1 %}s{% endif %} found </p>
+    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{shops.count }} shops{% if shops.count > 1 %}s{% endif %} found </p>
     <div class="projects-clean">
+    
         <div class="container align-items-center align-content-center align-self-center">
             <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
-                {% for shop in shops %}
-                    
-                    {% comment %} <!-- <div class="col-sm-6 col-lg-4 item filterDiv {{shop.product}} {{shop.Quantity}} {{shop.price}} " onclick="location.href=UpdateQueryString('shop','{{shop.shop}}',null)" 
-                        style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
-                            max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
-                            margin-bottom:25px;min-height:auto;">
-                        <p class="description" style="color:rgb(38,39,39);font-size:24px;"><strong>₹{{ shop.price }}</strong></p>
+                {% for shop in shops %}<div class="card" style="width: 15rem; margin:5%;">
                         
-                        <p class="description"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{shop.company}}</p>
-                        
-                        <p class="description" style="margin-top:0px;"><i class="fa fa-bed"></i>&nbsp; &nbsp;{{ shop.Quantity }} Packets</p>
-                    <button
-                    class="btn btn-primary btn-lg border rounded product"  type="button" data-p_id = "{{ shop.product }}"
-                    style="margin-right: 25px;background-color: rgb(150,69,42);color: rgb(87,95,193);">TEST!&nbsp;&nbsp;</button>
-                    </div> --> {% endcomment %}
-                    <div class="card" style="width: 18rem; margin: 5%;">
-                        {% load static %}<img class="img-fluid" 
+                        {% if shop.image %}<img class="img-fluid"
                         style="height:auto;width:auto;"
-                        src="{% static 'assets/img/loft.jpg' %}"  >
+                        src="{{shop.image.url}}"  >
+                        {% else %}
+                        <img class="img-fluid"
+                        style="height:auto;width:auto;"
+                        src="{% static '/assets/img/no-image.png'%}"  >
+                        {% endif %}
                         <div class="card-body">
-                            <h5 class="description" style="text-align: center; color:rgb(38,39,39);font-size:24px;"><strong>{{ shop.shop }}</strong></h5>
-                            <p class="description just" style="text-align: center;"><i class="fa fa-map-marker"></i>&nbsp; &nbsp;{{shop.company}}</p>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <p class="description" style="color:rgb(38,39,39);font-size:24px; text-align: center;"><strong>₹{{ shop.price }}</strong></p>
-                          <center><button  class="btn btn-primary btn-lg border rounded product" type="button" data-p_id = "{{ shop.product }}">Add to cart</button></center>
-                        </div>
+                            <h5 class="description" style="text-align: center; color:rgb(38,39,39);font-size:24px;"><strong>{{ shop.name }}</strong></h5>
+                            {% if shop.mobile_no %}
+                                <p class="description just" style="text-align: center;">&nbsp; &nbsp;{{shop.mobile_no}}</p>
+                            {% else %}
+                                <p class="description just" style="text-align: center;">&nbsp; &nbsp;</p>
+                            {% endif %}
+                            {% if shop.email != 'None' and shop.email %}
+                                <p class="card-text"; style="text-align:center;">{{ shop.email }}</p>
+                            {% else %}
+                                <p class="card-text"; style="text-align:center;">&nbsp;         </p>
+                            {% endif %}
+                           <center><button  class="btn btn-primary btn-lg border rounded product" type="button"><a href="/{{shop.name}}/{{shop.location.id}}" style="color: white;">View Shop</a></button></center>
+                           </div>
                       </div>
                 {% endfor %}
+
             </div>
+            {% load crispy_forms_tags %} 
+            <form  method="post" class="uniForm">
+            {{ form|crispy}}
+            {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
         </div>
     </div>
 

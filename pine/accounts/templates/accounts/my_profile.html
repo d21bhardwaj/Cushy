@@ -1,18 +1,19 @@
-{% extends 'main/templates/base.html' %}
+{% extends 'my_account.html' %}
 {% load static %}
 
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
-{% block stylesheet %}
+{% block stylesheet1 %}
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/accounts.css' %}"> 
     <link rel="stylesheet" href="{% static 'profile/css/Customizable-Background--Overlay.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/Team-Boxed.css'%}">
+    <link rel="stylesheet" href="{% static 'profile/css/profile1.css'%}">
 
-    <style type="text/css">
+    {% comment %} <style type="text/css">
         .ch{
             padding-top: 20px;
         }
@@ -21,22 +22,14 @@
             color: blue;
         }
 
-    </style>
+    </style> {% endcomment %}
 {% endblock %}
 
 {% block title %}My account {% endblock %}
 
-{% block content %}
+{% block content1 %}
 
-<nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            <li><a class="nav-link" href="{%url 'my_account'%}" style="color: white;" ><span id="prof">Edit My Profile</span></a></li>
-            <li><a class="nav-link" href="{% url 'my_uploads' %}"  style="color: white;"><span id="upload">My Uploads</span></a></li>
-            <li><a class="nav-link" href="#" style="color: white;"><span id="cont">Contact PineTown</span></a></li>
-        </ul>
-    </div>
-</nav>
+
 
 <div class="container">
 
@@ -66,16 +59,16 @@
                 {% else %}
                 <button type="submit" class="btn btn-primary">Update</button>
                 {% endif %}
+                    <div class="col-auto" style="padding-left: 0px;padding-right: 0px;height: auto;width: auto;">
+                            <p class="text-center" style="width: auto;height: auto;margin-bottom: 0px;">Location : {{ profile.location }}</p>
+                    </div>
             </form>
+                            <button type="submit" class="btn btn-primary" onclick="location.href='{% url 'location_update' %}'">Update Location</button>
+
         </div>
     </div>
 </div>
     <div class="pt-changed"></div>
     <div class="pt-changed"></div>
-<script src="{% static 'about_us/js/jquery.min.js' %}"></script>
-<script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
-<script type="text/javascript">
-    $('.row').addClass('ch');
-    $('#prof').addClass('act');
-</script>
+
 {% endblock %}

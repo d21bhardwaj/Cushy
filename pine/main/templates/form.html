@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
 {% block stylesheet %} 
@@ -26,8 +26,19 @@
             {% crispy form %}<br>
            
             <h5>Upload Images:</h5>
+            <div class="alert alert-warning" role="alert">
+                Size of Picture should not exceed 2MB.
+                </div>
             {{ imageform.management_form }}
+            
             {% for field in imageform %}
+                {% if field.errors %}
+                {% for error in field.errors.image %}
+                <div class="alert alert-danger">
+                <strong>{{ error }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
                 {% if forloop.counter == 1 %}
                     <h6>Bedroom:</h6>
                 {% endif %} 
@@ -49,9 +60,15 @@
             {% endfor %}
             
             <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+            
         </form>
-    
+        </div>
+         <div class="alert alert-warning" role="alert">
+                If you have difficulties uploading or filling this form.
+               
+                <a href=/contact_us/>Contact Us.</a> We will help you out.
+                
+        </div>
 {% endblock %}
 {% block content %}
 {% endblock %}

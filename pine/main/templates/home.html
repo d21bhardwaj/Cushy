@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Home{%block subtitle%}{%endblock%} {% endblock %}
+{% block title %} Home{% block subtitle %}{% endblock %} {% endblock %}
 {% load static %}
 {% block stylesheet %} 
     
@@ -44,9 +44,9 @@
                 style="margin-right: 25px;background-color: rgb(255,255,255);color: rgb(87,95,193);
                 margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">Give on Rent!&nbsp;&nbsp;</button> 
                  <button 
-                class="btn btn-primary btn-lg border rounded" onclick="location.href='{% url "Grocery" %}'" type="button"
+                class="btn btn-primary btn-lg border rounded" onclick="location.href='{% url "shops" %}'" type="button"
                 style="margin-right: 25px;background-color: rgb(255,255,255);color: rgb(87,95,193);
-                margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">Buy Groceries!&nbsp;&nbsp;</button>   
+                margin-left: 25px;margin-bottom: 25px;margin-top: 25px;">Demo Shop!&nbsp;&nbsp;</button>   
             </div>
             </div>
     </div>

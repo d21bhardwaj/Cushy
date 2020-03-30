@@ -7,7 +7,7 @@
    <meta name="copyrighted-site-verification" content="09a084fc0be90527" /> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} {% endblock %}</title>
-
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
       <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
       <link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
@@ -37,8 +37,8 @@
     <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: #2d2a5e;color: rgb(255,255,255);">        
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}" style="color: rgba(255,255,255,0.9);">
-          <img src="{% static 'assets/img/Asset4-1.png' %}" style="height: 50px;margin-top: 0px;">
-          <img src="{% static 'assets/img/Asset5.png' %}" style="height: 26px;margin-left: 4px;opacity: 0.96;padding-top: 0px;margin-top: 3px;"></a>
+          <img src="{% static 'assets/img/logo2.png' %}" style="height: 50px;margin-top: 0px;">
+          <img src="{% static 'assets/img/link4.png' %}" style="height: 26px;margin-left: 4px;opacity: 0.96;padding-top: 0px;margin-top: 3px;"></a>
           <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
       
           <div class="collapse navbar-collapse" id="navcol-1">
@@ -55,7 +55,9 @@
                           <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}" style="color: rgba(255,255,255,0.9)"><i class="fa fa-user-circle-o" aria-hidden="true" ></i><strong> Logout </strong></a>
 
-                      </div>
+                    </div>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'carts' %}" style="color:rgba(255,255,255,0.9);" >Your Cart</a></li>
+
                     {% else %}
                       <a class="nav-link" href="{% url 'login' %}" style="color: rgba(255,255,255,0.9)"><i class="fa fa-user-circle-o" aria-hidden="true"></i><strong>LogIn/Signup</strong></a>
                       <!--<a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-user-circle-o" aria-hidden="true"> </i><strong>Login</strong></a>-->
@@ -66,8 +68,10 @@
                           </li>
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'about_us' %}" style="color:rgba(255,255,255,0.9);" >About Us</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'contact_us'%}" style="color:rgba(255,255,255,0.9);">Contact Us</a></li>
+                    
+                    
                 </ul>
-       
+                
             </div>      
           </div>
         
@@ -79,7 +83,7 @@
       </div>
       <hr>
     </div> -->
-
+    
     
       {% block body %} 
 
@@ -87,7 +91,7 @@
       {% block content %}
       {% endblock %}
     <div class="pt-changed"></div>
-       {%include 'footer.html'%}
+    {%include 'footer.html'%}
 
 
     

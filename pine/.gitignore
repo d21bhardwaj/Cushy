@@ -1,10 +1,15 @@
 media/
 static/json
+<<<<<<< HEAD
 static/json
 **/migrations/
 **/old_migrations/
 **/__pycache__
 .idea/
+=======
+**/migrations/
+**/old_migrations/
+>>>>>>> f192c1a79a6ac1bc9bd747a3197fb26c360f753e
 # Created by https://www.gitignore.io
 
 ### OSX ###

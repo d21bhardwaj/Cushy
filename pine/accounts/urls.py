@@ -52,51 +52,72 @@ urlpatterns = [
 
 #MyAccount View
 
-    path('settings/account/',
+    path('settings/',
         accounts_views.profileupdate, 
         name='my_account'),
 
-    path('settings/account/uploads',
+    path('settings/uploads',
         accounts_views.uploads,
         name='my_uploads'),
         
 #Delete
-    path('settings/account/delete/pg/<int:pg_id>/', 
+    path('settings/delete/pg/<int:pg_id>/', 
         accounts_views.delete_pg, 
         name='delete_pg'),
    
-    path('settings/account/delete/room/<int:room_id>/', 
+    path('settings/delete/room/<int:room_id>/', 
         accounts_views.delete_room, 
         name='delete_room'),
 
 #Hide   
-    path('settings/account/hide/pg/<int:pg_id>/', 
+    path('settings/hide/pg/<int:pg_id>/', 
         accounts_views.hide_pg, 
         name='hide_pg'),
 
-    path('settings/account/hide/room/<int:room_id>/', 
+    path('settings/hide/room/<int:room_id>/', 
         accounts_views.hide_room, 
         name='hide_room'),
 
 #Update
-    path('settings/account/update/room/<int:room_id>/',
+    path('settings/update/room/<int:room_id>/',
         accounts_views.room_update,
         name='my_room'),
 
-    path('settings/account/update/pg/<int:pg_id>/',
+    path('settings/update/pg/<int:pg_id>/',
         accounts_views.pg_update,
         name='my_pg'),
 
 
-    # path('settings/account/update_pic/<int:pg_id>/',
+    # path('settings/update_pic/<int:pg_id>/',
     #     accounts_views.pic_update,
     #     name='my_pics'),
-    path('settings/account/view/room/<int:room_id>/<int:image_id>',
+    path('settings/view/room/<int:room_id>/<int:image_id>',
         accounts_views.room_view,
         name='room_view'),
-    path('settings/account/view/pg/<int:room_id>/<int:image_id>',
+    path('settings/view/pg/<int:room_id>/<int:image_id>',
         accounts_views.pg_view,
         name='pg_view'),
+    path('settings/image/room/<int:room_id>',
+        accounts_views.room_image,
+        name='room_image'),
+    path('settings/image/room/<int:room_id>/<int:image_id>',
+        accounts_views.room_image_update,
+        name='room_image_update'),
+    path('settings/image/pg/<int:room_id>',
+        accounts_views.pg_image,
+        name='pg_image'),
+    path('settings/image/pg/<int:room_id>/<int:image_id>',
+        accounts_views.pg_image_update,
+        name='pg_image_update'),
 
+    path('location_update/', 
+        accounts_views.location_update, 
+        name='location_update'),
 
+    path('api_cities/', 
+        accounts_views.all_cities, 
+        name='api_cities'),
+    path('api_locations/', 
+        accounts_views.all_locations, 
+        name='api_locations'),
 ]

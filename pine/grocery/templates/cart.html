@@ -8,8 +8,15 @@
 
 {% load static %}
 {% block body %}
-
+  {% if profile.verified %}
+  {% include 'location_form.html' %}
+  {% endif %}
+  
   <main>
+  <center><h2 class="display-4" align="center" >{{shop.name}}</h2>
+  {% if shop.cart_message %}
+  <h2 align="center">{{shop.cart_message }}</h2> 
+  {% endif %} 
     <div class="basket">
       <div class="basket-labels">
         <ul>
@@ -19,73 +26,51 @@
           <li class="subtotal">Subtotal</li>
         </ul>
       </div>
+      {% for key, value in cart.items %} 
       <div class="basket-product">
         <div class="item">
           <div class="product-image">
-            <img src="http://placehold.it/120x166" alt="Placholder Image 2" class="product-frame">
+            <img src={{value.3}} alt="Placholder Image 2" class="product-frame" width="100px">
           </div>
           <div class="product-details">
-            <h1><strong><span class="item-quantity">4</span> x Eliza J</strong> Lace Sleeve Cuff Dress</h1>
-            <p><strong>Navy, Size 18</strong></p>
-            <p>Product Code - 232321939</p>
+            <h1><strong><span class="item-quantity">{{value.1}}</span> x {{value.2}}</strong></h1>
+            <p><strong>Mrp: {{value.0}}</strong></p>
+            {% if value.5 %}<p>Savings: {{ value.5 }}</p>{% endif %}
           </div>
         </div>
-        <div class="price">26.00</div>
+        <div class="price">{{value.4}}</div>
         <div class="quantity">
-          <input type="number" value="4" min="1" class="quantity-field">
+          <input type="number" value="{{value.1}}" min="1" class="quantity-field" data-p_id = "{{ key }}">
         </div>
         <div class="subtotal">104.00</div>
         <div class="remove">
-          <button>Remove</button>
+          <button type="button" data-p_id = "{{ key }}">Remove</button>
         </div>
       </div>
-      <div class="basket-product">
-        <div class="item">
-          <div class="product-image">
-            <img src="http://placehold.it/120x166" alt="Placholder Image 2" class="product-frame">
-          </div>
-          <div class="product-details">
-            <h1><strong><span class="item-quantity">1</span> x Whistles</strong> Amella Lace Midi Dress</h1>
-            <p><strong>Navy, Size 10</strong></p>
-            <p>Product Code - 232321939</p>
-          </div>
-        </div>
-        <div class="price">26.00</div>
-        <div class="quantity">
-          <input type="number" value="1" min="1" class="quantity-field">
-        </div>
-        <div class="subtotal">26.00</div>
-        <div class="remove">
-          <button>Remove</button>
-        </div>
-      </div>
+      {%endfor%}
     </div>
     <aside>
+    <br><br>
       <div class="summary">
         <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
         <div class="summary-subtotal">
           <div class="subtotal-title">Subtotal</div>
-          <div class="subtotal-value final-value" id="basket-subtotal">130.00</div>
+          <div class="subtotal-value final-value" id="basket-subtotal"> </div>
           <div class="summary-promo hide">
-            <div class="promo-title">Promotion</div>
+            <div class="promo-title">Savings</div>
             <div class="promo-value final-value" id="basket-promo"></div>
           </div>
         </div>
-        <div class="summary-delivery">
-          <select name="delivery-collection" class="summary-delivery-selection">
-              <option value="0" selected="selected">Select Collection or Delivery</option>
-             <option value="collection">Collection</option>
-             <option value="first-class">Royal Mail 1st Class</option>
-             <option value="second-class">Royal Mail 2nd Class</option>
-             <option value="signed-for">Royal Mail Special Delivery</option>
-          </select>
-        </div>
         <div class="summary-total">
           <div class="total-title">Total</div>
-          <div class="total-value final-value" id="basket-total">130.00</div>
+          <div class="total-value final-value" id="basket-total"></div>
         </div>
         <div class="summary-checkout">
-          <button class="checkout-cta">Go to Secure Checkout</button>
+        {% if profile.verified == True %}
+          <button class="checkout-cta" data-toggle="modal" data-target="#myModal" type="button">Place Your Order</button>
+        {% else %}
+          <button class="btn btn-info" onclick="location.href='{% url 'my_account' %}'" type="button">Please Verify Your Profile</button>
+        {% endif %}
         </div>
       </div>
     </aside>
@@ -94,19 +79,50 @@
 
 
 {% block script %}
+  {% if user.is_authenticated %}
+
 <script type="text/javascript">
     /* Set values + misc */
     var promoCode;
     var promoPrice;
     var fadeTime = 300;
 
+    $('.quantity input').each(function() {
+        updateQuantity(this);
+
+    });
+
+    updateSumItems();
+    recalculateCart();
+
     /* Assign actions */
     $('.quantity input').change(function() {
       updateQuantity(this);
+      var quantity = $(this).val();
+        var p_id = $(this).data("p_id");
+        $.ajax({
+          type: "POST",
+          url: "{% url 'updateCart' shop_name shop_location %}",
+          data: {'product_id': p_id,'quantity': quantity, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+          success: function(result){
+          },
+          error: function(result){
+          }
+        });
     });
 
     $('.remove button').click(function() {
       removeItem(this);
+      var p_id = $(this).data("p_id");
+        $.ajax({
+          type: "POST",
+          url: "{% url 'removeItem' shop_name shop_location %}",
+          data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+          success: function(result){
+          },
+          error: function(result){
+          }
+        });
     });
 
     $(document).ready(function() {
@@ -197,7 +213,6 @@
           $(this).fadeIn(fadeTime);
         });
       });
-
       productRow.find('.item-quantity').text(quantity);
       updateSumItems();
     }
@@ -221,4 +236,5 @@
       });
     }
 </script>
+{% endif %}
 {% endblock %}

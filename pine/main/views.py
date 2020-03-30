@@ -43,46 +43,43 @@ def logout_view(request):
 def about_us(request):
     return render(request, 'about_us.html')
 
-
 @login_required
 @user_passes_test(user_verified, login_url='/settings/account/')
 def rentdetails(request):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
-   
-  
     ImageFormSet = modelformset_factory(Images, form=ImageForm, extra=3)
     if request.user.is_authenticated and request.user.id == user.id:
         if request.method == "POST":
             form = RentForm(request.POST,request.FILES, )
-            imageform = ImageFormSet(request.POST, request.FILES, queryset=ImagesPG.objects.none())
+            imageform = ImageFormSet(request.POST, request.FILES)
 
             if form.is_valid() and imageform.is_valid():
                 post_form = form.save(commit=False)
                 post_form.user_profile = profile
                 post_form.save()
+                
                 for pic in imageform.cleaned_data:
                     if pic:
                         image = pic['image']
                         photo = Images(user=post_form, image=image)
                         photo.save()
 
-
-                # template = get_template('alert_room.txt')
-                # context = {
-                #         'value':'room'
-                #     }
-                # content = template.render(context)
+                template = get_template('alert_room.txt')
+                context = {
+                        'value':'room'
+                    }
+                content = template.render(context)
         
-                # email = EmailMessage(
-                #     "New Room submission",
-                #     content,
-                #     "CushyRooms Room Approval" +'',
-                #     ['project.pinetown@gmail.com'],
-                #     headers = {'Reply-To': 'project.pinetown@gmail.com' }
-                # )
-                # email.send()
+                email = EmailMessage(
+                    "New Room submission",
+                    content,
+                    "CushyRooms Room Approval" +'',
+                    ['project.pinetown@gmail.com'],
+                    headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                )
+                email.send()
 
                 return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your Room Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
@@ -113,35 +110,27 @@ def rentpgdetails(request):
                 post_form.save()
                 
                 for pic in imageform.cleaned_data:
-                    print(pic)
+                    
                     if pic:
                         image = pic['image']
-                        print(image, "Image")
-                        print(pic, "pic")
-                        photo = ImagesPG(user=profile, room_pg=post_form, image=image)
-                       # print(image.cleaned_data)
-                        
-                        photo.save()
-                        print(photo)
-                print(ImagesPg)
+                        photo = ImagesPG(user=post_form, image=image)                                            
+                        photo.save()                       
                 
-                return render(request, 'image_form.html', {'form': form, 'imageform': imageform , 'header':'Pg Details'})
-
-                # template = get_template('alert_room.txt')
-                # context = {
-                #         'value':'pg'
-                #     }
-                # content = template.render(context)
+                template = get_template('alert_room.txt')
+                context = {
+                        'value':'pg'
+                    }
+                content = template.render(context)
         
-                # email = EmailMessage(
-                #     "New Room submission",
-                #     content,
-                #     "CushyRooms Room Approval" +'',
-                #     ['project.pinetown@gmail.com'],
-                #     headers = {'Reply-To': 'project.pinetown@gmail.com' }
-                # )
-                # email.send()
-                #return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your PG Will be Shown after viewing details submitted by you. Please wait till then!"})
+                email = EmailMessage(
+                    "New PG submission",
+                    content,
+                    "CushyRooms Room Approval" +'',
+                    ['project.pinetown@gmail.com'],
+                    headers = {'Reply-To': 'project.pinetown@gmail.com' }
+                )
+                email.send()
+                return render(request,"message.html",{"background":"bg-success","title":"Successfully Submitted","head":"Successfully Submitted","body":"Your PG Will be Shown after viewing details submitted by you. Please wait till then!"})
             else:
                 print(form.errors, imageform.errors)
         else:
@@ -151,10 +140,10 @@ def rentpgdetails(request):
     else:
         raise PermissionDenied      
 
-
+def property_type(request):
+    return render(request,'property_type.html')
 def renttype(request):
     return render(request, 'choice.html' ,{'header': 'Choose Type of Renting'})
-
 
 #For contact form
 # our view
@@ -204,7 +193,6 @@ def contact(request):
     })
 
 #To view all the rooms
-
 def allrooms(request):
     rooms = RentingUser.objects.filter(approved=True, deleted=False, hidden=False)
     location = Location.objects.all()
@@ -223,7 +211,7 @@ def allrooms(request):
                 temp2 = 0
                 for p in prices:
                     if(temp==-1):
-                        temp = p
+                        temp = int(p)
                     if(temp2<=int(p)):
                         temp2 = (int(p)+2000)
                 room_filter = room_filter.filter(price__range=(temp,temp2))
@@ -243,7 +231,6 @@ def allrooms(request):
     return render(request, 'all_rooms.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location})
 
 #To view all the PGs
-
 def allpgs(request):
     rooms = RentingPGUser.objects.filter(approved=True, deleted=False, hidden=False)
     location = Location.objects.all()
@@ -263,11 +250,16 @@ def allpgs(request):
                 temp2 = 0
                 for p in prices:
                     if(temp==-1):
-                        temp = p
+                        temp = int(p)
                     if(temp2<=int(p)):
                         temp2 = (int(p)+2000)
+                temp+=1
+                print(temp)
+                
+                temp2=999
+                print(temp2)
                 room_filter = room_filter.filter(price__range=(temp,temp2))
-            
+                print(room_filter)
             return render(request, 'filter_pg.html', {
                 'form1': form1,'form2':form2, 'rooms': room_filter
             })
@@ -282,7 +274,6 @@ def allpgs(request):
     return render(request, 'all_pgs.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location})
 
 #Detail of the room selected
-
 def detailroom(request, room_id, image_id):
     rooms = RentingUser.objects.get(pk=room_id)
     images = Images.objects.get(pk=image_id)
@@ -295,7 +286,6 @@ def detailroom(request, room_id, image_id):
     except ObjectDoesNotExist:
         return render(request, 'room_detail.html', {'rooms': rooms, 'images': images, 'seller': seller})
        
-
 def detailpg(request, room_id, image_id):
     rooms = RentingPGUser.objects.get(pk=room_id)
     images = ImagesPG.objects.get(pk=image_id)

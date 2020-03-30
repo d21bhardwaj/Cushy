@@ -2,7 +2,7 @@ from django import forms
 from .models import RentingUser, RentingPGUser, Images, ImagesPG, Location
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, ButtonHolder
-
+from django.template.defaultfilters import filesizeformat
 
 class RentForm(forms.ModelForm):
 
@@ -19,7 +19,7 @@ class RentForm(forms.ModelForm):
         widgets = {
             'number_of_rooms': forms.NumberInput(attrs={'class': 'form-control',
                                                         'placeholder': 'Enter the Number of Rooms in the House'}),
-            'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
             'locality':  forms.Select(attrs={'class': 'regDropDown'}),
             'attached_bathroom': forms.Select(attrs={'class': 'regDropDown'}),
             'attached_kitchen': forms.Select(attrs={'class': 'regDropDown'}),
@@ -108,7 +108,7 @@ class RentPGForm(forms.ModelForm):
         widgets = {
             'occupants_per_room': forms.NumberInput(attrs={'class': 'form-control',
                                                         'placeholder': 'Enter the Number of Rooms in the House'}),
-            'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter the Cost Per Month'}),
             'locality':  forms.Select(attrs={'class': 'regDropDown'}),  
             'attached_bathroom': forms.Select(attrs={'class': 'regDropDown'}),
             'food_included': forms.Select(attrs={'class': 'regDropDown'}),
@@ -175,30 +175,33 @@ class RentPGForm(forms.ModelForm):
                 css_class='form-row'
             ),
             'any_other',
-            
-        
         )
 
 
 class ImageForm(forms.ModelForm):
-    image = forms.ImageField(label='Image')
-
+    image = forms.ImageField(label='Image',widget=forms.FileInput)
+    #widget=forms.FileInput add this to remove current file location
     class Meta:
         model = Images
         fields = ('image', )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
     
 class ImageFormPG(forms.ModelForm):
-    image = forms.ImageField(label='ImagePG')
+    image = forms.ImageField(label='PG Image',widget=forms.FileInput)
 
     class Meta:
         model = ImagesPG
         fields = ('image', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
     
 
 
 class FilterFormLocation(forms.ModelForm):
     LOCATION = ((x.id, x) for x in Location.objects.all())
-    #print(LOCATION)
+    print(LOCATION)
     Locations = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                                           choices=LOCATION)
     class Meta: 
@@ -279,5 +282,4 @@ class ContactForm(forms.Form):
             
             css_class='form-row centered'
             ),
-         
         )
