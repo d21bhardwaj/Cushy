@@ -6,13 +6,13 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
 
-{% block subtitle %} | Room Rent{% endblock %}
+{% block subtitle %}{{ header }}{% endblock %}
 
 {% block form %}
     <div class="pt-changed"></div>
     <div class="row" style="">
         <div class="col text-center justify-content-xl-center">
-            <p style="color: rgb(255,255,255);font-size: 35px;width: 100%;float: left"><strong>{{header}}</strong></p>
+            <p style="color: black ;font-size: 35px;width: 100%;float: left"><strong>{{ header }}</strong></p>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
 
         <form method="post" enctype="multipart/form-data" style="text-align: center" class="uniForm" id="post_form" action="" >
             {% csrf_token %}
-            <div class="col-md-10 text-left" style="padding: 60px;text-align: right; color: white">
+            <div class="col-md-10 text-left" style="padding: 60px;text-align: right; color: black">
             <!--using crispy tag on forms for now-->
 
             {% crispy form %}<br>

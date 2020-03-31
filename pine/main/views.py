@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG, FilterFormPrice, FilterFormPGPrice
+from .forms import RentForm, RentPGForm, ImageForm, ContactForm, ImageFormPG, FilterFormPrice, FilterFormPGPrice, FilterFormLocation
 from django.forms import modelformset_factory
 from .models import Images, ImagesPG, RentingUser, RentingPGUser, Location
 #for profile linking
