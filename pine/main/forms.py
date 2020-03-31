@@ -199,14 +199,14 @@ class ImageFormPG(forms.ModelForm):
     
 
 
-class FilterFormLocation(forms.ModelForm):
-    LOCATION = ((x.id, x) for x in Location.objects.all())
-    print(LOCATION)
-    Locations = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-                                          choices=LOCATION)
-    class Meta: 
-        model = Location
-        fields = ('Locations',)
+# class FilterFormLocation(forms.ModelForm):
+#     LOCATION = ((x.id, x) for x in Location.objects.all())
+#     print(LOCATION)
+#     Locations = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+#                                           choices=LOCATION)
+#     class Meta: 
+#         model = Location
+#         fields = ('Locations',)
 
 class FilterFormPrice(forms.ModelForm):
     PRICE = (
