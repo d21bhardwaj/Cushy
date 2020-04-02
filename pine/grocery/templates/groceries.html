@@ -30,9 +30,14 @@
                 You will need to pick the items from the Shop.</div> 
             {% endif%}
         {% else %}
+            {% if shop.delivery %}
              {% include 'delivered_locations.html' %}
             <div class="alert alert-warning" role="alert" align="center" data-toggle="modal" data-target="#myModal">
             Click here to check Locations where the delivery is possible</div>
+            {% else %}
+             <div class="alert alert-warning" role="alert">
+                You will need to pick the items from the Shop.</div> 
+            {% endif %}
         {% endif %}
     
     {% else %}
