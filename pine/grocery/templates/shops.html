@@ -50,6 +50,11 @@
                             {% else %}
                                 <p class="card-text"; style="text-align:center;">&nbsp;         </p>
                             {% endif %}
+                            {% if shop.location %}
+                                <p class="card-text"; style="text-align:center;">{{ shop.location }}</p>
+                            {% else %}
+                                <p class="card-text"; style="text-align:center;">&nbsp;         </p>
+                            {% endif %}
                            <center><button  class="btn btn-primary btn-lg border rounded product" type="button"><a href="/{{shop.name}}/{{shop.location.id}}" style="color: white;">View Shop</a></button></center>
                            </div>
                       </div>
