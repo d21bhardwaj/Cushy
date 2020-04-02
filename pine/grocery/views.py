@@ -293,6 +293,7 @@ def shops_grocery(request,shopname,shop_location):
     user_id = request.user.pk
     dic = []
     can_be_delivered = None
+    profile = None
     try: 
         profile = Profile.objects.get(user = user_id)
         profile_location = profile.location
@@ -323,6 +324,7 @@ def shops_grocery(request,shopname,shop_location):
         {'groceries' : groceries,'shop_name':shop.shop,
         'shop_location':shop_location,'deliverable_locations':deliverable_locations,
         'profile_location':profile_location,'dic':dic,'shop':shop,
+        'profile':profile,
         'can_be_delivered':can_be_delivered})
 
 def shops_by_name(request,shopname):
