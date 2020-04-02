@@ -16,7 +16,16 @@
   <center><h2 class="display-4" align="center" >{{shop.name}}</h2>
   {% if shop.cart_message %}
   <h2 align="center">{{shop.cart_message }}</h2> 
-  {% endif %} 
+  {% endif %}
+  
+  <h4 align="center"> 
+  {% if shop.delivery and can_be_delivered %}
+        <h4 align="center"><small>Delivery to your location is possible</small></h3>
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+                You will need to pick the items from the Shop.</div> 
+        {% endif %}</h4> 
+   
     <div class="basket">
       <div class="basket-labels">
         <ul>
@@ -47,7 +56,7 @@
           <button type="button" data-p_id = "{{ key }}">Remove</button>
         </div>
       </div>
-      {%endfor%}
+      {% endfor %}
     </div>
     <aside>
     <br><br>

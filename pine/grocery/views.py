@@ -223,7 +223,7 @@ def all_shops(request):
         else:
             shops = Shop.objects.all() 
             for shop in shops:
-                print(shop.shop, shop.shop_user,shop.location.city)
+                print(shop.shop, shop.shop_user,shop.location.city,shop.delivery_at)
             form = ShopLocationForm()
 
     else :
@@ -241,6 +241,9 @@ def all_shops(request):
             for shop in shops:
                 print(shop.shop, shop.shop_user,shop.location.city)
             form = ShopLocationForm()
+    for shop in shops:
+        print(shop.shop, shop.shop_user,shop.location.city,shop.delivery_at.all())
+            
     return render(request, 'shops.html',{'shops':shops, 'form':form})
 def all_carts(request):
     if request.user.is_authenticated and request.method !="POST":
@@ -283,16 +286,20 @@ def request_url(request):
 
 def shops_grocery(request,shopname,shop_location):
     shopname = slugify(shopname)
-    try:
-        shop = Shop.objects.get(shop=shopname,location=shop_location)
-    except:
-        pass
+    shop = Shop.objects.get(shop=shopname,location=shop_location)
     groceries = Product.objects.filter(shop=shop,show_product=True)
+    deliverable_locations = shop.delivery_at.all()
+    print(deliverable_locations)
     user_id = request.user.pk
     dic = []
+    can_be_delivered = None
     try: 
         profile = Profile.objects.get(user = user_id)
-        
+        profile_location = profile.location
+        if profile.location in deliverable_locations:
+           can_be_delivered = True
+        else :
+            can_be_delivered = False
         if request.user.is_authenticated:
             file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
             try:
@@ -306,12 +313,17 @@ def shops_grocery(request,shopname,shop_location):
                 except:
                     pass
         else:
-            print("Error2")
+            raise PermissionDenied    
         print(dic)
     except: 
+        profile_location = None 
         pass
-
-    return render(request, 'groceries.html', {'groceries' : groceries,'shop_name':shop.shop,'shop_location':shop_location, 'dic':dic,'shop':shop})
+    
+    return render(request, 'groceries.html', 
+        {'groceries' : groceries,'shop_name':shop.shop,
+        'shop_location':shop_location,'deliverable_locations':deliverable_locations,
+        'profile_location':profile_location,'dic':dic,'shop':shop,
+        'can_be_delivered':can_be_delivered})
 
 def shops_by_name(request,shopname):
     shopname = slugify(shopname)
@@ -367,8 +379,7 @@ def cart_view(request,shopname,shop_location):
     shop = Shop.objects.get(shop=shop_name,location=shop_location)
     profile = Profile.objects.get(user=user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
-    
-    
+
     if(request.POST):
         location_id =profile.location.id
         
