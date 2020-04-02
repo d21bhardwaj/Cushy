@@ -381,7 +381,11 @@ def cart_view(request,shopname,shop_location):
     shop = Shop.objects.get(shop=shop_name,location=shop_location)
     profile = Profile.objects.get(user=user_id)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
-
+    deliverable_locations = shop.delivery_at.all()
+    if profile.location in deliverable_locations:
+        can_be_delivered = True
+    else :
+        can_be_delivered = False
     if(request.POST):
         location_id =profile.location.id
         
@@ -406,9 +410,9 @@ def cart_view(request,shopname,shop_location):
                 li.append(pro.savings)
                 dic[key] = li
     except:
-        return render(request, 'cart.html', {'cart': {},'shop_name':shop_name,'shop':shop,'shop_location':shop_location,'profile':profile})
+        return render(request, 'cart.html', {'can_be_delivered':can_be_delivered,'cart': {},'shop_name':shop_name,'shop':shop,'shop_location':shop_location,'profile':profile})
     #form = DeliveryLocationForm()
-    return render(request, 'cart.html', {'cart': dic,'profile':profile,'shop_name':shop_name,'shop_location':shop_location,'shop':shop,})
+    return render(request, 'cart.html', { 'can_be_delivered':can_be_delivered,'cart': dic,'profile':profile,'shop_name':shop_name,'shop_location':shop_location,'shop':shop,})
 
 @login_required
 def removeItem(request,shopname,shop_location):
