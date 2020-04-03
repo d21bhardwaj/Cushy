@@ -1,0 +1,43 @@
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"   >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{ profile.title }} {{ profile.name }}</h4><br>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+      {% if shop.taking_orders%}
+        <!-- Modal body -->
+        <div class="modal-body">
+        {% load crispy_forms_tags %}        
+        <h5>Please Note following Information will be forwared for Contacting You</h5>
+        Contact Number: {{ profile.mobile_no }}<br>
+        E-Mail: {{ profile.email }}<br>
+        Location: {{ profile.location }}<br>
+        <form  method="post" class="uniForm">
+            {{ form|crispy}}
+            {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
+        </div>
+      {% else %}
+        <div class="modal-body">
+        {% load crispy_forms_tags %}        
+        <h5>{{shop.name}} are not receiving orders</h5>
+        Sorry for the inconvenience caused<br>
+        </div>
+      {% endif %}
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          {% if shop.taking_orders%}
+           <button class="btn btn-info" onclick="location.href='{% url 'my_account' %}'" type="button">Edit Information</button>
+          {% endif %}
+
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+</div>

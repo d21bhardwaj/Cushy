@@ -1,0 +1,96 @@
+{% extends 'main/templates/base.html' %}
+{% block title %} Item Edit {% endblock %}
+
+{% load static %}
+{% block stylesheet %} 
+	<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+	{% comment %} 
+    Some Unknown error exsits here 
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+     {% endcomment %}
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+    
+
+    
+
+{% endblock %}
+
+{% load static %}
+{% block body %}
+    <br>
+    <div class="table-responsive">
+    <table class="table table-hover ">
+        <thead>
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Selling Price</th>
+            <th scope="col">Free Product</th>
+            <th scope="col">Description</th>
+            <th scope="col">Barcode</th>
+            <th scope="col">Image</th>
+            <th scope="col">Updated At</th>
+            <th scope="col">Show Product</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grocery in groceries %}
+                  
+                {% comment %} <div class="col-auto" data-toggle="modal" 
+                data-target="#myModal">
+                <a href="#" > {% endcomment %}
+        
+                {% if grocery.id == product_id %}
+                <form id="{{grocery.id}}" method="post" enctype='multipart/form-data'> 
+                {% csrf_token %}
+                <tr>
+                <th scope="row">{{ grocery.id }}</th>
+                <td>{{ form.name }}</td>
+                <td>{{ form.quantity }}</td>
+                <td>{{ form.brand }}</td>
+                <td>{{ form.category }}</td>
+                <td>{{ form.price }}</td>
+                <td>{{ form.selling_price }}</td>
+                <td>{{ form.free_product }}</td>
+                <td>{{ form.description }}</td>
+                <td>{{ form.barcode }}</td>
+                <td>{{ imageform.image }}</td>
+                <td>{{ grocery.updated_at }}</td>
+                <td>{{ form.show_product }}</td>
+                <td><button type="submit" name="visitor" value="{{grocery.id}}">Submit</button></td>
+                </form>
+                {% else %}
+                <tr data-toggle="modal" data-id="{{forloop.counter}}" data-target="#myModal{{forloop.counter}}">
+                <th scope="row">{{ grocery.id }}</th>
+                <td>{{ grocery.name }}</td>
+                <td>{{ grocery.quantity }}</td>
+                <td>{{ grocery.brand }}</td>
+                <td>{{ grocery.category.all }}</td>
+                <td>{{ grocery.price }}</td>
+                <td>{{ grocery.selling_price }}</td>
+                <td>{{ grocery.free_product }}</td>
+                <td>{{ grocery.description }}</td>
+                <td>{{ grocery.barcode }}</td>
+                <td>{{ grocery.images_set.first.image.url }}</td>
+                <td>{{ grocery.updated_at }}</td>
+                <td>{{ grocery.show_product }}</td>
+                <td><button 
+                    onclick="location.href='{% url "Product_Edit"  grocery.id %}'" type="button">
+                    Edit It!</button></td>
+                {% endif %}
+                </tr>
+                
+                {% include 'product_detail.html' %}
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+{% endblock %}
+
+</body>

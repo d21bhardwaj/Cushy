@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+{% block stylesheet %} 
+<link rel="stylesheet" href="{% static 'assets/css/Customizable-Background--Overlay.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block subtitle %}{{ header }}{% endblock %}
+
+{% block form %}
+    <div class="pt-changed"></div>
+    <div class="row" style="">
+        <div class="col text-center justify-content-xl-center">
+            <p style="color: black ;font-size: 35px;width: 100%;float: left"><strong>{{ header }}</strong></p>
+        </div>
+    </div>
+
+         
+
+        <form method="post" enctype="multipart/form-data" style="text-align: center" class="uniForm" id="post_form" action="" >
+            {% csrf_token %}
+            <div class="col-md-10 text-left" style="padding: 60px;text-align: right; color: black">
+            <!--using crispy tag on forms for now-->
+
+            {% crispy form %}<br>
+           
+            <h5>Upload Images:</h5>
+            <div class="alert alert-warning" role="alert">
+                Size of Picture should not exceed 2MB.
+                </div>
+            {{ imageform.management_form }}
+            
+            {% for field in imageform %}
+                {% if field.errors %}
+                {% for error in field.errors.image %}
+                <div class="alert alert-danger">
+                <strong>{{ error }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% if forloop.counter == 1 %}
+                    <h6>Bedroom:</h6>
+                {% endif %} 
+                {% if forloop.counter == 2 %}
+                    <h6>Kitchen:</h6>
+                {% endif %}
+                {% if forloop.counter == 3 %}
+                    <h6>Bathroom:</h6>
+                {% endif %}
+                {% if forloop.counter == 4 %}
+                    <h6>Extra:</h6>
+                {% endif %}
+                {% if forloop.counter == 5 %}
+                    <h6>Extra:</h6>
+                {% endif %}
+                {% for subform in field %}
+                    {{ subform }}<br>
+                {% endfor %}
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+            
+        </form>
+        </div>
+         <div class="alert alert-warning" role="alert">
+                If you have difficulties uploading or filling this form.
+               
+                <a href=/contact_us/>Contact Us.</a> We will help you out.
+                
+        </div>
+{% endblock %}
+{% block content %}
+{% endblock %}
+
