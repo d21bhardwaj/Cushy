@@ -1,0 +1,108 @@
+{% extends './base.html' %}
+{% block title %} Past Orders {% endblock %}
+<body>
+{% load static %}
+{% block stylesheet %} 
+  <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+{% endblock %}
+
+{% load static %}
+
+{% block body %}
+<br>
+<div align="center">
+    <h2>Your Past Orders</h2>
+</div>
+<div style="padding-left:5%;">
+    {% if flag1 %}
+    {% for order in order_list %}
+<div>
+    <h3><a href="{% url 'deliveredOrders' order.index %}">{{order.index}}. Order {{order.index}}</a></h3>
+    <div style="padding-left:5%;">
+        <h5><b>Shop : </b>{{order.shop.name}}</h5>
+    <h5><b>Status : </b>{{order.status}}</h5>
+    <h5><b>Location : </b>{{order.location}}</h5>
+    <h5><b>Amount : </b>{{order.order_amount}}</h5>
+    <h5><b>Ordered At : </b>{{order.ordered_at}}</h5>
+        <li>{% ifequal order.status 'not processed' %}
+        <button type="button"><a href="{% url 'deleteOrderByUser' order_id=order.myid %}">Delete Your Order</a></button>
+        {% endifequal %}</li>
+        <li>{% ifequal order.status 'processed' %}
+        <button type="button"><a href="{% url 'deleteOrderByUser' order_id=order.myid %}">Delete Your Order</a></button>
+        {% endifequal %}</li>
+        <br>
+    </div>
+
+</div>
+
+{% endfor %}
+    {% else %}
+    <h4>You haven't ordered anything yet.</h4>
+    {% endif %}
+    {% if order_list.has_other_pages %}
+  <ul class="pagination">
+    {% if order_list.has_previous %}
+      <li><a href="?page={{ order_list.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in order_list.paginator.page_range %}
+      {% if order_list.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if order_list.has_next %}
+      <li><a href="?page={{ order_list.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</div>
+<br>
+<br>
+{% if flag2 %}
+    <div align="center">
+    <h2>Your Shop Orders</h2>
+</div>
+<div style="padding-left:5%;">
+    {% if flag2 %}
+    {% for order in shop_orders %}
+<div>
+    <h3><a href="{% url 'deliveredOrders' order.index %}">{{order.index}}. Order {{order.index}}</a></h3>
+    <div style="padding-left:5%;">
+        <h5><b>Shop : </b>{{order.shop.name}}</h5>
+    <h5><b>Status : </b>{{order.status}}</h5>
+    <h5><b>Location : </b>{{order.location}}</h5>
+    <h5><b>Amount : </b>{{order.order_amount}}</h5>
+    <h5><b>Ordered At : </b>{{order.ordered_at}}</h5>
+        <li>{% ifequal order.status 'not processed' %}
+        <button type="button"><a href="{% url 'deleteOrderByShop' order_id=order.myid %}">Delete Order</a></button>
+            &nbsp;
+            &nbsp;
+            <button type="button"><a href="{% url 'makeProcessed' order_id=order.myid %}">Process It</a></button>
+        {% endifequal %}</li>
+        <li>{% ifequal order.status 'processed' %}
+        <button type="button"><a href="{% url 'deleteOrderByShop' order_id=order.myid %}">Delete Order</a></button>
+            <button type="button"><a href="{% url 'makeCompleted' order_id=order.myid %}">Completed</a></button>
+            <button type="button"><a href="{% url 'makeDelivered' order_id=order.myid %}">Delivered</a></button>
+        {% endifequal %}</li>
+    </div>
+
+</div>
+
+{% endfor %}
+    {% else %}
+    <h4>You haven't got any orders yet.</h4>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

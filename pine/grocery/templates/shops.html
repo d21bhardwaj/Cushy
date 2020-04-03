@@ -15,7 +15,7 @@
 {% load static %}
 {% block body %}    
    
-    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{shops.count }} shops{% if shops.count > 1 %}s{% endif %} found </p>
+    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{shops.count }} shop{% if shops.count > 1 %}s{% endif %} found </p>
     {% load crispy_forms_tags %} 
     
     <div class="projects-clean">

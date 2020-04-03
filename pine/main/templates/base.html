@@ -54,15 +54,13 @@
 
                     </div>
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'carts' %}" style="color:rgba(255,255,255,0.9);" >Your Cart</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'pastOrders' %}" style="color:rgba(255,255,255,0.9);" >Your past orders</a></li>
+
 
                     {% else %}
                       <a class="nav-link" href="{% url 'login' %}" style="color: rgba(255,255,255,0.9)"><i class="fa fa-user-circle-o" aria-hidden="true"></i><strong>LogIn/Signup</strong></a>
                       <!--<a class="nav-link" href="{% url 'social:begin' 'google-oauth2' %}"><i class="fa fa-user-circle-o" aria-hidden="true"> </i><strong>Login</strong></a>-->
                     {% endif %}
-                      </li>
-                      <li class="nav-item" role="presentation">
-                          <a class="nav-link" href="{% url 'RentType' %}" style="color:rgba(255,255,255,0.9);">Give On Rent!<span class="sr-only">(current)</span></a>
-                          </li>
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'about_us' %}" style="color:rgba(255,255,255,0.9);" >About Us</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="{% url 'contact_us'%}" style="color:rgba(255,255,255,0.9);">Contact Us</a></li>
                     

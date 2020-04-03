@@ -1,0 +1,39 @@
+{% extends './base.html' %}
+{% block title %} Delivered Orders {% endblock %}
+<body>
+{% load static %}
+{% block stylesheet %} 
+  <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+{% endblock %}
+
+{% load static %}
+{% block body %}
+  <br>
+<div align="center">
+    <h2>Order {{num}}</h2>
+</div>
+
+    {% for order in product %}
+<div style="padding-left:5%;">
+    <h3>{{order.index}}. Product {{order.index}}</h3>
+    <div align="left" style="padding-left:3%">
+        <img src="{{order.ordered_prod.image}}" height="220" width="160">
+    </div>
+    <div>
+
+        <h5><b>Product Name : </b>{{order.ordered_prod.Product_Name}}</h5>
+        <h5><b>Qunatity : </b>{{order.ordered_prod.Quantity}}</h5>
+        <h5><b>MRP : </b>{{order.ordered_prod.MRP}}</h5>
+        <h5><b>Selling Price : </b>{{order.ordered_prod.SP}}</h5>
+        <h5><b>Amount : </b>{{order.amount}}</h5>
+    </div>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
