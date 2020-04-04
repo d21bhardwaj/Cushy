@@ -82,6 +82,8 @@ def updateCart(request,shopname,shop_location):
     product_id = request.POST.get('product_id')
     quantity = request.POST.get('quantity')
     print(product_id,quantity)
+    quantity = int (quantity)
+    print(quantity)
     file_path = settings.BASE_DIR + '/media/json/active/user_' + str(profile.id) +'/shop_'+str(shop.id)+'.json'
     with open(file_path, 'r+') as json_read:
         data = json.loads(json_read.read())
@@ -443,40 +445,44 @@ def checkout(request,shopname,location_id,shop_location):
     prod_dic = {}
     print(request.POST)
     location = Location.objects.get(id=location_id)
-    try:
-        with open(file_path, 'r+') as json_cart:
+    amount = 0
+    # try:
+    with open(file_path, 'r+') as json_cart:
 
-            dic = {}
-            user_cart = json.loads(json_cart.read())
-            for key, value in user_cart.items():
-                prod_details_dic = {}
-               
-                li = []
-                pro = Product.objects.filter(id=key).first()
-                try:
-                    im = Images.objects.filter(product_image=key).first()
-                    imn = im.image.url
-                except:
-                    imn = "/static/assets/img/no-image.png"
+        dic = {}
+        user_cart = json.loads(json_cart.read())
+        for key, value in user_cart.items():
+            prod_details_dic = {}
+            
+            li = []
+            pro = Product.objects.filter(id=key).first()
+            try:
+                im = Images.objects.filter(product_image=key).first()
+                imn = im.image.url
+            except:
+                imn = "/static/assets/img/no-image.png"
 
-                li.append(pro.name)  # 0
-                li.append(pro.price)  # 1
-                li.append(pro.selling_price)  # 2
-                li.append(value)  # 3 ----"Quantity order" ----- #
-                li.append(imn)  # 4
-                li.append(pro.shop.shop)  # 5
-                dic[key] = li  # 6
-                prod_details_dic["Product_Name"] = pro.name
-                prod_details_dic["MRP"] = pro.price
-                prod_details_dic["SP"] = pro.selling_price
-                prod_details_dic["Quantity"] = value
-                prod_details_dic["delivered"] = ""
-                id_key = str(key)
-                prod_dic[id_key] = prod_details_dic
-            shopName = pro.shop.id
-    except:
-        print("hi")
-        return Http404
+            li.append(pro.name)  # 0
+            li.append(pro.price)  # 1
+            li.append(pro.selling_price)  # 2
+            li.append(value)  # 3 ----"Quantity order" ----- #
+            li.append(imn)  # 4
+            li.append(pro.shop.shop)  # 5
+            dic[key] = li  # 6
+            prod_details_dic["Product_Name"] = pro.name
+            prod_details_dic["MRP"] = pro.price
+            prod_details_dic["SP"] = pro.selling_price
+            prod_details_dic["Quantity"] = value
+            prod_details_dic["delivered"] = ""
+            prod_details_dic["image"] = imn
+            value = int (value)
+            amount += pro.selling_price * value
+            id_key = str(key)
+            prod_dic[id_key] = prod_details_dic
+        shopName = pro.shop.id
+    # except:
+    #     print("hi")
+    #     return Http404
 
     try:
         user_name = profile.title + profile.name
@@ -494,6 +500,10 @@ def checkout(request,shopname,location_id,shop_location):
         dic3["mobile_no"] = profile.mobile_no
         dic3["orders"] = prod_dic
         dic3["email"] = profile.email
+        dic3['cancelled_by_user'] = "No"
+        dic3['cancelled_by_shop'] = "No"
+        dic3['delivered'] = "No"
+        dic3['amount'] = amount
 
     except:
         print('hi2')

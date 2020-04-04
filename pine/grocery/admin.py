@@ -19,7 +19,7 @@ class ImagesAdmin(admin.ModelAdmin):
     list_display = ('id', 'product_image', 'image')
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id','shop', 'user','cart','processed','completed','ordered_at','completed_at','updated_at')
+    list_display = ('id','shop', 'user','cart','processed','completed','cancelled','ordered_at','completed_at','updated_at')
 
 admin.site.register(Shop, ShopAdmin)
 admin.site.register(Brand, BrandAdmin)

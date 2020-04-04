@@ -2,7 +2,7 @@ from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
 from accounts import views as accounts_views 
-   
+from accounts import cart_views   
    
    
 urlpatterns = [
@@ -120,4 +120,14 @@ urlpatterns = [
     path('api_locations/', 
         accounts_views.all_locations, 
         name='api_locations'),
+
+# Created by Anket 3-04-2020
+    path('past-orders/', cart_views.pastOrders, name='pastOrders'),
+    path('past-orders/<int:order_num>/', cart_views.delivered_entries, name='deliveredOrders'),
+    path('deleteorderbyuser/<int:order_id>', cart_views.deleteOrderByUser, name='deleteOrderByUser'),
+    path('deleteorderbyshop/<int:order_id>', cart_views.deleteOrderByShop, name='deleteOrderByShop'),
+    path('past-orders/processed/<int:order_id>', cart_views.makeProcessed, name='makeProcessed'),
+    path('past-orders/completed/<int:order_id>', cart_views.makeCompleted, name='makeCompleted'),
+    path('past-orders/delivered/<int:order_id>', cart_views.makeDelivered, name='makeDelivered'),
+
 ]

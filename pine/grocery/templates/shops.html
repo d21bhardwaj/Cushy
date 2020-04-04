@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends 'base.html' %}
 {% block title %} All Room Available {% endblock %}
 <body>
 {% load static %}
@@ -15,7 +15,7 @@
 {% load static %}
 {% block body %}    
    
-    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{shops.count }} shops{% if shops.count > 1 %}s{% endif %} found </p>
+    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{shops.count }} shop{% if shops.count > 1 %}s{% endif %} found </p>
     {% load crispy_forms_tags %} 
     
     <div class="projects-clean">
@@ -47,11 +47,6 @@
                             {% endif %}
                             {% if shop.email != 'None' and shop.email %}
                                 <p class="card-text"; style="text-align:center;">{{ shop.email }}</p>
-                            {% else %}
-                                <p class="card-text"; style="text-align:center;">&nbsp;         </p>
-                            {% endif %}
-                            {% if shop.location %}
-                                <p class="card-text"; style="text-align:center;">{{ shop.location }}</p>
                             {% else %}
                                 <p class="card-text"; style="text-align:center;">&nbsp;         </p>
                             {% endif %}

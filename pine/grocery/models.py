@@ -5,7 +5,7 @@ from django.db.models.signals import pre_save
 from django.utils.timezone import now
 import time
 from django.template.defaultfilters import slugify
-
+from jsonschema import ValidationError
 # Create your models here.
 def shop_directory_path(instance, filename):
     seller = instance.shop_user
@@ -131,7 +131,7 @@ class Order(models.Model):
     ordered_at = models.DateTimeField(default=now, blank=True)
     completed_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
-    
+    cancelled = models.BooleanField(default=False)
     class Meta:
         indexes = [
             models.Index(fields=['user','ordered_at']),
