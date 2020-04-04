@@ -12,6 +12,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import FileResponse
 from .models import Product,Brand,Shop,Category
 from .forms import *
+from django.core.paginator import Paginator
+
 import openpyxl as xl
 from .email import *
 from django.shortcuts import render
@@ -288,6 +290,11 @@ def shops_grocery(request,shopname,shop_location):
     shopname = slugify(shopname)
     shop = Shop.objects.get(shop=shopname,location=shop_location)
     groceries = Product.objects.filter(shop=shop,show_product=True)
+
+    paginator = Paginator(groceries, 6) # Show 6 items per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     deliverable_locations = shop.delivery_at.all()
     print(deliverable_locations)
     user_id = request.user.pk
@@ -325,7 +332,7 @@ def shops_grocery(request,shopname,shop_location):
         'shop_location':shop_location,'deliverable_locations':deliverable_locations,
         'profile_location':profile_location,'dic':dic,'shop':shop,
         'profile':profile,
-        'can_be_delivered':can_be_delivered})
+        'can_be_delivered':can_be_delivered, 'page_obj': page_obj})
 
 def shops_by_name(request,shopname):
     shopname = slugify(shopname)

@@ -28,7 +28,7 @@
         <div class="container align-items-center align-content-center align-self-center">
             <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
-                {% for room in rooms %}
+                {% for room in page_obj %}
                 {%  for images in room.imagespg_set.all %}
                     {% if forloop.counter == 1 %}
                     <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "pg_detail" room.id images.id %}'" 
@@ -56,6 +56,68 @@
             </div>
         </div>
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+        <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">first</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="?page=1">first</a>
+                    </li>
+                {% endif %}
+
+                <span class="current">
+                    <li class="page-item active">
+                       <a class="page-link" href="#"> {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}<span class="sr-only">(current)</span></a>
+                    </li>
+                </span>
+
+                {% if page_obj.has_next %}                   
+                    
+                    <li class="page-item">
+                       <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                    </li>
+                    <li class="page-item">
+                       <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last</a>
+                    </li>
+                {% endif %}
+        </div>
+        </ul>
+    </nav>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'assets/js/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'assets/js/infinite.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+
+    <script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+
+    },
+    offset: 'bottom-in-view',
+
+    onBeforePageLoad: function () {
+    $('.spinner-border').show();
+    },
+    onAfterPageLoad: function () {
+    $('.spinner-border').hide();
+    }
+
+    });
+    </script>
+
 {% endblock %}
 </body>
 

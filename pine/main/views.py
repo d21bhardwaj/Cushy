@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import FileResponse
+from django.core.paginator import Paginator
 
 def user_verified(user):
     try:
@@ -195,6 +196,10 @@ def contact(request):
 #To view all the rooms
 def allrooms(request):
     rooms = RentingUser.objects.filter(approved=True, deleted=False, hidden=False)
+    paginator = Paginator(rooms, 6) # Show 6 items per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     location = Location.objects.all()
     if request.method == 'POST':
         form1 = FilterFormLocation(data=request.POST)
@@ -216,8 +221,12 @@ def allrooms(request):
                         temp2 = (int(p)+2000)
                 room_filter = room_filter.filter(price__range=(temp,temp2))
             
+            paginator = Paginator(room_filter, 6) # Show 6 items per page.
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+
             return render(request, 'filter_room.html', {
-                'form1': form1,'form2':form2, 'rooms': room_filter
+                'form1': form1,'form2':form2, 'rooms': room_filter,'page_obj': page_obj,
             })
         else:
             form1 = FilterFormLocation()
@@ -228,11 +237,16 @@ def allrooms(request):
         form2 = FilterFormPrice()
         
     
-    return render(request, 'all_rooms.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location})
+    return render(request, 'all_rooms.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location, 'page_obj': page_obj })
 
 #To view all the PGs
 def allpgs(request):
     rooms = RentingPGUser.objects.filter(approved=True, deleted=False, hidden=False)
+    
+    paginator = Paginator(rooms, 6) # Show 6 items per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     location = Location.objects.all()
     print(location)
     if request.method == 'POST':
@@ -260,8 +274,13 @@ def allpgs(request):
                 print(temp2)
                 room_filter = room_filter.filter(price__range=(temp,temp2))
                 print(room_filter)
+
+            paginator = Paginator(room_filter, 6) # Show 6 items per page.
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+
             return render(request, 'filter_pg.html', {
-                'form1': form1,'form2':form2, 'rooms': room_filter
+                'form1': form1,'form2':form2, 'rooms': room_filter,'page_obj': page_obj,
             })
         else:
             form1 = FilterFormLocation()
@@ -271,7 +290,7 @@ def allpgs(request):
         form1 = FilterFormLocation()
         form2 = FilterFormPGPrice()
 
-    return render(request, 'all_pgs.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location})
+    return render(request, 'all_pgs.html', {'form1':form1,'form2' : form2, 'rooms': rooms, 'location' : location, 'page_obj': page_obj })
 
 #Detail of the room selected
 def detailroom(request, room_id, image_id):

@@ -6,6 +6,8 @@ from main import views
 #Login
 from accounts import views as accounts_views
 from django.contrib.auth import logout
+from django.conf import settings 
+from django.conf.urls.static import static
 
 #Account view
 
@@ -38,4 +40,4 @@ urlpatterns = [
         views.about_us, 
         name='about_us'),
    
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

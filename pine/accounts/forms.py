@@ -45,8 +45,8 @@ class ProfileForm(forms.ModelForm):
             )
         )
 
-# class LocationForm(forms.ModelForm):
+class LocationForm(forms.ModelForm):
     
-#     class Meta:
-#         model = Profile
-#         fields = ('location',)
+    class Meta:
+        model = Profile
+        fields = ('location',)

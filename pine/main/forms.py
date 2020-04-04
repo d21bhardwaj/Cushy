@@ -200,17 +200,17 @@ class ImageFormPG(forms.ModelForm):
 
 
 class FilterFormLocation(forms.ModelForm):
-    # LOCATION = ((x.id, x) for x in Location.objects.all())
+    LOCATION = ((x.id, x) for x in Location.objects.all())
     # print(LOCATION)
     Locations = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
     class Meta: 
         model = Location
-        fields = ('location',)
+        fields = ('Locations',)
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        print(kwargs)
-        self.fields['location'].queryset = Location.objects.all()
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     print(kwargs)
+    #     self.fields['Locations'].queryset = Location.objects.all()
 
 class FilterFormPrice(forms.ModelForm):
     PRICE = (
