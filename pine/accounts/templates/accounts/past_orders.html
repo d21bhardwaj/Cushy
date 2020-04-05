@@ -107,7 +107,7 @@
   <div class="container align-items-center align-content-center align-self-center">
     <div class="row justify-content-center projects" 
       style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
-    {% for order in order_list %}
+    {% for order in shop_orders %}
       <div class="col-sm-6 col-lg-4 item" onclick="location.href=#" 
         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
         max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
@@ -176,3 +176,9 @@
 {% comment %} {% endif %} {% endcomment %}
 
 {% endblock %}
+{% block script %}
+<script type="text/javascript">
+    $('.row').addClass('ch');
+    $('#upload').addClass('act');
+</script>
+{% endblock%}

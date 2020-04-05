@@ -516,11 +516,15 @@ def checkout(request,shopname,location_id,shop_location):
 
     try:
         os.mkdir('media/json/shops/shop_' + str(shop.id))
-        os.mkdir('media/json/orders/user_'+ str(profile.id))
     except:
         print('h3')
         pass
 
+    try:
+        os.mkdir('media/json/orders/user_'+ str(profile.id))
+    except:
+        print('h3')
+        pass
 
     try:
         with open(file_path2, 'a+') as json_file:

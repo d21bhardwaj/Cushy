@@ -59,13 +59,17 @@
 {% block script %}
 <script src="{% static 'about_us/js/jquery.min.js' %}"></script>
 <script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
-<script type="text/javascript">
+{% comment %} <script type="text/javascript">
     $('.row').addClass('ch');
     $('#prof').addClass('act');
-</script>
-<script>
+</script> {% endcomment %}
+{% comment %} <script>
 $(document).on('click',function(){
 $('.collapse').collapse('hide');
 })
-</script> 
+</script>  {% endcomment %}
+<script type="text/javascript">
+    $('.row').addClass('ch');
+    $('#upload').addClass('act');
+</script>
 {% endblock %}
