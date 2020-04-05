@@ -74,59 +74,62 @@ def pastOrders(request):
 
     order_list1 = []
     if profile.shop_owner:
-        shop = Shop.objects.get(shop_user=profile)
-        orders = Order.objects.filter(shop=shop).order_by('-ordered_at')
-        c = 0
-        
-        for order in orders:
-            c += 1
-            d = {'index': c}
-            path = order.cart
-            try:
-                with open(path) as order_file:
-                    json_dict = json.load(order_file)
-                if order.cancelled is True:
-                    try :     
-                        if json_dict['cancelled_by_user'].lower() == "yes":
-                            status = "Order Cancelled by user"
-                        elif json_dict['cancelled_by_shop'].lower() == "yes":
-                            status = "Order Cancelled by shop"
-                    except :
-                        status = "Order Cancelled"
-                else :
-                    if order.completed is True:
-                            status = "packed"
-                            try:
-                                if json_dict['delivered'].lower() == "yes":
-                                    status = "delivered"
-                            except:
+        try :
+            shop = Shop.objects.get(shop_user=profile)
+            orders = Order.objects.filter(shop=shop).order_by('-ordered_at')
+            c = 0
+            
+            for order in orders:
+                c += 1
+                d = {'index': c}
+                path = order.cart
+                try:
+                    with open(path) as order_file:
+                        json_dict = json.load(order_file)
+                    if order.cancelled is True:
+                        try :     
+                            if json_dict['cancelled_by_user'].lower() == "yes":
+                                status = "Order Cancelled by user"
+                            elif json_dict['cancelled_by_shop'].lower() == "yes":
+                                status = "Order Cancelled by shop"
+                        except :
+                            status = "Order Cancelled"
+                    else :
+                        if order.completed is True:
                                 status = "packed"
-                    elif order.processed is True:
-                        status = "processed"
-                    else:
-                        status = "not processed"
-                print(status)
+                                try:
+                                    if json_dict['delivered'].lower() == "yes":
+                                        status = "delivered"
+                                except:
+                                    status = "packed"
+                        elif order.processed is True:
+                            status = "processed"
+                        else:
+                            status = "not processed"
+                    print(status)
 
-                d['status'] = status
-                d['location'] = order.user.location
-                try:
-                    d['order_amount'] = json_dict['amount']
-                except :
-                    d['order_amount'] = "Not calculated by system"
-                d['ordered_at'] = order.ordered_at
-                d['shop'] = order.shop
-                d['myid'] = order.id
-                d['order_no']=order.order_no
-                d['user'] = order.user
-                d['order'] = order
-                try:
-                    d['customer'] = json_dict['name']
-                except :
-                    d['customer'] = str(order.user.title)+' '+ str(order.user.name)
-                order_list1.append(d)
-            except:
-                print("hiiii")
-                continue
+                    d['status'] = status
+                    d['location'] = order.user.location
+                    try:
+                        d['order_amount'] = json_dict['amount']
+                    except :
+                        d['order_amount'] = "Not calculated by system"
+                    d['ordered_at'] = order.ordered_at
+                    d['shop'] = order.shop
+                    d['myid'] = order.id
+                    d['order_no']=order.order_no
+                    d['user'] = order.user
+                    d['order'] = order
+                    try:
+                        d['customer'] = json_dict['name']
+                    except :
+                        d['customer'] = str(order.user.title)+' '+ str(order.user.name)
+                    order_list1.append(d)
+                except:
+                    print("hiiii")
+                    continue
+        except :
+            pass 
             
     if len(order_list1) > 0:
         flag2 = 1
