@@ -72,8 +72,11 @@
 
 
 {% comment %} {% endfor %} {% endcomment %}
-    {% else %}
+
+    {% elif not  flag2 %}
+    <div align="center">
     <h4>You haven't ordered anything yet.</h4>
+    </div>
     {% endif %}
     {% if order_list.has_other_pages %}
   <ul class="pagination">
@@ -169,7 +172,8 @@
 </div>
 
 {% endfor %} {% endcomment %}
-    {% else %}
+    {% elif not flag1 %}
+    <div align="center">
     <h4>You haven't got any orders yet.</h4>
     {% endif %}
 </div>

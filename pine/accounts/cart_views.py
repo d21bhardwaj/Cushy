@@ -130,6 +130,7 @@ def pastOrders(request):
             
     if len(order_list1) > 0:
         flag2 = 1
+        flag1 = 0
     else:
         flag2 = 0
     my_orders = True
