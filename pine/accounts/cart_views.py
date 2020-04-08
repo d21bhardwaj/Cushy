@@ -8,6 +8,7 @@ from grocery.models import Order, Shop
 import json
 import datetime
 
+
 @login_required
 def pastOrders(request):
     # id = request.user.id
@@ -20,29 +21,29 @@ def pastOrders(request):
     c = 0
     order_list = []
     for order in orders:
-        c += 1
-        d = {'index': c}
         path = order.cart
-        try :
+        try:
+            c += 1
+            d = {'index': c}
             with open(path) as order_file:
                 json_dict = json.load(order_file)
             if order.cancelled is True:
                 print(path)
-                try :     
+                try:
                     if json_dict['cancelled_by_user'].lower() == "yes":
                         status = "Order Cancelled by user"
                     elif json_dict['cancelled_by_shop'].lower() == "yes":
                         status = "Order Cancelled by shop"
-                except :
+                except:
                     status = "Order Cancelled"
-            else :
+            else:
                 if order.completed is True:
+                    status = "packed"
+                    try:
+                        if json_dict['delivered'].lower() == "yes":
+                            status = "delivered"
+                    except:
                         status = "packed"
-                        try:
-                            if json_dict['delivered'].lower() == "yes":
-                                status = "delivered"
-                        except:
-                            status = "packed"
                 elif order.processed is True:
                     status = "processed"
                 else:
@@ -52,7 +53,7 @@ def pastOrders(request):
             d['location'] = order.user.location
             try:
                 d['order_amount'] = json_dict['amount']
-            except :
+            except:
                 d['order_amount'] = "Not calculated by system"
             d['ordered_at'] = order.ordered_at
             d['shop'] = order.shop
@@ -61,47 +62,67 @@ def pastOrders(request):
             d['order'] = order
             try:
                 d['customer'] = json_dict['name']
-            except :
-                d['customer'] = str(order.user.title)+' '+ str(order.user.name)
+            except:
+                d['customer'] = str(order.user.title) + ' ' + str(order.user.name)
             order_list.append(d)
         except:
             print("hiiii")
             continue
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(order_list, 5)
+    try:
+        order_list = paginator.page(page)
+    except PageNotAnInteger:
+        order_list = paginator.page(1)
+    except EmptyPage:
+        order_list = paginator.page(paginator.num_pages)
+
     if len(order_list) > 0:
         flag1 = 1
     else:
         flag1 = 0
 
+    my_orders = True
+    return render(request, 'past_orders.html', {'order_list': order_list, 'flag1': flag1, 'my_orders': my_orders})
+
+
+@login_required
+def shopOrders(request):
+    pk = request.user.pk
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
     order_list1 = []
     if profile.shop_owner:
-        try :
+        try:
             shop = Shop.objects.get(shop_user=profile)
             orders = Order.objects.filter(shop=shop).order_by('-ordered_at')
             c = 0
-            
+
             for order in orders:
-                c += 1
-                d = {'index': c}
                 path = order.cart
                 try:
+                    c += 1
+                    d = {'index': c}
                     with open(path) as order_file:
                         json_dict = json.load(order_file)
                     if order.cancelled is True:
-                        try :     
+                        try:
                             if json_dict['cancelled_by_user'].lower() == "yes":
                                 status = "Order Cancelled by user"
                             elif json_dict['cancelled_by_shop'].lower() == "yes":
                                 status = "Order Cancelled by shop"
-                        except :
+                        except:
                             status = "Order Cancelled"
-                    else :
+                    else:
                         if order.completed is True:
+                            status = "packed"
+                            try:
+                                if json_dict['delivered'].lower() == "yes":
+                                    status = "delivered"
+                            except:
                                 status = "packed"
-                                try:
-                                    if json_dict['delivered'].lower() == "yes":
-                                        status = "delivered"
-                                except:
-                                    status = "packed"
                         elif order.processed is True:
                             status = "processed"
                         else:
@@ -112,33 +133,44 @@ def pastOrders(request):
                     d['location'] = order.user.location
                     try:
                         d['order_amount'] = json_dict['amount']
-                    except :
+                    except:
                         d['order_amount'] = "Not calculated by system"
                     d['ordered_at'] = order.ordered_at
                     d['shop'] = order.shop
                     d['myid'] = order.id
-                    d['order_no']=order.order_no
+                    d['order_no'] = order.order_no
                     d['user'] = order.user
                     d['order'] = order
                     try:
                         d['customer'] = json_dict['name']
-                    except :
-                        d['customer'] = str(order.user.title)+' '+ str(order.user.name)
+                    except:
+                        d['customer'] = str(order.user.title) + ' ' + str(order.user.name)
                     order_list1.append(d)
                 except:
                     print("hiiii")
                     continue
-        except :
-            pass 
-            
+        except:
+            pass
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(order_list1, 5)
+    try:
+        order_list1 = paginator.page(page)
+    except PageNotAnInteger:
+        order_list1 = paginator.page(1)
+    except EmptyPage:
+        order_list1 = paginator.page(paginator.num_pages)
+
     if len(order_list1) > 0:
         flag2 = 1
-        flag1 = 0
     else:
         flag2 = 0
-    my_orders = True
-    return render(request, 'past_orders.html', {'order_list': order_list, 'flag1': flag1, 'shop_orders': order_list1,
-                                                'flag2': flag2,'my_orders':my_orders})
+    my_shop_orders = True
+
+    return render(request, 'shop_orders.html', {'flag2': flag2, 'shop_orders': order_list1,
+                                                'my_shop_orders': my_shop_orders})
+
 
 @login_required
 def delivered_entries(request, order_num):
@@ -148,10 +180,10 @@ def delivered_entries(request, order_num):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     shop_user = Shop.objects.get(shop_user=profile)
-    try :
-        orders = Order.objects.get(id=order_num,user=profile)
-    except :
-        orders = Order.objects.get(id=order_num,shop=shop_user)
+    try:
+        orders = Order.objects.get(id=order_num, user=profile)
+    except:
+        orders = Order.objects.get(id=order_num, shop=shop_user)
     # orders = Order.objects.filter(user=id)
     # order_num -= 1
     order_no = orders.order_no
@@ -169,16 +201,17 @@ def delivered_entries(request, order_num):
                 'amount': int(ordered_prod[pro]['Quantity']) * ordered_prod[pro]['SP']}
         products.append(prod)
 
-    return render(request, 'delivered_orders.html', {'num': order_num , 'product': products,'order_no':order_no})
+    return render(request, 'delivered_orders.html', {'num': order_num, 'product': products, 'order_no': order_no})
+
 
 @login_required
 def deleteOrderByUser(request, order_id):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
-    order = Order.objects.get(id=order_id,user=profile)
+    order = Order.objects.get(id=order_id, user=profile)
 
-    try :
+    try:
         path = order.cart
         a_file = open(path, "r")
         json_object = json.load(a_file)
@@ -187,12 +220,13 @@ def deleteOrderByUser(request, order_id):
         a_file = open(path, 'w')
         json.dump(json_object, a_file)
         a_file.close()
-    except :
+    except:
         pass
     order.cancelled = True
     order.save()
 
     return redirect('pastOrders')
+
 
 @login_required
 def deleteOrderByShop(request, order_id):
@@ -200,8 +234,8 @@ def deleteOrderByShop(request, order_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     shop_user = Shop.objects.get(shop_user=profile)
-    order = Order.objects.get(id=order_id,shop=shop_user)
-    try :
+    order = Order.objects.get(id=order_id, shop=shop_user)
+    try:
         path = order.cart
         a_file = open(path, "r")
         json_object = json.load(a_file)
@@ -210,11 +244,12 @@ def deleteOrderByShop(request, order_id):
         a_file = open(path, 'w')
         json.dump(json_object, a_file)
         a_file.close()
-    except :
+    except:
         pass
     order.cancelled = True
     order.save()
-    return redirect('pastOrders')
+    return redirect('shopOrders')
+
 
 @login_required
 def makeProcessed(request, order_id):
@@ -222,10 +257,11 @@ def makeProcessed(request, order_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     shop_user = Shop.objects.get(shop_user=profile)
-    order = Order.objects.get(id=order_id,shop=shop_user)
+    order = Order.objects.get(id=order_id, shop=shop_user)
     order.processed = True
     order.save()
-    return redirect('pastOrders')
+    return redirect('shopOrders')
+
 
 @login_required
 def makeCompleted(request, order_id):
@@ -233,12 +269,13 @@ def makeCompleted(request, order_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     shop_user = Shop.objects.get(shop_user=profile)
-    order = Order.objects.get(id=order_id,shop=shop_user)
+    order = Order.objects.get(id=order_id, shop=shop_user)
     order.completed = True
     order.completed_at = datetime.datetime.now()
     order.save()
     print(order)
-    return redirect('pastOrders')
+    return redirect('shopOrders')
+
 
 @login_required
 def makeDelivered(request, order_id):
@@ -246,8 +283,8 @@ def makeDelivered(request, order_id):
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
     shop_user = Shop.objects.get(shop_user=profile)
-    order = Order.objects.get(id=order_id,shop=shop_user)
-    try :
+    order = Order.objects.get(id=order_id, shop=shop_user)
+    try:
         path = order.cart
         a_file = open(path, "r")
         json_object = json.load(a_file)
@@ -256,9 +293,9 @@ def makeDelivered(request, order_id):
         a_file = open(path, 'w')
         json.dump(json_object, a_file)
         a_file.close()
-    except :
+    except:
         pass
     order.completed = True
     order.completed_at = datetime.datetime.now()
     order.save()
-    return redirect('pastOrders')
+    return redirect('shopOrders')

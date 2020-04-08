@@ -1,6 +1,6 @@
 {% extends 'main/templates/base.html' %}
 {% load static %}
-
+{% load ask_tags %}
 {% load crispy_forms_tags %}
 {% block stylesheet %}
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -21,28 +21,16 @@
 {% block title %}My account {% endblock %}
 
 {% block body %}
-        <div class="navbar container-fluid bg-transparent" style="position: auto; top:auto; height: 20%; z-index: 9999;">
+        <div class="navbar container-fluid bg-transparent" style="position: auto; top:auto; height: 20%; z-index: 9999;position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 10%;">
             {% comment %} <div class="row mt-0" style="position: absolute; width: 100%; height: 100%; background-color: transparent;">
                 <div class="col" style="align-content: center;">
                     <h2 style="font-family:'Segoe UI';"><span>My Profile</span></h2>
                 </div>
             </div> {% endcomment %}
 			<div class="row mt-5" style="position: absolute; width: 100%;">
-				<div class="col-4 px-0">
-					<button type="button" class="btn" onclick="location.href='{% url "my_account" %}'" style="width:100%; border-radius: 66px; background-color:{% if my_profile %}#B8DDF4;{% else %}white;border: 1px solid #B8DDF4;{% endif %}">
-					<span style="font-weight: bold; font-family: 'Century Gothic'; color:#06106E;">Edit Profile</span>
-					</button>
-				</div>
-				<div class="col-4 px-0">
-					<button type="button" class="btn" onclick="location.href='{% url 'pastOrders' %}'" style="width:100%;  border-radius: 66px; background-color:{% if my_orders %}#B8DDF4;{% else %}white;border: 1px solid #B8DDF4;{% endif %}">
-					<span style="font-weight: bold; font-family: 'Century Gothic'; color:#06106E;">My Orders</span>
-					</button>
-				</div>
-				<div class="col-4 px-0">
-					<button type="button" class="btn" onclick="location.href='{% url "contact_us" %}'" style="width:100%; border: 1px solid #B8DDF4; border-radius: 66px; background-color: white;">
-					<span style="font-weight: bold; font-family: 'Century Gothic'; color:#06106E;">Contact Us</span>
-					</button>
-				</div>
+				{% three_or_four user %}
 			</div>
         </div>
 {% comment %} <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
