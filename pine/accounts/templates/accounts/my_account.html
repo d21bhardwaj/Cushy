@@ -33,6 +33,27 @@
 				{% three_or_four user %}
 			</div>
         </div>
+
+{% if my_orders %}
+        <script>
+            document.getElementById("my_orders").style.backgroundColor = "lightblue";
+        </script>
+{% endif %}
+{% if my_profile %}
+        <script>
+            document.getElementById("my_profile").style.backgroundColor = "lightblue";
+        </script>
+{% endif %}
+{% if my_shop_orders %}
+        <script>
+            document.getElementById("my_shop_orders").style.backgroundColor = "lightblue";
+        </script>
+{% endif %}
+{% if not_given %}
+        <script>
+            document.getElementById("not_given").style.backgroundColor = "lightblue";
+        </script>
+{% endif %}
 {% comment %} <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
