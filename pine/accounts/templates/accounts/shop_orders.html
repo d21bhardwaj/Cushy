@@ -53,11 +53,11 @@
                </div>
             </div>
             {% endfor %}
+            
          </div>
-      </div>
-   </div>
-   <div style="padding-left:30px;">
-    {% if shop_orders.has_other_pages %}
+        <div class="row justify-content-center projects"
+            style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
+          {% if shop_orders.has_other_pages %}
   <ul class="pagination">
     {% if shop_orders.has_previous %}
       <li><a href="?page={{ shop_orders.previous_page_number }}">&laquo;&nbsp;</a></li>
@@ -74,7 +74,11 @@
     {% endif %}
   </ul>
 {% endif %}
+   
 </div>
+      </div>
+   </div>
+   
 
    {% else %}}
    <div align="center">

@@ -46,10 +46,8 @@
     {% endfor %}
 
     </div>
-  </div>
-</div>
-
-<div style="padding-left:30px;">
+    <div class="row justify-content-center projects"
+      style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
     {% if order_list.has_other_pages %}
   <ul class="pagination">
     {% if order_list.has_previous %}
@@ -68,6 +66,10 @@
   </ul>
 {% endif %}
 </div>
+  </div>
+</div>
+
+
 
 
 {% else %}
