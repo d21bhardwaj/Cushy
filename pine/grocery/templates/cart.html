@@ -13,6 +13,7 @@
   {% endif %}
   
   <main>
+
   <center><h2 class="display-4" align="center" >{{shop.name}}</h2>
   {% if shop.cart_message %}
   <h2 align="center">{{shop.cart_message }}</h2> 
@@ -26,6 +27,7 @@
                 You will need to pick the items from the Shop.</div> 
         {% endif %}</h4> 
    
+
     <div class="basket">
       <div class="basket-labels">
         <ul>
@@ -56,7 +58,9 @@
           <button type="button" data-p_id = "{{ key }}">Remove</button>
         </div>
       </div>
+
       {% endfor %}
+
     </div>
     <aside>
     <br><br>
@@ -75,6 +79,7 @@
           <div class="total-value final-value" id="basket-total"></div>
         </div>
         <div class="summary-checkout">
+
         {% if profile.verified == True and profile.location %}
           <button class="checkout-cta" data-toggle="modal" data-target="#myModal" type="button">Place Your Order</button>
         {% else %}
@@ -85,6 +90,7 @@
           Update Your location
           {% endif %}
           </button>
+
         {% endif %}
         </div>
       </div>
@@ -118,6 +124,7 @@
         $.ajax({
           type: "POST",
           url: "{% url 'updateCart' shop_name shop_location %}",
+
           data: {'product_id': p_id,'quantity': quantity, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
           success: function(result){
           },
@@ -130,8 +137,9 @@
       removeItem(this);
       var p_id = $(this).data("p_id");
         $.ajax({
-          type: "POST",
+
           url: "{% url 'removeItem' shop_name shop_location %}",
+
           data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
           success: function(result){
           },
