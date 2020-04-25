@@ -13,8 +13,21 @@
   {% endif %}
   
   <main>
-  <center><h3>{{shop_name}}</h3>
+
+  <center><h2 class="display-4" align="center" >{{shop.name}}</h2>
+  {% if shop.cart_message %}
+  <h2 align="center">{{shop.cart_message }}</h2> 
+  {% endif %}
   
+  <h4 align="center"> 
+        {% if shop.delivery and can_be_delivered %}
+        <h4 align="center"><small>Delivery to your location is possible</small></h3>
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+                You will need to pick the items from the Shop.</div> 
+        {% endif %}</h4> 
+   
+
     <div class="basket">
       <div class="basket-labels">
         <ul>
@@ -45,9 +58,12 @@
           <button type="button" data-p_id = "{{ key }}">Remove</button>
         </div>
       </div>
-      {%endfor%}
+
+      {% endfor %}
+
     </div>
     <aside>
+    <br><br>
       <div class="summary">
         <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
         <div class="summary-subtotal">
@@ -63,10 +79,18 @@
           <div class="total-value final-value" id="basket-total"></div>
         </div>
         <div class="summary-checkout">
-        {% if profile.verified == True %}
+
+        {% if profile.verified == True and profile.location %}
           <button class="checkout-cta" data-toggle="modal" data-target="#myModal" type="button">Place Your Order</button>
         {% else %}
-          <button class="btn btn-info" onclick="location.href='{% url 'my_account' %}'" type="button">Please Verify Your Profile</button>
+          <button class="btn btn-info" onclick="location.href='{% url 'my_account' %}'" type="button">
+          {% if  profile.location %}
+          Please Verify Your Contact Number
+          {% else %}
+          Update Your location
+          {% endif %}
+          </button>
+
         {% endif %}
         </div>
       </div>
@@ -76,6 +100,8 @@
 
 
 {% block script %}
+  {% if user.is_authenticated %}
+
 <script type="text/javascript">
     /* Set values + misc */
     var promoCode;
@@ -97,7 +123,8 @@
         var p_id = $(this).data("p_id");
         $.ajax({
           type: "POST",
-          url: "{% url 'updateCart' shop_name %}",
+          url: "{% url 'updateCart' shop_name shop_location %}",
+
           data: {'product_id': p_id,'quantity': quantity, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
           success: function(result){
           },
@@ -110,8 +137,9 @@
       removeItem(this);
       var p_id = $(this).data("p_id");
         $.ajax({
-          type: "POST",
-          url: "{% url 'removeItem' shop_name %}",
+
+          url: "{% url 'removeItem' shop_name shop_location %}",
+
           data: {'product_id': p_id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
           success: function(result){
           },
@@ -231,4 +259,5 @@
       });
     }
 </script>
+{% endif %}
 {% endblock %}

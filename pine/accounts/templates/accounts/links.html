@@ -1,0 +1,3 @@
+{% for link in links %}
+<a class="dropdown-item" href="{% url link.id %}" style="color: rgba(255,255,255,0.9)">{{ link.value }}</a>
+{% endfor %}

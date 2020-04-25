@@ -15,13 +15,13 @@
 
 {% load static %}
 {% block body %}
-    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{rooms.count }} room{%if rooms.count > 1 %}s{% endif %} found </p>
+    <p class="text-center text-secondary" style="padding-bottom:10px;"> {{rooms.count }} room{% if rooms.count > 1 %}s{% endif %} found </p>
     <div class="projects-clean">
         <div class="container align-items-center align-content-center align-self-center">
             <div class="row justify-content-center projects" 
             style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
                 {% for room in rooms %}
-                    {%  for images in room.images_set.all %}
+                    {% for images in room.images_set.all %}
                     {% if forloop.counter == 1 %}
                     <div class="col-sm-6 col-lg-4 item" onclick="location.href='{% url "room_detail" room.id images.id %}'" 
                         style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;

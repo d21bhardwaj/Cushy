@@ -28,9 +28,9 @@
             <div class="nav-wrapper container1">
              <!-- Google Login added here-->
              <br>
-              <a href="{% url 'social:begin' 'google-oauth2' %}"class="google btn" ><i class="fa fa-google fa-fw"></i>  Google Login</a>
+              <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.GET.next }}"class="google btn" ><i class="fa fa-google fa-fw"></i>  Google Login</a>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <a href="{% url 'social:begin' 'facebook' %}" class="fb btn"><i class="fa fa-facebook fa-fw"></i>Facebook Login</a>
+              <a href="{% url 'social:begin' 'facebook' %}?next={{ request.GET.next }}" class="fb btn"><i class="fa fa-facebook fa-fw"></i>Facebook Login</a>
             </div>    
           </div>
           <div class="card-footer text-muted text-center">

@@ -1,53 +1,84 @@
 {% extends 'main/templates/base.html' %}
 {% load static %}
-
-{% load staticfiles %}
+{% load ask_tags %}
 {% load crispy_forms_tags %}
-
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    
+    {% comment %} <style type="text/css">
+        .ch{
+            padding-top: 20px;
+        }
+
+        .act{
+            color: blue;
+        }
+    </style> {% endcomment %}
+    {% block stylesheet1 %}{% endblock %}
 {% endblock %}
 
 {% block title %}My account {% endblock %}
 
-
-
-
-{% block content %}
-<div class="container">
-
-    <div class="pt-changed"></div>
-    <div class="page-header">
-        <h1>Profile</h1>      
-    </div>
-    <hr>
-    
-    <div class="row">
-        <div class="col-lg-6 col-md-8 col-sm-10">
-            <form method="post" enctype="multipart/form-data"  id="post_form" action="">
-                {% csrf_token %}
-                
-
-              
-                {% crispy formset formset.form.helper %}
-                {% if user.profile.verified == False %}
-                <div style="width: auto;height: auto;margin-top: 15px;margin-bottom: 15px;">
-                    <div class="row text-center justify-content-center" style="width: auto;height: auto;margin-right: 0px;margin-left: 0px;">
-                        <div class="col-auto" style="padding-left: 0px;padding-right: 0px;height: auto;width: auto;">
-                            <p class="text-center" style="width: auto;height: auto;margin-bottom: 0px;">We will send you an OTP to veify your mobile and email.</p>
-                        </div>
-                    </div>
+{% block body %}
+        <div class="navbar container-fluid bg-transparent" style="position: auto; top:auto; height: 20%; z-index: 9999;position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 10%;">
+            {% comment %} <div class="row mt-0" style="position: absolute; width: 100%; height: 100%; background-color: transparent;">
+                <div class="col" style="align-content: center;">
+                    <h2 style="font-family:'Segoe UI';"><span>My Profile</span></h2>
                 </div>
-                    
-                <button type="submit" class="btn btn-primary">Verify Details</button>
-                {% else %}
-                <button type="submit" class="btn btn-primary">Update</button>
-                {% endif %}
-            </form>
+            </div> {% endcomment %}
+			<div class="row mt-5" style="position: absolute; width: 100%;">
+				{% three_or_four user %}
+			</div>
         </div>
+
+{% if my_orders %}
+        <script>
+            document.getElementById("my_orders").style.backgroundColor = "lightblue";
+        </script>
+{% endif %}
+{% if my_profile %}
+        <script>
+            document.getElementById("my_profile").style.backgroundColor = "lightblue";
+        </script>
+{% endif %}
+{% if my_shop_orders %}
+        <script>
+            document.getElementById("my_shop_orders").style.backgroundColor = "lightblue";
+        </script>
+{% endif %}
+{% if not_given %}
+        <script>
+            document.getElementById("not_given").style.backgroundColor = "lightblue";
+        </script>
+{% endif %}
+{% comment %} <nav class="navbar navbar-light navbar-expand-md sticky-top" style="background-color: black; color: white;">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li><a class="nav-link" href="{% url 'my_account'%}" style="color: white;" ><span id="prof">Edit My Profile</span></a></li>
+            <li><a class="nav-link" href="{% url 'my_uploads' %}"  style="color: white;"><span id="upload">My Uploads</span></a></li>
+            <li><a class="nav-link" href="{% url 'contact_us' %}" style="color: white;"><span id="cont">Contact PineTown</span></a></li>
+        </ul>
     </div>
-</div>
-    <div class="pt-changed"></div>
-    <div class="pt-changed"></div>
+</nav> {% endcomment %}
+{% block content1 %}{% endblock %}
+{% endblock %}
+{% block script %}
+<script src="{% static 'about_us/js/jquery.min.js' %}"></script>
+<script src="{% static 'about_us/bootstrap/js/bootstrap.min.js' %}"></script>
+{% comment %} <script type="text/javascript">
+    $('.row').addClass('ch');
+    $('#prof').addClass('act');
+</script> {% endcomment %}
+{% comment %} <script>
+$(document).on('click',function(){
+$('.collapse').collapse('hide');
+})
+</script>  {% endcomment %}
+<script type="text/javascript">
+    $('.row').addClass('ch');
+    $('#upload').addClass('act');
+</script>
 {% endblock %}

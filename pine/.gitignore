@@ -2,6 +2,8 @@ media/
 static/json
 **/migrations/
 **/old_migrations/
+**/__pycache__
+.idea/
 # Created by https://www.gitignore.io
 
 ### OSX ###
@@ -91,7 +93,7 @@ local_settings.py
 
 .env
 .server_env
-
+.admin.py.swp
 .env
 db.sqlite3
 sqlite3.db

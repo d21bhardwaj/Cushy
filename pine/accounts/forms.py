@@ -44,3 +44,9 @@ class ProfileForm(forms.ModelForm):
                 css_class='form-row'
             )
         )
+
+class LocationForm(forms.ModelForm):
+    
+    class Meta:
+        model = Profile
+        fields = ('location',)

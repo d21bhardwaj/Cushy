@@ -1,0 +1,97 @@
+{% extends 'my_account.html' %}
+{% block title %} Past Orders {% endblock %}
+<body>
+   {% load static %}
+   {% block stylesheet %}
+   <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+   <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
+   <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
+   <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+   {% endblock %}
+   {% load static %}
+   {% block content1 %}
+   <br>
+   <br>
+   <br>
+   <div align="center">
+      <h2>Your Shop Orders</h2>
+      <br>
+   </div>
+   {% if flag2 %}
+   <div class="projects-clean">
+      <div class="container align-items-center align-content-center align-self-center">
+         <div class="row justify-content-center projects"
+            style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
+            {% for order in shop_orders %}
+            <div class="col-sm-6 col-lg-4 item" onclick="location.href=#"
+               style="height:auto;width:auto;padding-top:0px;padding-right:0px;padding-left:0px;padding-bottom:0px;
+               max-width:251px;margin:25px;margin-right:25px;margin-left:25px;min-width:auto;margin-top:25 px;
+               margin-bottom:25px;min-height:auto;">
+               <h3><a href="{% url 'deliveredOrders' order.myid %}">{{order.index}}. Order {{order.order.order_no}}</a></h3>
+               <div style="padding-left:5%;">
+                  <h5><b>User : </b>{{order.customer}}</h5>
+                  <h5><b>Status : </b>{{order.status}}</h5>
+                  <h5><b>Location : </b>{{order.location}}</h5>
+                  <h5><b>Amount : </b>{{order.order_amount}}</h5>
+                  <h5><b>Ordered At : </b>{{order.ordered_at}}</h5>
+                  <li>{% if not order.order.processed and not order.order.cancelled %}
+                     <button type="button" class="btn btn-danger" onclick='location.href="{% url 'deleteOrderByShop' order_id=order.myid %}"'>Cancel Order</button>
+                  </li>
+                  <li>  <button type="button" class="btn btn-success" onclick='location.href="{% url 'makeProcessed' order_id=order.myid %}"'>Process It</button>
+                     {% endif %}
+                  </li>
+                  <li>{% if order.order.processed and not order.order.completed and not order.order.cancelled %}
+                  </li>
+                  <li><button type="button" class="btn btn-danger" onclick='location.href="{% url 'deleteOrderByShop' order_id=order.myid %}"'>Cancel Order</button>
+                  </li>
+                  <li><button type="button" class="btn btn-primary" onclick='location.href="{% url 'makeCompleted' order_id=order.myid %}"'>Completed</button>
+                  </li>
+                  <li><button type="button" class="btn btn-success" onclick='location.href="{% url 'makeDelivered' order_id=order.myid %}"'>Delivered</button>
+                     {% endif %}
+                  </li>
+                  <br>
+               </div>
+            </div>
+            {% endfor %}
+            
+         </div>
+        <div class="row justify-content-center projects"
+            style="margin-left:0px;padding-bottom:0px;margin-right:0px;">
+          {% if shop_orders.has_other_pages %}
+  <ul class="pagination">
+    {% if shop_orders.has_previous %}
+      <li><a href="?page={{ shop_orders.previous_page_number }}">&laquo;&nbsp;</a></li>
+    {% endif %}
+    {% for i in shop_orders.paginator.page_range %}
+      {% if shop_orders.number == i %}
+        <li class="active"><span>  &nbsp;{{ i }}&nbsp;  <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">&nbsp;{{ i }}&nbsp;</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if shop_orders.has_next %}
+      <li><a href="?page={{ shop_orders.next_page_number }}">&nbsp;&raquo;</a></li>
+    {% endif %}
+  </ul>
+{% endif %}
+   
+</div>
+      </div>
+   </div>
+   
+
+   {% else %}}
+   <div align="center">
+       <h3>
+           You have not got any orders yet.
+       </h3>
+   </div>
+   {% endif %}
+   {% endblock %}
+   {% block script %}
+   <script type="text/javascript">
+      $('.row').addClass('ch');
+      $('#upload').addClass('act');
+   </script>
+   {% endblock %}
+</body>

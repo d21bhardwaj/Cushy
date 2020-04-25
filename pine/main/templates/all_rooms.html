@@ -3,33 +3,42 @@
 <body>
 {% load static %}
 {% block stylesheet %} 
-	<link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
-    
-    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}">
+	{% comment %} <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome.min.css' %}"> {% endcomment %}
+	{% comment %} 
+    Some Unknown error exsits here 
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+     {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean-1.css' %}"> {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="{% static 'assets/css/Projects-Clean.css' %}"> {% endcomment %}
 
 
 {% endblock %}
 
 {% load static %}
-{% block body %}
+{% block body %}  
     <br>
+    <div class="navbar navbar-light navbar-expand-md sticky-top" >
+        <form method="POST">
+        {% csrf_token %}
         <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Location
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">               
+                {{form1}}                 
+            </ul>            
+        </div>
+        <br>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Price
             <span class="caret"></span></button>
             <ul class="dropdown-menu">
-            <form method="POST">
-                {% csrf_token %}
-                {{form1}}
-                {{form2}}
-                 <button type="go">Apply Filter</button>
-             </form>
-            </ul>
-            
+                {{form2}}                 
+            </ul>            
         </div>
-       
-   
+        <br>
+        <button type="go">Apply Filter</button>
+        </form>       
+    </div>
     <p class="text-center text-secondary" style="padding-bottom:10px;"> {{rooms.count }} room{%if rooms.count > 1 %}s{% endif %} found </p>
     <div class="projects-clean">
         <div class="container align-items-center align-content-center align-self-center">
