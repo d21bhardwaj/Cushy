@@ -179,10 +179,10 @@ def delivered_entries(request, order_num):
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
-    shop_user = Shop.objects.get(shop_user=profile)
     try:
         orders = Order.objects.get(id=order_num, user=profile)
     except:
+        shop_user = Shop.objects.get(shop_user=profile)
         orders = Order.objects.get(id=order_num, shop=shop_user)
     # orders = Order.objects.filter(user=id)
     # order_num -= 1
