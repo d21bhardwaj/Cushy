@@ -3,6 +3,7 @@ from urllib import request
 from django import template
 
 from grocery.models import *
+from accounts.models import Profile
 
 register = template.Library()
 
@@ -12,8 +13,8 @@ def user_has_shop(user):
     links = [{'id': 'pastOrders', 'value': "Your Past Orders"}]
     pk = user.pk
     user = User.objects.get(pk=pk)
-    a = Profile.objects.get(user=user)
     try:
+        a = Profile.objects.get(user=user)
         b = Shop.objects.get(shop_user=a)
         links.append({'id': 'shopOrders', 'value': "Past Shop Orders"})
     except:
@@ -23,11 +24,10 @@ def user_has_shop(user):
 
 @register.inclusion_tag('three_or_four.html')
 def three_or_four(user):
-    # a = user.pk
     pk = user.pk
     user = User.objects.get(pk=pk)
-    a = Profile.objects.get(user=user)
     try:
+        a = Profile.objects.get(user=user)
         b = Shop.objects.get(shop_user=a)
         links = [
             {'id': 'my_account', 'value': "Edit Profile", 'name': "my_profile"},

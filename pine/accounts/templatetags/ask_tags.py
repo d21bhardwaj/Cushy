@@ -10,8 +10,10 @@ register = template.Library()
 @register.inclusion_tag('links.html')
 def user_has_shop(user):
     links = [{'id': 'pastOrders', 'value': "Your Past Orders"}]
-    a = user.pk
+    pk = user.pk
+    user = User.objects.get(pk=pk)
     try:
+        a = Profile.objects.get(user=user)
         b = Shop.objects.get(shop_user=a)
         links.append({'id': 'shopOrders', 'value': "Past Shop Orders"})
     except:
@@ -21,8 +23,10 @@ def user_has_shop(user):
 
 @register.inclusion_tag('three_or_four.html')
 def three_or_four(user):
-    a = user.pk
+    pk = user.pk
+    user = User.objects.get(pk=pk)
     try:
+        a = Profile.objects.get(user=user)
         b = Shop.objects.get(shop_user=a)
         links = [
             {'id': 'my_account', 'value': "Edit Profile", 'name': "my_profile"},
