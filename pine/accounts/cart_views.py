@@ -174,8 +174,8 @@ def shopOrders(request):
 
 @login_required
 def delivered_entries(request, order_num):
-    id = request.user.id
-    user = Profile.objects.get(id=id)
+    # id = request.user.id
+    # user = Profile.objects.get(id=id)
     pk = request.user.pk
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
