@@ -4,7 +4,8 @@ import base64
 MASTER_KEY = "MC4CAQACBQCb16o9AgMBAAECBDKaTqECAwDNFQIDAMKJAgMAvVkCAwCAaQIDALZf"
 
 def encrypt_val(clear_text):
-    enc_secret = AES.new(MASTER_KEY[:32])
+    obj = AES()
+    enc_secret = obj.obj(MASTER_KEY[:32])
     tag_string = (str(clear_text) +
                   (AES.block_size -
                    len(str(clear_text)) % AES.block_size) * "\0")
@@ -13,7 +14,8 @@ def encrypt_val(clear_text):
 
 def decrypt_val(cipher_text):
     cipher_text = bytes(cipher_text,"UTF-8")
-    dec_secret = AES.new(MASTER_KEY[:32])
+    obj = AES
+    dec_secret = obj.key(MASTER_KEY[:32])
     raw_decrypted = dec_secret.decrypt(base64.urlsafe_b64decode(cipher_text))
     clear_val = raw_decrypted.decode().rstrip("\0")
     return clear_val
