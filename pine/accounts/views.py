@@ -82,22 +82,22 @@ def profileupdate(request):
                     usr = Profile.objects.filter(user=request.user).first()
                     usr.session_id = otp_send(request.POST['profile-0-mobile_no'])
                     usr.save()
-                    mail = request.POST['profile-0-email']
-                    usr = Profile.objects.filter(user_id=request.user.id).first()
-                    template = get_template('email_ver.txt')
-                    context = {
-                        "name": usr.name,
-                        "link": "https://pinetown.in/activate_account/" + encrypt_val(str(usr.id) + ";" + usr.name),
-                    }
-                    content = template.render(context)
-                    email = EmailMessage(
-                        "Email Verification",
-                        content,
-                        "CushyRooms" + '',
-                        [mail],
-                        headers={'Reply-To': 'project.pinetown@gmail.com'}
-                    )
-                    # email.send()
+                    # mail = request.POST['profile-0-email']
+                    # usr = Profile.objects.filter(user_id=request.user.id).first()
+                    # template = get_template('email_ver.txt')
+                    # context = {
+                    #     "name": usr.name,
+                    #     "link": "https://pinetown.in/activate_account/" + encrypt_val(str(usr.id) + ";" + usr.name),
+                    # }
+                    # content = template.render(context)
+                    # email = EmailMessage(
+                    #     "Email Verification",
+                    #     content,
+                    #     "CushyRooms" + '',
+                    #     [mail],
+                    #     headers={'Reply-To': 'project.pinetown@gmail.com'}
+                    # )
+                    # # email.send()
                     return redirect('vm')
                 else:
 
