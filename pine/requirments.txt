@@ -27,7 +27,7 @@ jsonschema==2.6.0
 keyring==10.6.0
 keyrings.alt==3.0
 #language-selector==0.1
-MarkupSafe==1.0
+#MarkupSafe==1.0
 netifaces==0.10.4
 oauthlib==3.0.1
 #PAM==0.4.2
@@ -64,4 +64,4 @@ Twisted==17.9.0
 #unattended-upgrades==0.1
 urllib3==1.25.3
 virtualenv==16.6.0
-zope.interface==4.3.2
+#zope.interface==4.3.2
