@@ -1,1 +1,1 @@
-web: gunicorn pine.pine.wsgi
+web: gunicorn --pythonpath pine.pine.wsgi
