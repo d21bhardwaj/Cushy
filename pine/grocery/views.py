@@ -25,7 +25,7 @@ import time
 import shutil
 from django.template.defaultfilters import slugify
 
-logging.basicConfig(filename="media/grocery.log", level=logging.WARNING, filemode="a+")
+logging.basicConfig(filename="logging.log", level=logging.WARNING, filemode="a+")
 import random
 
 
