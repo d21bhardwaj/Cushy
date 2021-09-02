@@ -1,1 +1,1 @@
-web gunicorn pine.wsgi --log-file -
+web: gunicorn pine.wsgi
