@@ -1,1 +1,1 @@
-web: gunicorn pine.wsgi
+web: gunicorn pine.pine.wsgi
