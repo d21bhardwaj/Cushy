@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath pine.pine:app
+web: gunicorn --chdir pine pine.wsgi
