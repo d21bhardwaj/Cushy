@@ -39,7 +39,7 @@ import datetime
 # Create your views here.
 import logging
 
-logging.basicConfig(filename="media/test.log", level=logging.WARNING)
+# logging.basicConfig(filename="media/test.log", level=logging.WARNING)
 
 
 def signup(request):
