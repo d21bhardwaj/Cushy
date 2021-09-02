@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 import environ
+import dj_database_url
+import django_heroku
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -68,7 +71,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware', 
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 SOCIAL_AUTH_PIPELINE = (
@@ -174,7 +178,7 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ##################################################
 
@@ -217,4 +221,4 @@ DEFAULT_FROM_EMAIL = 'CushyRooms <project.pinetown@gmail.com>'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = "/media/"
 
-FILE_UPLOAD_PERMISSIONS = 0o644
+django_heroku.settings(locals())
