@@ -1,4 +1,5 @@
 media/
+!media/grocery.log
 static/json
 **/migrations/
 **/old_migrations/
